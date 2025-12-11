@@ -41,6 +41,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   go_router: ^16.2.1
   flutter_riverpod: ^2.6.1
+  google_fonts: ^6.2.1
   # flutter pub run flutter_native_splash:create
   flutter_native_splash:
 

@@ -4,10 +4,11 @@ import 'package:workpleis/core/widget/global_snack_bar.dart';
 import 'package:workpleis/features/auth/screens/login_screen.dart';
 import 'package:workpleis/features/auth/screens/register_screen.dart';
 import 'package:workpleis/features/auth/screens/splash_screen.dart';
+import 'package:workpleis/features/client/screen/client_home_screen.dart';
 
 import 'error_screen.dart';
 class AppRouter {
-  static final String initial = SplashScreen.routeName;
+  static final String initial = ClientHomeScreen.routeName;
  static final GoRouter appRouter = GoRouter(
       initialLocation:initial,
       errorBuilder: (context, state) {
@@ -37,6 +38,10 @@ class AppRouter {
           name: RegisterScreen.routeName,
           builder: (context, state) => const RegisterScreen(),
         ),
-
+        GoRoute(
+          path: ClientHomeScreen.routeName,
+          name: ClientHomeScreen.routeName,
+          builder: (context, state) =>  ClientHomeScreen(),
+        ),
       ]);
 }

@@ -1,0 +1,24 @@
+{
+    // Auto Save Configuration
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    // Flutter Hot Reload on Save
+    "dart.flutterHotReloadOnSave": true,
+    "dart.flutterHotRestartOnSave": false,
+    // Additional Dart/Flutter Settings
+    "dart.enableSdkFormatter": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.rulers": [
+            80
+        ],
+        "editor.selectionHighlight": false,
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        "editor.suggestSelection": "first",
+        "editor.tabCompletion": "onlySnippets",
+        "editor.wordBasedSuggestions": false
+    }
+}
