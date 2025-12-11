@@ -2,14 +2,12 @@ import 'package:go_router/go_router.dart';
 import 'package:workpleis/core/widget/global_snack_bar.dart';
 import 'package:workpleis/features/auth/screens/forget_password_screen.dart';
 import 'package:workpleis/features/auth/screens/forget_verification_code_screen.dart';
-
 // Auth
 import 'package:workpleis/features/auth/screens/login_screen.dart';
 import 'package:workpleis/features/auth/screens/register_screen.dart';
 import 'package:workpleis/features/auth/screens/account_successful.dart';
 import 'package:workpleis/features/auth/screens/new_password_screen.dart';
 import 'package:workpleis/features/auth/screens/phone_number_verification.dart';
-
 // Onboarding
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_01.dart';
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_05.dart';
