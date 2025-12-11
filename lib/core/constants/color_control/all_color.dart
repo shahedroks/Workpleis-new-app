@@ -38,4 +38,42 @@ class AllColor {
   static final Color orange100 = Colors.orange.shade100;
   static final Color orange800 = Colors.orange.shade800;
   static const Color amber = Colors.amber;
+
+
+// old color
+
+  static const Color appBar = Color(0xFF28273A);
+  static const Color brand2_light = Color(0xFFA49ACF);
+  static const Color allcolor = Color(0xFFCAFF45);
+  static const Color bluecolor = Color(0xFF3071FF);
+  //static const Color bgcolor = Color(0xFFF1FFCD);
+  static const Color bgcolor = Color(0xFFCAFF45);
+  static const Color borderColor = Color(0xff686382);
+  static const Color levelText = Color(0xff707070);
+  static const Color white24 = Colors.white24;
+  static const Color parpale =Color(0xFFa49acf);
+
+  static const Color grey50 = Color(0xFFEDEDED);
+  static const Color grey70 = Color(0xFFEEEEEC);
+
+  static const Color black45 = Colors.black45;
+  static const Color black54 = Colors.black54;
+
+
+  static final Color green = Colors.green;
+  static const Color blue = Colors.blue;
+
+  static final Color blue50 = Colors.blue.shade50;
+
+  static final Color blueGrey = Color(0xff45454C);
+  static const Color lime_0 = Colors.lime;
+  static const Color lime = Color(0xFFD4D8FA);
+  static const Color darkLime = Color(0xFFffffff);
+
+
+  static const Color red = Colors.red;
+  static const Color warmDarkGrey = Color(0xFF4B4646);
+
+
+
 }
