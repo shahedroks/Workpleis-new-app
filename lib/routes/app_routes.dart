@@ -11,7 +11,6 @@ import 'package:workpleis/features/auth/screens/phone_number_verification.dart';
 // Onboarding
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_01.dart';
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_05.dart';
-
 // Role / Type / Notifications
 import 'package:workpleis/features/role_screen/screen/genNotifications.dart';
 import 'package:workpleis/features/role_screen/screen/seclect_role_screen.dart';
@@ -135,11 +134,13 @@ class AppRouter {
         name: SeclectRoleScreen.routeName,
         builder: (context, state) => SeclectRoleScreen(),
       ),
+
       GoRoute(
         path: SeclectTypeScreen.routeName,
         name: SeclectTypeScreen.routeName,
         builder: (context, state) => SeclectTypeScreen(),
       ),
+
       GoRoute(
         path: Gennotifications.routeName,
         name: Gennotifications.routeName,
@@ -151,9 +152,6 @@ class AppRouter {
         name: BottomNavBar.routeName,
         builder: (context, state) => BottomNavBar(),
       ),
-
-
-
       // 🔹 Client Home
       GoRoute(
         path: ClientHomeScreen.routeName,
