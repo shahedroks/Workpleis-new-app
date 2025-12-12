@@ -89,12 +89,12 @@ class AppRouter {
         name: AccountSuccessful.routeName,
         builder: (context, state) => AccountSuccessful(),
       ),
+
       // GoRoute(
       //   path: PhoneNumberVerification.routeName,
       //   name: PhoneNumberVerification.routeName,
       //   builder: (context, state) => const PhoneNumberVerification(),
       // ),
-
       GoRoute(
         path: PhoneNumberVerification.routeName,
         name: PhoneNumberVerification.routeName,
@@ -128,7 +128,7 @@ class AppRouter {
       GoRoute(
         path: ConfirmDocumentTypeScreen.routeName,
         name: ConfirmDocumentTypeScreen.routeName,
-        builder: (context, state) => ConfirmDocumentTypeScreen()
+        builder: (context, state) => ConfirmDocumentTypeScreen(),
       ),
 
       // 🔹 Role / Type / Notification
@@ -153,8 +153,6 @@ class AppRouter {
         name: BottomNavBar.routeName,
         builder: (context, state) => BottomNavBar(),
       ),
-
-
 
       // 🔹 Client Home
       GoRoute(
