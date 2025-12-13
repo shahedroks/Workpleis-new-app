@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../auth/screens/login_screen.dart';
 
 class Gennotifications extends StatelessWidget {

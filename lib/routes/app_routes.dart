@@ -1,19 +1,19 @@
 import 'package:go_router/go_router.dart';
 import 'package:workpleis/core/widget/global_snack_bar.dart';
+import 'package:workpleis/features/auth/screens/confirm_document_type_scanner.dart';
 import 'package:workpleis/features/auth/screens/forget_password_screen.dart';
 import 'package:workpleis/features/auth/screens/forget_verification_code_screen.dart';
-
+import 'package:workpleis/features/auth/screens/get_ready_video_selfie_screen.dart';
 // Auth
 import 'package:workpleis/features/auth/screens/login_screen.dart';
 import 'package:workpleis/features/auth/screens/register_screen.dart';
 import 'package:workpleis/features/auth/screens/account_successful.dart';
 import 'package:workpleis/features/auth/screens/new_password_screen.dart';
 import 'package:workpleis/features/auth/screens/phone_number_verification.dart';
-
+import 'package:workpleis/features/auth/screens/take_your_face_photo.dart';
 // Onboarding
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_01.dart';
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_05.dart';
-
 // Role / Type / Notifications
 import 'package:workpleis/features/role_screen/screen/genNotifications.dart';
 import 'package:workpleis/features/role_screen/screen/seclect_role_screen.dart';
@@ -26,6 +26,7 @@ import 'package:workpleis/features/spalashScreen/screen/splashScreen.dart';
 import 'package:workpleis/features/client/screen/client_home_screen.dart';
 
 import '../features/auth/screens/confrim_document_type_screen.dart';
+import '../features/auth/screens/frontIdentityCaptureScreen.dart';
 import '../features/auth/screens/select_document_screen.dart';
 import '../features/nav_bar/screen/bottom_nav_bar.dart';
 import 'error_screen.dart';
@@ -89,12 +90,12 @@ class AppRouter {
         name: AccountSuccessful.routeName,
         builder: (context, state) => AccountSuccessful(),
       ),
-      // GoRoute(
-      //   path: PhoneNumberVerification.routeName,
-      //   name: PhoneNumberVerification.routeName,
-      //   builder: (context, state) => const PhoneNumberVerification(),
-      // ),
 
+      GoRoute(
+        path: Frontidentitycapturescreen.routeName,
+        name: Frontidentitycapturescreen.routeName,
+        builder: (context, state) => const Frontidentitycapturescreen(),
+      ),
       GoRoute(
         path: PhoneNumberVerification.routeName,
         name: PhoneNumberVerification.routeName,
@@ -128,7 +129,24 @@ class AppRouter {
       GoRoute(
         path: ConfirmDocumentTypeScreen.routeName,
         name: ConfirmDocumentTypeScreen.routeName,
-        builder: (context, state) => ConfirmDocumentTypeScreen()
+        builder: (context, state) => ConfirmDocumentTypeScreen(),
+      ),
+
+      GoRoute(
+        path: GetReadyVideoSelfieScreen.routeName,
+        name: GetReadyVideoSelfieScreen.routeName,
+        builder: (context, state) => GetReadyVideoSelfieScreen(),
+      ),
+
+      GoRoute(
+        path: ConfirmDocumentTypeScanner.routeName,
+        name: ConfirmDocumentTypeScanner.routeName,
+        builder: (context, state) => ConfirmDocumentTypeScanner(),
+      ),
+      GoRoute(
+        path: TakeYourFacePhoto.routeName,
+        name: TakeYourFacePhoto.routeName,
+        builder: (context, state) => TakeYourFacePhoto(),
       ),
 
       // 🔹 Role / Type / Notification
@@ -137,11 +155,13 @@ class AppRouter {
         name: SeclectRoleScreen.routeName,
         builder: (context, state) => SeclectRoleScreen(),
       ),
+
       GoRoute(
         path: SeclectTypeScreen.routeName,
         name: SeclectTypeScreen.routeName,
         builder: (context, state) => SeclectTypeScreen(),
       ),
+
       GoRoute(
         path: Gennotifications.routeName,
         name: Gennotifications.routeName,
@@ -153,8 +173,6 @@ class AppRouter {
         name: BottomNavBar.routeName,
         builder: (context, state) => BottomNavBar(),
       ),
-
-
 
       // 🔹 Client Home
       GoRoute(

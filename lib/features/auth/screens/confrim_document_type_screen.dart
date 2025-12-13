@@ -3,10 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workpleis/core/constants/color_control/all_color.dart';
+import 'package:workpleis/features/auth/screens/frontIdentityCaptureScreen.dart';
 
 import '../../../core/widget/global_get_started_button.dart';
-
-
 
 class ConfirmDocumentTypeScreen extends StatelessWidget {
   const ConfirmDocumentTypeScreen({
@@ -169,7 +168,7 @@ class ConfirmDocumentTypeScreen extends StatelessWidget {
             text: "Start Verification",
             icon: Icons.arrow_forward,
             onTap: () {
-            // context.push(BottomNavBar.route);
+             context.push(Frontidentitycapturescreen.routeName);
             },
           ),
         ),

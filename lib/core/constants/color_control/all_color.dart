@@ -58,6 +58,7 @@ class AllColor {
 
   static const Color black45 = Colors.black45;
   static const Color black54 = Colors.black54;
+  static const Color black50 = Color(0xFF02021D);
 
 
   static final Color green = Colors.green;
