@@ -124,14 +124,14 @@ class ConfirmDocumentTypeScanner extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 18.h),
+              SizedBox(height: 30.h),
 
               // Image card
               Center(
                 child: _DocImageCard(imagePath: imagePath),
               ),
 
-              const Spacer(),
+              // const Spacer(),
 
             ],
           ),
@@ -213,7 +213,7 @@ class _DocImageCard extends StatelessWidget {
         child: imagePath == null
             ? Image.asset(
           'assets/images/nid.png',
-          height: 170.h,
+          height: 240.h,
           width: double.infinity,
           fit: BoxFit.cover,
         )

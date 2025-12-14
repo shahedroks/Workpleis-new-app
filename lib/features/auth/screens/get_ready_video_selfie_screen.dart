@@ -113,9 +113,7 @@ class GetReadyVideoSelfieScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
               const Spacer(),
-
               // Helper text
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 18.w),

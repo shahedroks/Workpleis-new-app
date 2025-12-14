@@ -10,9 +10,7 @@ import '../../../core/widget/global_get_started_button.dart';
 class ConfirmDocumentTypeScreen extends StatelessWidget {
   const ConfirmDocumentTypeScreen({
     super.key,});
-
   static const String routeName = '/confirmDocumentType';
-  
 
   @override
   Widget build(BuildContext context) {
@@ -228,3 +226,4 @@ class _StepRow extends StatelessWidget {
     );
   }
 }
+
