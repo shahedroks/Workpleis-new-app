@@ -55,9 +55,7 @@ class ConfirmDocumentTypeScanner extends StatelessWidget {
                   ),
                 ),
               ),
-
               SizedBox(height: 24.h),
-
               Text(
                 'Confirm document type',
                 style: TextStyle(

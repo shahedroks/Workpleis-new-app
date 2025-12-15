@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:workpleis/core/widget/global_snack_bar.dart';
+import 'package:workpleis/features/auth/screens/checking_liveness.dart';
 import 'package:workpleis/features/auth/screens/confirm_document_type_scanner.dart';
+import 'package:workpleis/features/auth/screens/confirm_face_photo_screen.dart';
 import 'package:workpleis/features/auth/screens/forget_password_screen.dart';
 import 'package:workpleis/features/auth/screens/forget_verification_code_screen.dart';
 import 'package:workpleis/features/auth/screens/get_ready_video_selfie_screen.dart';
@@ -11,6 +13,8 @@ import 'package:workpleis/features/auth/screens/account_successful.dart';
 import 'package:workpleis/features/auth/screens/new_password_screen.dart';
 import 'package:workpleis/features/auth/screens/phone_number_verification.dart';
 import 'package:workpleis/features/auth/screens/take_your_face_photo.dart';
+import 'package:workpleis/features/auth/screens/video_selfie_ready_screen.dart';
+import 'package:workpleis/features/auth/screens/video_selfie_ready_screen1.dart';
 // Onboarding
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_01.dart';
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_05.dart';
@@ -21,10 +25,8 @@ import 'package:workpleis/features/role_screen/screen/seclect_type_screen.dart';
 
 // Splash
 import 'package:workpleis/features/spalashScreen/screen/splashScreen.dart';
-
 // Client
 import 'package:workpleis/features/client/screen/client_home_screen.dart';
-
 import '../features/auth/screens/confrim_document_type_screen.dart';
 import '../features/auth/screens/frontIdentityCaptureScreen.dart';
 import '../features/auth/screens/select_document_screen.dart';
@@ -33,7 +35,7 @@ import 'error_screen.dart';
 
 class AppRouter {
   // initial route
-  static const String initial = ClientHomeScreen.routeName;
+  static const String initial = SplashScreen.routeName;
 
   static final GoRouter appRouter = GoRouter(
     initialLocation: initial,
@@ -149,11 +151,36 @@ class AppRouter {
         builder: (context, state) => TakeYourFacePhoto(),
       ),
 
+      GoRoute(
+        path: ConfirmFacePhotoScreen.routeName,
+        name: ConfirmFacePhotoScreen.routeName,
+        builder: (context, state) => ConfirmFacePhotoScreen(),
+      ),
+
+
+
+      GoRoute(
+        path: VideoSelfieReadyScreen.routeName,
+        name: VideoSelfieReadyScreen.routeName,
+        builder: (context, state) => VideoSelfieReadyScreen(),
+      ),
+
+      GoRoute(
+        path: VideoSelfieReadyScreen1.routeName,
+        name: VideoSelfieReadyScreen1.routeName,
+        builder: (context, state) => VideoSelfieReadyScreen1(),
+      ),
       // 🔹 Role / Type / Notification
       GoRoute(
         path: SeclectRoleScreen.routeName,
         name: SeclectRoleScreen.routeName,
         builder: (context, state) => SeclectRoleScreen(),
+      ),
+
+      GoRoute(
+        path: CheckingLiveness.routeName,
+        name: CheckingLiveness.routeName,
+        builder: (context, state) => CheckingLiveness(),
       ),
 
       GoRoute(

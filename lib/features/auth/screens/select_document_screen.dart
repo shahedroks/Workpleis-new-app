@@ -104,9 +104,6 @@ class _SelectDocumentScreenState extends State<SelectDocumentScreen> {
                 isSelected: _selected == DocumentType.driversLicense,
                 onTap: () => setState(() => _selected = DocumentType.driversLicense),
               ),
-
-
-
               SizedBox(height: 24.h),
             ],
           ),
