@@ -10,6 +10,7 @@ import 'package:workpleis/features/auth/screens/register_screen.dart';
 import 'package:workpleis/core/widget/global_get_started_button.dart';
 import 'package:workpleis/features/auth/logic/email_valitedor.dart';
 import 'package:workpleis/features/auth/logic/password_valitedor.dart';
+import 'package:workpleis/features/auth/screens/veryfiy_your_business.dart';
 import '../../nav_bar/screen/bottom_nav_bar.dart';
 import '../logic/login_reverpod.dart';
 
@@ -323,7 +324,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 SocialLoginButton(
                   title: "Continue with Google",
                   iconPath: "assets/images/google.png",
-                  onPressed: () {},
+                  onPressed: () {
+                    context.push(VeryfiyYourBusiness.routeName);
+                  },
                 ),
 
                 SizedBox(height: 12.h),

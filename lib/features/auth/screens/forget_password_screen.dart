@@ -6,6 +6,8 @@ import 'package:workpleis/core/constants/color_control/all_color.dart';
 import 'package:workpleis/core/widget/global_get_started_button.dart';
 import 'package:workpleis/features/auth/screens/forget_verification_code_screen.dart';
 
+import '../data/auth_flow_provider.dart';
+
 class ForgetPasswordScreen extends ConsumerStatefulWidget {
   const ForgetPasswordScreen({super.key});
 
@@ -219,6 +221,7 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
              width: double.infinity,
              height: 56.h,
              child: CustomButton(text: "Continue", onTap: (){
+               ref.read(otpEntryFlowProvider.notifier).state = OtpEntryFlow.forgotPassword;
                context.push(ForgetVerificationCodeScreen.routeName);
              }, icon: Icons.arrow_forward,)),
 

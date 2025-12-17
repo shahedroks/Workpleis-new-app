@@ -7,6 +7,7 @@ import 'package:workpleis/core/widget/global_get_started_button.dart';
 import 'package:workpleis/features/auth/screens/forget_verification_code_screen.dart';
 import 'package:workpleis/features/auth/screens/select_document_screen.dart';
 
+import '../data/auth_flow_provider.dart';
 import 'new_password_screen.dart';
 
 class PhoneNumberVerification extends ConsumerStatefulWidget {
@@ -215,7 +216,6 @@ class _PhoneNumberVerificationState extends ConsumerState<PhoneNumberVerificatio
                   ],
                 ),
                 SizedBox(height: 80.h),
-
               ],
             ),
           ),
@@ -227,7 +227,8 @@ class _PhoneNumberVerificationState extends ConsumerState<PhoneNumberVerificatio
             width: double.infinity,
             height: 56.h,
             child: CustomButton(text: "Continue", onTap: (){
-              context.push(SelectDocumentScreen.routeName);
+              ref.read(otpEntryFlowProvider.notifier).state = OtpEntryFlow.phoneVerification;
+              context.push(ForgetVerificationCodeScreen.routeName);
             }, icon: Icons.arrow_forward,)),
 
       ),

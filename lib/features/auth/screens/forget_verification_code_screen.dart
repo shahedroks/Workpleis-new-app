@@ -5,6 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:workpleis/core/constants/color_control/all_color.dart';
 import 'package:workpleis/core/widget/global_get_started_button.dart';
 import 'package:workpleis/features/auth/screens/new_password_screen.dart';
+import 'package:workpleis/features/auth/screens/select_document_screen.dart';
+
+import '../data/auth_flow_provider.dart';
 
 class ForgetVerificationCodeScreen extends ConsumerStatefulWidget {
   const ForgetVerificationCodeScreen({super.key});
@@ -111,7 +114,6 @@ class _ForgetVerificationCodeScreenState
                     SizedBox(width: 4.w),
                     _buildDash(),
                     SizedBox(width: 4.w),
-
                     _buildOtpBox(3),
                     SizedBox(width: 6.w),
                     _buildOtpBox(4),
@@ -119,14 +121,12 @@ class _ForgetVerificationCodeScreenState
                     _buildOtpBox(5),
                   ],
                 ),
-
                 SizedBox(height: 80.h),
               ],
             ),
           ),
         ),
       ),
-
       /// Bottom button
       bottomNavigationBar: Padding(
         padding: EdgeInsets.fromLTRB(22.w, 0, 22.w, 24.h),
@@ -136,17 +136,35 @@ class _ForgetVerificationCodeScreenState
           child: CustomButton(
             text: "Continue",
             icon: Icons.arrow_forward,
-            onTap: () {
-              final code = _controllers.map((c) => c.text).join();
-              context.push(NewPasswordScreen.routeName);
-              // print(code);
-            },
+            onTap: _onContinue,
           ),
         ),
       ),
     );
   }
 
+  void _onContinue() {
+    final code = _controllers.map((c) => c.text.trim()).join();
+
+    if (code.length != 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter the 6-digit code')),
+      );
+      return;
+    }
+
+    final flow = ref.read(otpEntryFlowProvider);
+
+    if (flow == OtpEntryFlow.forgotPassword) {
+      context.push(NewPasswordScreen.routeName);
+    } else {
+      // default / phoneVerification
+      context.push(SelectDocumentScreen.routeName);
+    }
+
+    // optional: reset
+    ref.read(otpEntryFlowProvider.notifier).state = null;
+  }
   /// Single OTP box
   Widget _buildOtpBox(int index) {
     return SizedBox(

@@ -74,6 +74,8 @@ class AccountSuccessful extends StatelessWidget {
             text: "Done",
             onTap: () {
             context.push(LoginScreen.routeName);
+
+
             },
           ),
         ),

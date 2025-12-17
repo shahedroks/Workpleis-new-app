@@ -13,6 +13,7 @@ import 'package:workpleis/features/auth/screens/account_successful.dart';
 import 'package:workpleis/features/auth/screens/new_password_screen.dart';
 import 'package:workpleis/features/auth/screens/phone_number_verification.dart';
 import 'package:workpleis/features/auth/screens/take_your_face_photo.dart';
+import 'package:workpleis/features/auth/screens/veryfiy_your_business.dart';
 import 'package:workpleis/features/auth/screens/video_selfie_ready_screen.dart';
 import 'package:workpleis/features/auth/screens/video_selfie_ready_screen1.dart';
 // Onboarding
@@ -22,7 +23,6 @@ import 'package:workpleis/features/onboarding/screen/onboarding_screen_05.dart';
 import 'package:workpleis/features/role_screen/screen/genNotifications.dart';
 import 'package:workpleis/features/role_screen/screen/seclect_role_screen.dart';
 import 'package:workpleis/features/role_screen/screen/seclect_type_screen.dart';
-
 // Splash
 import 'package:workpleis/features/spalashScreen/screen/splashScreen.dart';
 // Client
@@ -180,7 +180,13 @@ class AppRouter {
       GoRoute(
         path: CheckingLiveness.routeName,
         name: CheckingLiveness.routeName,
-        builder: (context, state) => CheckingLiveness(),
+        builder: (context, state) =>  CheckingLiveness(),
+      ),
+
+      GoRoute(
+        path: VeryfiyYourBusiness.routeName,
+        name: VeryfiyYourBusiness.routeName,
+        builder: (context, state) => VeryfiyYourBusiness(),
       ),
 
       GoRoute(
