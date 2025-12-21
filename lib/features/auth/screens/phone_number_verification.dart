@@ -229,6 +229,9 @@ class _PhoneNumberVerificationState extends ConsumerState<PhoneNumberVerificatio
             height: 56.h,
             child: CustomButton(text: "Continue", onTap: (){
               ref.read(otpEntryFlowProvider.notifier).state = OtpEntryFlow.phoneVerification;
+              ref.read(otpEntryFlowProvider.notifier).state =
+                  OtpEntryFlow.phoneVerification;
+
               context.push(ForgetVerificationCodeScreen.routeName);
             }, icon: Icons.arrow_forward,)),
 
