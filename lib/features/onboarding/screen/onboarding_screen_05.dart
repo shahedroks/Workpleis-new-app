@@ -25,21 +25,21 @@ class _OnboardingScreen05State extends State<OnboardingScreen05> {
       titleTop: 'TEAM UP FOR',
       titleAccent: 'SUCCESS',
       description:
-      'Get ready to unleash your potential and \n witness the power of teamwork',
+          'Get ready to unleash your potential and \n witness the power of teamwork',
     ),
     _SlideData(
       imageAsset: 'assets/images/slider01.png',
       titleTop: 'USER FRIENDLY',
       titleAccent: 'AT ITS CORE',
       description:
-      'Our Interface empowers you with intuitive \n control and effortless interactions',
+          'Our Interface empowers you with intuitive \n control and effortless interactions',
     ),
     _SlideData(
       imageAsset: 'assets/images/slider1.png',
       titleTop: 'EASY TASK',
       titleAccent: 'CREATION',
       description:
-      'Quickly add tasks, add due date,\n add description with ease',
+          'Quickly add tasks, add due date,\n add description with ease',
     ),
   ];
 
@@ -147,7 +147,9 @@ class _OnboardingSlide extends StatelessWidget {
           bottom: 320.h,
           child: Image.asset(
             data.imageAsset,
-            fit: BoxFit.contain,
+            fit: BoxFit.fitWidth,
+            width: double.infinity,
+            alignment: Alignment.topCenter,
           ),
         ),
 
@@ -253,10 +255,7 @@ class _OnboardingSlide extends StatelessWidget {
 ///  BOTTOM CARD
 /// ---------------------------------------------------------------------------
 class _BottomAuthCard extends StatelessWidget {
-  const _BottomAuthCard({
-    required this.onLogin,
-    required this.onSignUp,
-  });
+  const _BottomAuthCard({required this.onLogin, required this.onSignUp});
 
   final VoidCallback onLogin;
   final VoidCallback onSignUp;
@@ -388,8 +387,7 @@ class _Pager extends StatelessWidget {
           height: 6.h,
           width: active ? 18.w : 6.w,
           decoration: BoxDecoration(
-            color:
-            active ? AllColor.white : AllColor.white.withOpacity(0.35),
+            color: active ? AllColor.white : AllColor.white.withOpacity(0.35),
             borderRadius: BorderRadius.circular(20.r),
           ),
         );
@@ -414,8 +412,6 @@ class _SlideData {
     required this.description,
   });
 }
-
-
 
 // import 'dart:async';
 // import 'package:flutter/material.dart';

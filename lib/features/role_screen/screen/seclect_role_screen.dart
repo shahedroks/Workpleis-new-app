@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workpleis/features/role_screen/screen/seclect_type_screen.dart';
+import 'package:workpleis/features/role_screen/widget/custom_next_button.dart';
+import 'package:workpleis/features/role_screen/widget/role_card.dart';
 
 enum UserRole { client, provider }
 
@@ -34,7 +36,6 @@ class _SeclectRoleScreenState extends State<SeclectRoleScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       // top logo
                       Padding(
                         padding: EdgeInsets.only(top: 8.h),
@@ -87,7 +88,7 @@ class _SeclectRoleScreenState extends State<SeclectRoleScreen> {
 
                       SizedBox(height: 32.h),
 
-                      _RoleCard(
+                      RoleCard(
                         label: "I'm a Client",
                         selected: _selected == UserRole.client,
                         onTap: () {
@@ -97,7 +98,7 @@ class _SeclectRoleScreenState extends State<SeclectRoleScreen> {
 
                       SizedBox(height: 16.h),
 
-                      _RoleCard(
+                      RoleCard(
                         label: "I'm Service Provider",
                         selected: _selected == UserRole.provider,
                         onTap: () {
@@ -108,46 +109,11 @@ class _SeclectRoleScreenState extends State<SeclectRoleScreen> {
                       SizedBox(height: 32.h),
 
                       // button
-                      SizedBox(
-                        width: double.infinity,
-                        height: 56.h,
-                        child: ElevatedButton(
-                          onPressed: _selected == null
-                              ? null
-                              : () => context.push(SeclectTypeScreen.routeName),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF03051A),
-                            disabledBackgroundColor:
-                            const Color(0xFF03051A).withOpacity(0.3),
-                            shape: StadiumBorder(
-                              side: BorderSide(
-                                color: const Color(0xFF03051A),
-                                width: 1.2.w,
-                              ),
-                            ),
-                            elevation: 0,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Next',
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: 'sf_Pro',
-                                  color: Colors.white,
-                                ),
-                              ),
-                              SizedBox(width: 8.w),
-                              Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                size: 16.sp,
-                                color: Colors.white,
-                              ),
-                            ],
-                          ),
-                        ),
+                      SizedBox(height: 180.h),
+                      CustomNextButton(
+                        enabled: _selected != null,
+                        onPressed: () =>
+                            context.push(SeclectTypeScreen.routeName),
                       ),
 
                       SizedBox(height: 16.h),
@@ -178,73 +144,6 @@ class _SeclectRoleScreenState extends State<SeclectRoleScreen> {
               ),
             );
           },
-        ),
-      ),
-    );
-  }
-}
-
-
-/// ROLE CARD
-class _RoleCard extends StatelessWidget {
-  const _RoleCard({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final borderColor =
-    selected ? Colors.black : Colors.black.withOpacity(0.18);
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 60.h,
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14.r),
-          border: Border.all(color: borderColor, width: 1.2),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontFamily: 'sf_Pro',
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-            ),
-
-            // circle check
-            Container(
-              height: 22.r,
-              width: 22.r,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: selected
-                      ? Colors.black
-                      : Colors.black.withOpacity(0.25),
-                  width: 1.4,
-                ),
-                color: selected ? Colors.black : Colors.transparent,
-              ),
-              child: selected
-                  ? Icon(Icons.check, size: 16.sp, color: Colors.white)
-                  : null,
-            ),
-          ],
         ),
       ),
     );
