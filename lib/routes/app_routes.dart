@@ -36,7 +36,7 @@ import 'error_screen.dart';
 
 class AppRouter {
   // initial route
-  static const String initial = SplashScreen.routeName;
+  static const String initial = ClientHomeScreen.routeName;
 
   static final GoRouter appRouter = GoRouter(
     initialLocation: initial,
@@ -140,7 +140,6 @@ class AppRouter {
         name: BusinessLoginScreen.routeName,
         builder: (context, state) => const BusinessLoginScreen(),
       ),
-
 
       GoRoute(
         path: GetReadyVideoSelfieScreen.routeName,

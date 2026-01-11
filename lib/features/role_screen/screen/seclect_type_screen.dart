@@ -268,13 +268,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workpleis/features/role_screen/screen/genNotifications.dart';
 
-import 'package:workpleis/features/role_screen/screen/seclect_role_screen.dart';
+import 'package:workpleis/features/role_screen/screen/seclect_role_screen.dart'
+    hide UserRole;
+import 'package:workpleis/features/role_screen/widget/custom_next_button.dart';
+import 'package:workpleis/features/auth/data/select_your_type_provider.dart';
+import 'package:workpleis/features/auth/data/auth_flow_provider.dart';
 
 enum UserType { individual, business }
 
 // Provider to store selected type
 final selectedTypeProvider = StateProvider<UserType?>((ref) => null);
-
 
 class SeclectTypeScreen extends ConsumerStatefulWidget {
   const SeclectTypeScreen({super.key});
@@ -286,30 +289,22 @@ class SeclectTypeScreen extends ConsumerStatefulWidget {
 }
 
 class _SeclectTypeScreenState extends ConsumerState<SeclectTypeScreen> {
-
   UserType? _selected;
-
-
-
-  void _selectRole(UserRole role) {
-    setState(() => _selected = role);
-    ref.read(selectedUserRoleProvider.notifier).state = role; // ✅ save role
-  }
 
   void _goNext() {
     if (_selected == null) return;
 
-    // ✅ OTP flow set (so OTP screen knows it’s not forgot password)
-    ref.read(otpEntryFlowProvider.notifier).state = OtpEntryFlow.phoneVerification;
+    // ✅ OTP flow set (so OTP screen knows it's not forgot password)
+    ref.read(otpEntryFlowProvider.notifier).state =
+        OtpEntryFlow.phoneVerification;
 
     context.push(Gennotifications.routeName);
   }
 
   void _skip() {
-    // ✅ default on skip (change if you want)
-    _selectRole(UserRole.client);
-
-    ref.read(otpEntryFlowProvider.notifier).state = OtpEntryFlow.phoneVerification;
+    // Navigate without selecting a type
+    ref.read(otpEntryFlowProvider.notifier).state =
+        OtpEntryFlow.phoneVerification;
 
     context.push(Gennotifications.routeName);
   }
@@ -381,13 +376,12 @@ class _SeclectTypeScreenState extends ConsumerState<SeclectTypeScreen> {
                   onTap: () {
                     setState(() {
                       _selected = UserType.individual;
-                      ref.read(selectedTypeProvider.notifier).state = UserType.individual;
+                      ref.read(selectedTypeProvider.notifier).state =
+                          UserType.individual;
                     });
                   },
-
                 ),
                 SizedBox(height: 16.h),
-
 
                 _RoleCard(
                   label: "For Business",
@@ -396,14 +390,13 @@ class _SeclectTypeScreenState extends ConsumerState<SeclectTypeScreen> {
                   onTap: () {
                     setState(() {
                       _selected = UserType.business;
-                      ref.read(selectedTypeProvider.notifier).state = UserType.business;
+                      ref.read(selectedTypeProvider.notifier).state =
+                          UserType.business;
                     });
                   },
-
                 ),
 
                 SizedBox(height: 32.h),
-
 
                 /// Next button
 
@@ -415,7 +408,6 @@ class _SeclectTypeScreenState extends ConsumerState<SeclectTypeScreen> {
                   onPressed: () {
                     context.push(Gennotifications.routeName);
                   },
-
                 ),
                 SizedBox(height: 16.h),
 
@@ -462,11 +454,9 @@ class _RoleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final borderColor = selected
         ? Colors.black
         : Colors.black.withOpacity(0.18);
-
 
     return GestureDetector(
       onTap: onTap,
@@ -505,7 +495,9 @@ class _RoleCard extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: selected ? Colors.black : Colors.black.withOpacity(0.25),
+                  color: selected
+                      ? Colors.black
+                      : Colors.black.withOpacity(0.25),
                   width: 1.4,
                 ),
                 color: selected ? Colors.black : Colors.white,

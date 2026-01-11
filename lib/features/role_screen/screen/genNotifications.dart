@@ -10,7 +10,6 @@ import '../screen/seclect_type_screen.dart';
 
 import '../widget/custom_next_button.dart';
 
-
 class Gennotifications extends ConsumerWidget {
   const Gennotifications({super.key});
 
@@ -19,7 +18,7 @@ class Gennotifications extends ConsumerWidget {
   void _navigateToLogin(BuildContext context, WidgetRef ref) {
     final selectedRole = ref.read(selectedRoleProvider);
     final selectedType = ref.read(selectedTypeProvider);
-    
+
     // If user selected "I'm a Client" + "For Business", go to BusinessLoginScreen
     if (selectedRole == UserRole.client && selectedType == UserType.business) {
       context.push(BusinessLoginScreen.routeName);
@@ -30,14 +29,12 @@ class Gennotifications extends ConsumerWidget {
   }
 
   @override
-
   Widget build(BuildContext context, WidgetRef ref) {
     // main colors (approx same as UI)
     const Color kTitleGreen = Color(0xFF064E3B);
     const Color kHighlight = Color(0xFFE4FF5A);
     const Color kBodyText = Color(0xFF4B5563);
     const Color kPrimaryDark = Color(0xFF03051A);
-
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -95,15 +92,15 @@ class Gennotifications extends ConsumerWidget {
                           Image.asset(
                             'assets/images/Unerline.png',
                             fit: BoxFit.contain,
-                            width: double.infinity,
+                            width: 240.w,
                           ),
                           // Text on top of image - centered
                           Positioned.fill(
                             child: Center(
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: 20.w,
-                                  vertical: 12.h,
+                                  horizontal: 2.w,
+                                  vertical: 2.h,
                                 ),
                                 child: Text(
                                   "it's payday.",
@@ -148,41 +145,16 @@ class Gennotifications extends ConsumerWidget {
                 SizedBox(height: 32.h),
 
                 /// Enable notifications button
-
-                SizedBox(
-                  width: double.infinity,
-                  height: 56.h,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _navigateToLogin(context, ref);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF03051A),
-                      shape: const StadiumBorder(),
-                      elevation: 0,
-                    ),
-                    child: Text(
-                      'Enable notifications',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontFamily: 'sf_Pro',
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-
                 SizedBox(height: 180.h),
 
                 CustomNextButton(
                   enabled: true,
                   onPressed: () {
-                    context.push(LoginScreen.routeName);
+                    _navigateToLogin(context, ref);
                   },
                   text: 'Enable notifications',
                   showArrow: false,
                   fontWeight: FontWeight.w400,
-
                 ),
                 SizedBox(height: 16.h),
 
