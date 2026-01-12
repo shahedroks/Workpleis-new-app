@@ -237,9 +237,7 @@ import 'package:workpleis/features/auth/screens/select_document_screen.dart';
 // ✅ Providers
 import 'package:workpleis/features/auth/data/auth_flow_provider.dart';
 import 'package:workpleis/features/auth/screens/veryfiy_your_business.dart';
-
-import '../../role_screen/screen/seclect_role_screen.dart';
-import '../data/select_your_type_provider.dart' hide UserRole;
+import '../data/select_your_type_provider.dart';
 
 class ForgetVerificationCodeScreen extends ConsumerStatefulWidget {
   const ForgetVerificationCodeScreen({super.key});
@@ -255,8 +253,10 @@ class _ForgetVerificationCodeScreenState
     extends ConsumerState<ForgetVerificationCodeScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final List<TextEditingController> _controllers =
-  List.generate(6, (_) => TextEditingController());
+  final List<TextEditingController> _controllers = List.generate(
+    6,
+    (_) => TextEditingController(),
+  );
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
 
   @override
@@ -300,7 +300,6 @@ class _ForgetVerificationCodeScreenState
     /// optional cleanup
     ref.read(otpEntryFlowProvider.notifier).state = null;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -355,7 +354,7 @@ class _ForgetVerificationCodeScreenState
                 /// Subtitle
                 Text(
                   "To confirm your phone number, please enter the\n"
-                      "OTP we sent +016 ********13",
+                  "OTP we sent +016 ********13",
                   style: TextStyle(
                     fontSize: 18.sp,
                     height: 1.5,

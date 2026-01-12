@@ -1,22 +1,28 @@
 import 'package:go_router/go_router.dart';
 import 'package:workpleis/core/widget/global_snack_bar.dart';
+import 'package:workpleis/features/auth/screens/account_successful.dart';
+import 'package:workpleis/features/auth/screens/business_login_screen.dart';
 import 'package:workpleis/features/auth/screens/checking_liveness.dart';
 import 'package:workpleis/features/auth/screens/confirm_document_type_scanner.dart';
 import 'package:workpleis/features/auth/screens/confirm_face_photo_screen.dart';
+import 'package:workpleis/features/auth/screens/confrim_document_type_screen.dart';
 import 'package:workpleis/features/auth/screens/forget_password_screen.dart';
 import 'package:workpleis/features/auth/screens/forget_verification_code_screen.dart';
+import 'package:workpleis/features/auth/screens/frontIdentityCaptureScreen.dart';
 import 'package:workpleis/features/auth/screens/get_ready_video_selfie_screen.dart';
 // Auth
 import 'package:workpleis/features/auth/screens/login_screen.dart';
-import 'package:workpleis/features/auth/screens/register_screen.dart';
-import 'package:workpleis/features/auth/screens/account_successful.dart';
 import 'package:workpleis/features/auth/screens/new_password_screen.dart';
 import 'package:workpleis/features/auth/screens/phone_number_verification.dart';
+import 'package:workpleis/features/auth/screens/register_screen.dart';
+import 'package:workpleis/features/auth/screens/select_document_screen.dart';
 import 'package:workpleis/features/auth/screens/take_your_face_photo.dart';
 import 'package:workpleis/features/auth/screens/veryfiy_your_business.dart';
-import 'package:workpleis/features/auth/screens/business_login_screen.dart';
 import 'package:workpleis/features/auth/screens/video_selfie_ready_screen.dart';
 import 'package:workpleis/features/auth/screens/video_selfie_ready_screen1.dart';
+// Client
+import 'package:workpleis/features/client/screen/client_home_screen.dart';
+import 'package:workpleis/features/nav_bar/screen/bottom_nav_bar.dart';
 // Onboarding
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_01.dart';
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_05.dart';
@@ -26,18 +32,13 @@ import 'package:workpleis/features/role_screen/screen/seclect_role_screen.dart';
 import 'package:workpleis/features/role_screen/screen/seclect_type_screen.dart';
 // Splash
 import 'package:workpleis/features/spalashScreen/screen/splashScreen.dart';
-// Client
-import 'package:workpleis/features/client/screen/client_home_screen.dart';
-import 'package:workpleis/features/auth/screens/confrim_document_type_screen.dart';
-import 'package:workpleis/features/auth/screens/frontIdentityCaptureScreen.dart';
-import 'package:workpleis/features/auth/screens/select_document_screen.dart';
-import 'package:workpleis/features/nav_bar/screen/bottom_nav_bar.dart';
+
 import 'error_screen.dart';
 
 class AppRouter {
   // initial route
+  //static const String initial = ClientHomeScreen.routeName;
   static const String initial = ClientHomeScreen.routeName;
-
   static final GoRouter appRouter = GoRouter(
     initialLocation: initial,
 
@@ -81,12 +82,20 @@ class AppRouter {
       GoRoute(
         path: LoginScreen.routeName,
         name: LoginScreen.routeName,
-        builder: (context, state) => const LoginScreen(),
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>?;
+          final isBusiness = (extras?['isBusiness'] as bool?) ?? false;
+          return LoginScreen(isBusinessFlow: isBusiness);
+        },
       ),
       GoRoute(
         path: RegisterScreen.routeName,
         name: RegisterScreen.routeName,
-        builder: (context, state) => const RegisterScreen(),
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>?;
+          final isBusiness = (extras?['isBusiness'] as bool?) ?? false;
+          return RegisterScreen(isBusinessFlow: isBusiness);
+        },
       ),
       GoRoute(
         path: AccountSuccessful.routeName,
@@ -103,8 +112,14 @@ class AppRouter {
         path: PhoneNumberVerification.routeName,
         name: PhoneNumberVerification.routeName,
         builder: (context, state) {
-          final isFromForgot = (state.extra as bool?) ?? false;
-          return PhoneNumberVerification(isFromForgotPassword: isFromForgot);
+          final extras = state.extra as Map<String, dynamic>?;
+          final isFromForgot = (extras?['isFromForgot'] as bool?) ?? false;
+          final isBusiness = (extras?['isBusiness'] as bool?) ?? false;
+
+          return PhoneNumberVerification(
+            isFromForgotPassword: isFromForgot,
+            isBusinessFlow: isBusiness,
+          );
         },
       ),
       GoRoute(
@@ -138,7 +153,11 @@ class AppRouter {
       GoRoute(
         path: BusinessLoginScreen.routeName,
         name: BusinessLoginScreen.routeName,
-        builder: (context, state) => const BusinessLoginScreen(),
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>?;
+          final isBusiness = (extras?['isBusiness'] as bool?) ?? true;
+          return BusinessLoginScreen(isBusinessFlow: isBusiness);
+        },
       ),
 
       GoRoute(
