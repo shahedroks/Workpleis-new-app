@@ -21,7 +21,10 @@ class Gennotifications extends ConsumerWidget {
 
     // If user selected "I'm a Client" + "For Business", go to BusinessLoginScreen
     if (selectedRole == UserRole.client && selectedType == UserType.business) {
-      context.push(BusinessLoginScreen.routeName);
+      context.push(
+        BusinessLoginScreen.routeName,
+        extra: {'isBusiness': true},
+      );
     } else {
       // Otherwise go to regular LoginScreen
       context.push(LoginScreen.routeName);

@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workpleis/core/constants/color_control/all_color.dart';
+import 'package:workpleis/features/client/screen/client_home_screen.dart';
 
 final selectedIndexProvider = StateProvider<int>((ref) => 0);
 
 class BottomNavBar extends ConsumerWidget {
   const BottomNavBar({super.key});
   static const String routeName = '/BottomNavBar';
-  
-  final List<Widget> _pages = const [
-    _PlaceholderPage(title: 'Home'),
-    _PlaceholderPage(title: 'Chat'),
-    _PlaceholderPage(title: 'Categories'),
-    _PlaceholderPage(title: 'Cart'),
-    _PlaceholderPage(title: 'Account'),
+
+  List<Widget> get _pages => [
+    const ClientHomeScreen(),
+    const _PlaceholderPage(title: 'Chat'),
+    const _PlaceholderPage(title: 'Categories'),
+    const _PlaceholderPage(title: 'Cart'),
+    const _PlaceholderPage(title: 'Account'),
   ];
-  
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Added WidgetRef
@@ -28,9 +29,7 @@ class BottomNavBar extends ConsumerWidget {
         currentIndex: selectedIndex,
         onTap: (index) {
           // Update the selected index using the provider's notifier
-          ref
-              .read(selectedIndexProvider.notifier)
-              .state = index;
+          ref.read(selectedIndexProvider.notifier).state = index;
         },
         backgroundColor: AllColor.white,
         selectedItemColor: AllColor.orange,
@@ -40,7 +39,7 @@ class BottomNavBar extends ConsumerWidget {
         // Keep this if you want fixed labels
         // showSelectedLabels: true, // Optional: ensure selected label is shown
         // showUnselectedLabels: true, // Optional: ensure unselected labels are shown
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_filled), // Changed Icon
             label: "Home",
@@ -71,9 +70,9 @@ class BottomNavBar extends ConsumerWidget {
 
 class _PlaceholderPage extends StatelessWidget {
   const _PlaceholderPage({required this.title});
-  
+
   final String title;
-  
+
   @override
   Widget build(BuildContext context) {
     return Center(

@@ -73,9 +73,8 @@ class AccountSuccessful extends StatelessWidget {
           child: CustomButton(
             text: "Done",
             onTap: () {
-            context.push(LoginScreen.routeName);
-
-
+              // Send user to login screen after success
+              context.go(LoginScreen.routeName);
             },
           ),
         ),
