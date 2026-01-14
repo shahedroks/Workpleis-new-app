@@ -16,6 +16,7 @@ import 'package:workpleis/features/auth/screens/new_password_screen.dart';
 import 'package:workpleis/features/auth/screens/phone_number_verification.dart';
 import 'package:workpleis/features/auth/screens/register_screen.dart';
 import 'package:workpleis/features/auth/screens/select_document_screen.dart';
+import 'package:workpleis/features/auth/screens/service_provider_verify_business.dart';
 import 'package:workpleis/features/auth/screens/take_your_face_photo.dart';
 import 'package:workpleis/features/auth/screens/veryfiy_your_business.dart';
 import 'package:workpleis/features/auth/screens/video_selfie_ready_screen.dart';
@@ -38,7 +39,7 @@ import 'error_screen.dart';
 class AppRouter {
   // initial route
   //static const String initial = ClientHomeScreen.routeName;
-  static const String initial = ClientHomeScreen.routeName;
+  static const String initial = SplashScreen.routeName;
   static final GoRouter appRouter = GoRouter(
     initialLocation: initial,
 
@@ -213,6 +214,11 @@ class AppRouter {
         builder: (context, state) => const VeryfiyYourBusiness(),
       ),
 
+      GoRoute(
+        path: ServiceProviderVerifyBusiness.routeName,
+        name: ServiceProviderVerifyBusiness.routeName,
+        builder: (context, state) => const ServiceProviderVerifyBusiness(),
+      ),
       GoRoute(
         path: SeclectTypeScreen.routeName,
         name: SeclectTypeScreen.routeName,
