@@ -9,8 +9,13 @@ import '../logic/password_valitedor.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+  const RegisterScreen({
+    super.key,
+    this.isBusinessFlow = false,
+  });
+
   static const routeName = '/registerScreen';
+  final bool isBusinessFlow;
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -86,7 +91,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => context.push(LoginScreen.routeName),
+                      onTap: () => context.push(
+                        LoginScreen.routeName,
+                        extra: {'isBusiness': false},
+                      ),
                       child: Text(
                         "Log In",
                         style: TextStyle(
@@ -351,6 +359,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // }
 
     // TODO: ekhane register API call korbe
-    context.push(PhoneNumberVerification.routeName);
+    context.push(
+      PhoneNumberVerification.routeName,
+      extra: {
+        'isFromForgot': false,
+        'isBusiness': widget.isBusinessFlow,
+      },
+    );
   }
 }

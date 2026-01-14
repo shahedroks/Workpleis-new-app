@@ -3,9 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../auth/screens/login_screen.dart';
+
 import '../../auth/screens/business_login_screen.dart';
 import '../screen/seclect_role_screen.dart';
 import '../screen/seclect_type_screen.dart';
+
+import '../widget/custom_next_button.dart';
 
 class Gennotifications extends ConsumerWidget {
   const Gennotifications({super.key});
@@ -15,10 +18,13 @@ class Gennotifications extends ConsumerWidget {
   void _navigateToLogin(BuildContext context, WidgetRef ref) {
     final selectedRole = ref.read(selectedRoleProvider);
     final selectedType = ref.read(selectedTypeProvider);
-    
+
     // If user selected "I'm a Client" + "For Business", go to BusinessLoginScreen
     if (selectedRole == UserRole.client && selectedType == UserType.business) {
-      context.push(BusinessLoginScreen.routeName);
+      context.push(
+        BusinessLoginScreen.routeName,
+        extra: {'isBusiness': true},
+      );
     } else {
       // Otherwise go to regular LoginScreen
       context.push(LoginScreen.routeName);
@@ -64,6 +70,7 @@ class Gennotifications extends ConsumerWidget {
                   ),
                 ),
                 SizedBox(height: 32.h),
+
                 /// title with highlight
                 Center(
                   child: Column(
@@ -80,22 +87,40 @@ class Gennotifications extends ConsumerWidget {
                         ),
                       ),
                       SizedBox(height: 4.h),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE4FF5A),
-                          borderRadius: BorderRadius.circular(4.r),
-                        ),
-                        child: Text(
-                          "it's payday.",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 40.sp,
-                            fontFamily: 'sf_Pro',
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFF064E3B),
+                      Stack(
+                        alignment: Alignment.center,
+                        clipBehavior: Clip.none,
+                        children: [
+                          // Background image - organic shape
+                          Image.asset(
+                            'assets/images/Unerline.png',
+                            fit: BoxFit.contain,
+                            width: 240.w,
                           ),
-                        ),
+                          // Text on top of image - centered
+                          Positioned.fill(
+                            child: Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 2.w,
+                                  vertical: 2.h,
+                                ),
+                                child: Text(
+                                  "it's payday.",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 40.sp,
+                                    fontFamily: 'sf_Pro',
+                                    fontWeight: FontWeight.w700,
+                                    color: const Color(0xFF064E3B),
+                                    letterSpacing: -0.5,
+                                    height: 1.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -107,8 +132,8 @@ class Gennotifications extends ConsumerWidget {
                 Center(
                   child: Text(
                     "Enable notifications and we’ll let\n"
-                        "you know the moment your\n"
-                        "payout is ready.",
+                    "you know the moment your\n"
+                    "payout is ready.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18.sp,
@@ -123,30 +148,19 @@ class Gennotifications extends ConsumerWidget {
                 SizedBox(height: 32.h),
 
                 /// Enable notifications button
-                SizedBox(
-                  width: double.infinity,
-                  height: 56.h,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _navigateToLogin(context, ref);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF03051A),
-                      shape: const StadiumBorder(),
-                      elevation: 0,
-                    ),
-                    child: Text(
-                      'Enable notifications',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontFamily: 'sf_Pro',
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                SizedBox(height: 180.h),
+
+                CustomNextButton(
+                  enabled: true,
+                  onPressed: () {
+                    _navigateToLogin(context, ref);
+                  },
+                  text: 'Enable notifications',
+                  showArrow: false,
+                  fontWeight: FontWeight.w400,
                 ),
                 SizedBox(height: 16.h),
+
                 /// Skip
                 Center(
                   child: TextButton(

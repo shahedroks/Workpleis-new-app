@@ -5,28 +5,28 @@ import 'package:go_router/go_router.dart';
 import 'package:workpleis/core/constants/color_control/all_color.dart';
 import 'package:workpleis/core/widget/global_get_started_button.dart';
 import 'package:workpleis/features/auth/screens/forget_verification_code_screen.dart';
-import 'package:workpleis/features/auth/screens/select_document_screen.dart';
 
 import '../data/auth_flow_provider.dart';
-import 'new_password_screen.dart';
+import '../data/select_your_type_provider.dart';
 
 class PhoneNumberVerification extends ConsumerStatefulWidget {
   const PhoneNumberVerification({
     super.key,
     required this.isFromForgotPassword,
-
+    this.isBusinessFlow = false,
   });
 
   static const String routeName = '/phoneNumberVerification';
   final bool isFromForgotPassword;
-
+  final bool isBusinessFlow;
 
   @override
   ConsumerState<PhoneNumberVerification> createState() =>
       _PhoneNumberVerificationState();
 }
 
-class _PhoneNumberVerificationState extends ConsumerState<PhoneNumberVerification> {
+class _PhoneNumberVerificationState
+    extends ConsumerState<PhoneNumberVerification> {
   final _formKey = GlobalKey<FormState>();
   final _userNameController = TextEditingController();
   final _phoneController = TextEditingController(text: '191206-3452');
@@ -37,35 +37,6 @@ class _PhoneNumberVerificationState extends ConsumerState<PhoneNumberVerificatio
     _phoneController.dispose();
     super.dispose();
   }
-
-
-  final List<TextEditingController> _controllers =
-  List.generate(4, (_) => TextEditingController());
-
-  @override
-  // void dispose() {
-  //   for (final c in _controllers) {
-  //     c.dispose();
-  //   }
-  //   super.dispose();
-  // }
-
-  void _onContinue() {
-    final code = _controllers.map((c) => c.text.trim()).join();
-    if (code.length < 4) {
-      // এখানে চাইলে snackbar / dialog দেখাতে পারো
-      return;
-    }
-
-    if (widget.isFromForgotPassword) {
-      // 🔹 Forget Password → New Password
-      context.push(NewPasswordScreen.routeName);
-    } else {
-      // 🔹 Phone number → Select Document
-      context.push(SelectDocumentScreen.routeName);
-    }
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -89,8 +60,8 @@ class _PhoneNumberVerificationState extends ConsumerState<PhoneNumberVerificatio
                     height: 40.w,
                     width: 40.w,
                     decoration: BoxDecoration(
-                        color:AllColor.grey70,
-                        borderRadius: BorderRadius.circular(14.r)
+                      color: AllColor.grey70,
+                      borderRadius: BorderRadius.circular(14.r),
                     ),
                     child: Center(
                       child: Icon(
@@ -115,6 +86,7 @@ class _PhoneNumberVerificationState extends ConsumerState<PhoneNumberVerificatio
                   ),
                 ),
                 SizedBox(height: 8.h),
+
                 /// Subtitle
                 Text(
                   "Enter you phone number. We will send you confirmation code there",
@@ -140,6 +112,7 @@ class _PhoneNumberVerificationState extends ConsumerState<PhoneNumberVerificatio
                   ),
                 ),
                 SizedBox(height: 8.h),
+
                 /// Phone row: country + number
                 Row(
                   children: [
@@ -151,9 +124,7 @@ class _PhoneNumberVerificationState extends ConsumerState<PhoneNumberVerificatio
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(
-                          color: const Color(0xffE5E5EA),
-                        ),
+                        border: Border.all(color: const Color(0xffE5E5EA)),
                         color: const Color(0xffF7F7F7),
                       ),
                       child: Row(
@@ -208,9 +179,7 @@ class _PhoneNumberVerificationState extends ConsumerState<PhoneNumberVerificatio
                           fontFamily: 'sf_pro',
                           fontWeight: FontWeight.w400,
                         ),
-                        decoration: _inputDecoration(
-                          hint: '191206-3452',
-                        ),
+                        decoration: _inputDecoration(hint: '191206-3452'),
                       ),
                     ),
                   ],
@@ -225,19 +194,24 @@ class _PhoneNumberVerificationState extends ConsumerState<PhoneNumberVerificatio
       bottomNavigationBar: Padding(
         padding: EdgeInsets.fromLTRB(22.w, 0, 22.w, 24.h),
         child: SizedBox(
-            width: double.infinity,
-            height: 56.h,
-            child: CustomButton(text: "Continue", onTap: (){
-              ref.read(otpEntryFlowProvider.notifier).state = OtpEntryFlow.phoneVerification;
+          width: double.infinity,
+          height: 56.h,
+          child: CustomButton(
+            text: "Continue",
+            onTap: () {
+              // set the flow + role so the next screen can branch correctly
               ref.read(otpEntryFlowProvider.notifier).state =
                   OtpEntryFlow.phoneVerification;
+              ref.read(selectedUserRoleProvider.notifier).state =
+                  widget.isBusinessFlow ? UserRole.provider : UserRole.client;
 
               context.push(ForgetVerificationCodeScreen.routeName);
-            }, icon: Icons.arrow_forward,)),
-
+            },
+            icon: Icons.arrow_forward,
+          ),
+        ),
       ),
     );
-
   }
 
   InputDecoration _inputDecoration({required String hint}) {
@@ -251,19 +225,11 @@ class _PhoneNumberVerificationState extends ConsumerState<PhoneNumberVerificatio
       ),
       filled: true,
       fillColor: const Color(0xffF7F7F7),
-      contentPadding: EdgeInsets.symmetric(
-        horizontal: 16.w,
-        vertical: 14.h,
-      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16.r),
         borderSide: const BorderSide(color: AllColor.grey50, width: 1),
       ),
-
-
     );
   }
-
 }
-
-

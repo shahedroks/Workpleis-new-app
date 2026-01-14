@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workpleis/features/role_screen/screen/genNotifications.dart';
+import 'package:workpleis/features/role_screen/widget/custom_next_button.dart';
 import 'package:workpleis/features/auth/data/auth_flow_provider.dart';
-import 'package:workpleis/core/constants/color_control/all_color.dart';
 
 enum UserType { individual, business }
 
@@ -127,43 +127,12 @@ class _SeclectTypeScreenState extends ConsumerState<SeclectTypeScreen> {
                     });
                   },
                 ),
+                // button
+                SizedBox(height: 180.h),
 
-                SizedBox(height: 32.h),
-
-                /// Next button
-                SizedBox(
-                  width: double.infinity,
-                  height: 56.h,
-                  child: ElevatedButton(
-                    onPressed: _selected == null ? null : _goNext,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF03051A),
-                      disabledBackgroundColor:
-                          const Color(0xFF03051A).withOpacity(0.25),
-                      shape: const StadiumBorder(),
-                      elevation: 0,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Next',
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'sf_Pro',
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(width: 8.w),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 16.sp,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ),
+                CustomNextButton(
+                  enabled: _selected != null,
+                  onPressed: _goNext,
                 ),
                 SizedBox(height: 16.h),
 
