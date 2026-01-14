@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../auth/screens/login_screen.dart';
 
 import '../../auth/screens/business_login_screen.dart';
-import '../screen/seclect_role_screen.dart';
 import '../screen/seclect_type_screen.dart';
 
 import '../widget/custom_next_button.dart';
@@ -16,11 +15,11 @@ class Gennotifications extends ConsumerWidget {
   static const String routeName = '/notification';
 
   void _navigateToLogin(BuildContext context, WidgetRef ref) {
-    final selectedRole = ref.read(selectedRoleProvider);
     final selectedType = ref.read(selectedTypeProvider);
 
-    // If user selected "I'm a Client" + "For Business", go to BusinessLoginScreen
-    if (selectedRole == UserRole.client && selectedType == UserType.business) {
+    // If user selected "For Business" (either Client or Service Provider), go to BusinessLoginScreen
+    // Service Provider + "For Business" should work the same as Client + "For Business" (create account flow)
+    if (selectedType == UserType.business) {
       context.push(
         BusinessLoginScreen.routeName,
         extra: {'isBusiness': true},

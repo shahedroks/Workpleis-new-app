@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:workpleis/core/constants/color_control/all_color.dart';
 import 'package:workpleis/core/widget/global_get_started_button.dart';
 import 'package:workpleis/features/auth/screens/forget_verification_code_screen.dart';
+import 'dart:math';
 
 import '../data/auth_flow_provider.dart';
 
@@ -52,8 +53,8 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                     height: 40.w,
                     width: 40.w,
                     decoration: BoxDecoration(
-                      color:AllColor.grey70,
-                      borderRadius: BorderRadius.circular(14.r)
+                      color: AllColor.grey70,
+                      borderRadius: BorderRadius.circular(14.r),
                     ),
                     child: Center(
                       child: Icon(
@@ -78,6 +79,7 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                   ),
                 ),
                 SizedBox(height: 8.h),
+
                 /// Subtitle
                 Text(
                   "Don’t worry! we will send an OTP to your registered email address.",
@@ -113,9 +115,7 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                     fontFamily: 'sf_pro',
                     fontWeight: FontWeight.w400,
                   ),
-                  decoration: _inputDecoration(
-                    hint: 'username',
-                  ),
+                  decoration: _inputDecoration(hint: 'username'),
                 ),
 
                 SizedBox(height: 24.h),
@@ -143,9 +143,7 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(
-                          color: const Color(0xffE5E5EA),
-                        ),
+                        border: Border.all(color: const Color(0xffE5E5EA)),
                         color: const Color(0xffF7F7F7),
                       ),
                       child: Row(
@@ -201,33 +199,47 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                           fontFamily: 'sf_pro',
                           fontWeight: FontWeight.w400,
                         ),
-                        decoration: _inputDecoration(
-                          hint: '191206-3452',
-                        ),
+                        decoration: _inputDecoration(hint: '191206-3452'),
                       ),
                     ),
                   ],
                 ),
                 SizedBox(height: 80.h),
-
               ],
             ),
           ),
         ),
       ),
-       bottomNavigationBar: Padding(
-     padding: EdgeInsets.fromLTRB(22.w, 0, 22.w, 24.h),
-         child: SizedBox(
-             width: double.infinity,
-             height: 56.h,
-             child: CustomButton(text: "Continue", onTap: (){
-               ref.read(otpEntryFlowProvider.notifier).state = OtpEntryFlow.forgotPassword;
-               context.push(ForgetVerificationCodeScreen.routeName);
-             }, icon: Icons.arrow_forward,)),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.fromLTRB(22.w, 0, 22.w, 24.h),
+        child: SizedBox(
+          width: double.infinity,
+          height: 56.h,
+          child: CustomButton(
+            text: "Continue",
+            onTap: () {
+              // Generate a 6-digit OTP (format: XXX-XXX)
+              final random = Random();
+              final otp =
+                  '${random.nextInt(900) + 100}-${random.nextInt(900) + 100}';
 
-),
+              // Get the full phone number
+              final fullPhone =
+                  '+880${_phoneController.text.replaceAll('-', '')}';
+
+              // Store OTP and phone number
+              ref.read(otpEntryFlowProvider.notifier).state =
+                  OtpEntryFlow.forgotPassword;
+              ref.read(sentOtpProvider.notifier).state = otp;
+              ref.read(phoneNumberProvider.notifier).state = fullPhone;
+
+              context.push(ForgetVerificationCodeScreen.routeName);
+            },
+            icon: Icons.arrow_forward,
+          ),
+        ),
+      ),
     );
-
   }
 
   InputDecoration _inputDecoration({required String hint}) {
@@ -241,16 +253,11 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
       ),
       filled: true,
       fillColor: const Color(0xffF7F7F7),
-      contentPadding: EdgeInsets.symmetric(
-        horizontal: 16.w,
-        vertical: 14.h,
-      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16.r),
         borderSide: const BorderSide(color: AllColor.grey50, width: 1),
       ),
-
     );
   }
-
 }

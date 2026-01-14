@@ -16,12 +16,14 @@ import 'package:workpleis/features/auth/screens/new_password_screen.dart';
 import 'package:workpleis/features/auth/screens/phone_number_verification.dart';
 import 'package:workpleis/features/auth/screens/register_screen.dart';
 import 'package:workpleis/features/auth/screens/select_document_screen.dart';
+import 'package:workpleis/features/auth/screens/service_provider_verify_business.dart';
 import 'package:workpleis/features/auth/screens/take_your_face_photo.dart';
 import 'package:workpleis/features/auth/screens/veryfiy_your_business.dart';
 import 'package:workpleis/features/auth/screens/video_selfie_ready_screen.dart';
 import 'package:workpleis/features/auth/screens/video_selfie_ready_screen1.dart';
 // Client
 import 'package:workpleis/features/client/screen/client_home_screen.dart';
+import 'package:workpleis/features/client/Jobs/screen/jobs.dart';
 import 'package:workpleis/features/nav_bar/screen/bottom_nav_bar.dart';
 // Onboarding
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_01.dart';
@@ -33,6 +35,9 @@ import 'package:workpleis/features/role_screen/screen/seclect_type_screen.dart';
 // Splash
 import 'package:workpleis/features/spalashScreen/screen/splashScreen.dart';
 
+import '../features/client/message/screen/messages_screen.dart';
+import '../features/client/profile/screen/profile_screen.dart';
+import '../features/client/project/screen/project_screen.dart';
 import 'error_screen.dart';
 
 class AppRouter {
@@ -115,7 +120,6 @@ class AppRouter {
           final extras = state.extra as Map<String, dynamic>?;
           final isFromForgot = (extras?['isFromForgot'] as bool?) ?? false;
           final isBusiness = (extras?['isBusiness'] as bool?) ?? false;
-
           return PhoneNumberVerification(
             isFromForgotPassword: isFromForgot,
             isBusinessFlow: isBusiness,
@@ -214,6 +218,11 @@ class AppRouter {
       ),
 
       GoRoute(
+        path: ServiceProviderVerifyBusiness.routeName,
+        name: ServiceProviderVerifyBusiness.routeName,
+        builder: (context, state) => const ServiceProviderVerifyBusiness(),
+      ),
+      GoRoute(
         path: SeclectTypeScreen.routeName,
         name: SeclectTypeScreen.routeName,
         builder: (context, state) => const SeclectTypeScreen(),
@@ -236,6 +245,34 @@ class AppRouter {
         path: ClientHomeScreen.routeName,
         name: ClientHomeScreen.routeName,
         builder: (context, state) => const ClientHomeScreen(),
+      ),
+
+      // 🔹 Client Jobs
+      GoRoute(
+        path: ClientJobsScreen.routeName,
+        name: ClientJobsScreen.routeName,
+        builder: (context, state) => const ClientJobsScreen(),
+      ),
+
+      // 🔹 Project
+      GoRoute(
+        path: ProjectScreen.routeName,
+        name: ProjectScreen.routeName,
+        builder: (context, state) => const ProjectScreen(),
+      ),
+
+      // 🔹 Message
+      GoRoute(
+        path: MessageScreen.routeName,
+        name: MessageScreen.routeName,
+        builder: (context, state) => const MessageScreen(),
+      ),
+
+      // 🔹 Profile
+      GoRoute(
+        path: ProfileScreen.routeName,
+        name: ProfileScreen.routeName,
+        builder: (context, state) => const ProfileScreen(),
       ),
     ],
   );

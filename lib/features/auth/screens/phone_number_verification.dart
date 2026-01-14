@@ -5,9 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:workpleis/core/constants/color_control/all_color.dart';
 import 'package:workpleis/core/widget/global_get_started_button.dart';
 import 'package:workpleis/features/auth/screens/forget_verification_code_screen.dart';
+import 'dart:math';
 
 import '../data/auth_flow_provider.dart';
 import '../data/select_your_type_provider.dart';
+import '../../role_screen/screen/seclect_role_screen.dart' hide UserRole;
 
 class PhoneNumberVerification extends ConsumerStatefulWidget {
   const PhoneNumberVerification({
@@ -199,11 +201,38 @@ class _PhoneNumberVerificationState
           child: CustomButton(
             text: "Continue",
             onTap: () {
+              // Generate a 6-digit OTP (format: XXX-XXX)
+              final random = Random();
+              final otp =
+                  '${random.nextInt(900) + 100}-${random.nextInt(900) + 100}';
+
+              // Get the full phone number
+              final fullPhone =
+                  '+880${_phoneController.text.replaceAll('-', '')}';
+
+              // Store OTP and phone number
+              ref.read(sentOtpProvider.notifier).state = otp;
+              ref.read(phoneNumberProvider.notifier).state = fullPhone;
+
               // set the flow + role so the next screen can branch correctly
               ref.read(otpEntryFlowProvider.notifier).state =
                   OtpEntryFlow.phoneVerification;
-              ref.read(selectedUserRoleProvider.notifier).state =
-                  widget.isBusinessFlow ? UserRole.provider : UserRole.client;
+
+              // Determine role: Check selected role from role screen, or use isBusinessFlow as fallback
+              final selectedRole = ref.read(selectedRoleProvider);
+
+              // If Service Provider is selected, always set as provider
+              // (regardless of business type - Service Provider + Business type should work same as Service Provider Business verification)
+              if (selectedRole == UserRole.provider) {
+                ref.read(selectedUserRoleProvider.notifier).state =
+                    UserRole.provider;
+              } else if (widget.isBusinessFlow) {
+                ref.read(selectedUserRoleProvider.notifier).state =
+                    UserRole.provider;
+              } else {
+                ref.read(selectedUserRoleProvider.notifier).state =
+                    UserRole.client;
+              }
 
               context.push(ForgetVerificationCodeScreen.routeName);
             },
