@@ -31,6 +31,7 @@ class _BottomNavBarState extends ConsumerState<BottomNavBar> {
         children: const [
           ClientHomeScreen(),
           ClientJobsScreen(),
+          
           MessageScreen(),
           ProfileScreen(),
         ],

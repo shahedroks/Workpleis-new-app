@@ -25,6 +25,8 @@ import 'package:workpleis/features/auth/screens/video_selfie_ready_screen1.dart'
 import 'package:workpleis/features/client/screen/client_home_screen.dart';
 import 'package:workpleis/features/client/Jobs/screen/jobs.dart';
 import 'package:workpleis/features/client/Jobs/screen/postJob_wizard_screen.dart';
+import 'package:workpleis/features/client/Jobs/screen/send_report_screen.dart';
+import 'package:workpleis/features/client/Jobs/screen/request_refund_screen.dart';
 import 'package:workpleis/features/nav_bar/screen/bottom_nav_bar.dart';
 // Onboarding
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_01.dart';
@@ -258,6 +260,16 @@ class AppRouter {
         path: ClientJobsScreen.routeName,
         name: ClientJobsScreen.routeName,
         builder: (context, state) => const ClientJobsScreen(),
+      ),
+      GoRoute(
+        path: SendReportScreen.routeName,
+        name: SendReportScreen.routeName,
+        builder: (context, state) => const SendReportScreen(),
+      ),
+      GoRoute(
+        path: RequestRefundScreen.routeName,
+        name: RequestRefundScreen.routeName,
+        builder: (context, state) => const RequestRefundScreen(),
       ),
 
       // 🔹 Project
