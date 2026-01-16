@@ -27,46 +27,57 @@ class _SendReportScreenState extends State<SendReportScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AllColor.white,
-      appBar: AppBar(
-        backgroundColor: AllColor.white,
-        elevation: 0,
-        leading: GestureDetector(
-          onTap: () => context.pop(),
-          child: Container(
-            margin: EdgeInsets.all(4.w),
-            width: 24.w,
-            height: 24.h,
-            decoration: BoxDecoration(
-              color: AllColor.white,
-              borderRadius: BorderRadius.circular(8.r),
-              border: Border.all(
-                color: AllColor.grey200,
-                width: 1,
-              ),
-            ),
-            child: Center(
-              child: Icon(
-                Icons.arrow_back,
-                color: AllColor.black,
-                size: 20.sp,
-              ),
-            ),
-          ),
-        ),
-        centerTitle: true,
-        title: Text(
-          'Send a Report',
-          style: TextStyle(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'plus_Jakarta_Sans',
-            color: AllColor.black,
-          ),
-        ),
-      ),
       body: SafeArea(
         child: Column(
           children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 8.h),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: InkWell(
+                      onTap: () => context.pop(),
+                      borderRadius: BorderRadius.circular(12.r),
+                      child: Container(
+                        height: 40.w,
+                        width: 40.w,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12.r),
+                          border:
+                          Border.all(color: AllColor.grey200, width: 1),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.04),
+                              blurRadius: 14,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.arrow_back,
+                            size: 22.sp,
+                            color: const Color(0xFF111111),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'Send a Report',
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                      fontFamily: 'plus_Jakarta_Sans',
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 24.w),

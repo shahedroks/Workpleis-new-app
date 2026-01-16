@@ -27,6 +27,7 @@ import 'package:workpleis/features/client/Jobs/screen/jobs.dart';
 import 'package:workpleis/features/client/Jobs/screen/postJob_wizard_screen.dart';
 import 'package:workpleis/features/client/Jobs/screen/send_report_screen.dart';
 import 'package:workpleis/features/client/Jobs/screen/request_refund_screen.dart';
+import 'package:workpleis/features/client/Jobs/screen/job_completed_success_screen.dart';
 import 'package:workpleis/features/nav_bar/screen/bottom_nav_bar.dart';
 import 'package:workpleis/features/notifications/screen/notifications_screen.dart';
 // Onboarding
@@ -276,6 +277,13 @@ class AppRouter {
         path: RequestRefundScreen.routeName,
         name: RequestRefundScreen.routeName,
         builder: (context, state) => const RequestRefundScreen(),
+      ),
+
+      // 🔹 Job Completed Success
+      GoRoute(
+        path: JobCompletedSuccessScreen.routeName,
+        name: JobCompletedSuccessScreen.routeName,
+        builder: (context, state) => const JobCompletedSuccessScreen(),
       ),
 
       // 🔹 Project
