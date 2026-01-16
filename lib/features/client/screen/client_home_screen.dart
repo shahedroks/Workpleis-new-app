@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:workpleis/core/constants/color_control/all_color.dart';
 import 'package:workpleis/core/constants/color_control/home_color.dart';
+import 'package:workpleis/features/client/Jobs/screen/postJob_wizard_screen.dart';
+import 'package:workpleis/features/notifications/screen/notifications_screen.dart';
 
 class ClientHomeScreen extends StatefulWidget {
   const ClientHomeScreen({super.key});
@@ -252,7 +255,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
 
                       // ✅ Video card after steps
                       Padding(
-                       padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
                         child: _HowItWorksVideoCard(),
                       ),
 
@@ -315,7 +318,10 @@ class _HeaderState extends State<_Header> {
           ],
         ),
         SizedBox(width: 12.w),
-        _CircleIcon(icon: Icons.notifications_outlined, onTap: () {}),
+        _CircleIcon(
+          icon: Icons.notifications_outlined,
+          onTap: () => context.push(NotificationsScreen.routeName),
+        ),
         Spacer(),
         GestureDetector(
           key: _menuButtonKey,
@@ -353,7 +359,7 @@ class _HeaderState extends State<_Header> {
                       label: 'Create Job',
                     ),
                     onTap: () {
-                      // Handle Create Job
+                      context.push(PostJobWizardScreen.routeName);
                     },
                   ),
                   PopupMenuItem(

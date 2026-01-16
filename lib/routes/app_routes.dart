@@ -28,6 +28,7 @@ import 'package:workpleis/features/client/Jobs/screen/postJob_wizard_screen.dart
 import 'package:workpleis/features/client/Jobs/screen/send_report_screen.dart';
 import 'package:workpleis/features/client/Jobs/screen/request_refund_screen.dart';
 import 'package:workpleis/features/nav_bar/screen/bottom_nav_bar.dart';
+import 'package:workpleis/features/notifications/screen/notifications_screen.dart';
 // Onboarding
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_01.dart';
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_05.dart';
@@ -46,7 +47,7 @@ import 'error_screen.dart';
 class AppRouter {
   // initial route
   //static const String initial = ClientHomeScreen.routeName;
-  static final String initial = SplashScreen.routeName;
+  static final String initial = BottomNavBar.routeName;
   static final GoRouter appRouter = GoRouter(
     initialLocation: initial,
 
@@ -240,6 +241,11 @@ class AppRouter {
         path: Gennotifications.routeName,
         name: Gennotifications.routeName,
         builder: (context, state) => const Gennotifications(),
+      ),
+      GoRoute(
+        path: NotificationsScreen.routeName,
+        name: NotificationsScreen.routeName,
+        builder: (context, state) => const NotificationsScreen(),
       ),
 
       GoRoute(

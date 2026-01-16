@@ -1,7 +1,10 @@
 import 'dart:math';
+import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 /// =======================
 ///  MODELS
@@ -27,17 +30,20 @@ class _PostJobWizardScreenState extends State<PostJobWizardScreen> {
   final _searchCtrl = TextEditingController();
   final _descCtrl = TextEditingController();
 
+  final ImagePicker _imagePicker = ImagePicker();
+
   // data
   late final List<StepItem> steps;
   late final List<CategoryItem> mostUsed;
   late final List<CategoryItem> allCategories;
 
-  final Set<String> _selectedCategoryIds = {};
+  final Set<String> _selectedSearchCategoryIds = {};
+  final Set<String> _selectedMostUsedCategoryIds = {};
   ProjectSize? _projectSize;
   final List<AttachedFile> _files = [];
 
   String? _budgetDropdown; // "$600-$1200"
-  String? _budgetQuick; // "SAR 600 +"
+  String? _budgetQuick; // "SAR 600"
   bool _budgetError = false;
 
   @override
@@ -107,7 +113,7 @@ class _PostJobWizardScreenState extends State<PostJobWizardScreen> {
   static const Color kMuted = Color(0xFF7A7A7A);
   static const Color kText = Color(0xFF111111);
   static const Color kChipBg = Color(0xFFF3F3F3);
-  static const Color kLime = Color(0xFFCAFF45);
+  static const Color kLime = Color(0xFF82b500);
 
   // -----------------------
   //  FLOW ACTIONS
@@ -185,39 +191,251 @@ class _PostJobWizardScreenState extends State<PostJobWizardScreen> {
     );
   }
 
-  List<CategoryItem> _selectedCategories() {
+  Set<String> _allSelectedCategoryIds() {
+    return {..._selectedSearchCategoryIds, ..._selectedMostUsedCategoryIds};
+  }
+
+  List<CategoryItem> _categoriesFromIds(Set<String> ids) {
     final map = <String, CategoryItem>{};
     for (final c in mostUsed) map[c.id] = c;
     for (final c in allCategories) map[c.id] = c;
-    return _selectedCategoryIds
-        .map((id) => map[id])
-        .whereType<CategoryItem>()
-        .toList();
+    return ids.map((id) => map[id]).whereType<CategoryItem>().toList();
+  }
+
+  List<CategoryItem> _selectedCategories() {
+    return _categoriesFromIds(_allSelectedCategoryIds());
+  }
+
+  List<CategoryItem> _selectedSearchCategories() {
+    return _categoriesFromIds(_selectedSearchCategoryIds);
   }
 
   // -----------------------
   //  CATEGORY actions
   // -----------------------
-  void _toggleCategory(CategoryItem c) {
+  void _toggleSearchCategory(CategoryItem c) {
     setState(() {
-      if (_selectedCategoryIds.contains(c.id)) {
-        _selectedCategoryIds.remove(c.id);
+      if (_selectedSearchCategoryIds.contains(c.id)) {
+        _selectedSearchCategoryIds.remove(c.id);
       } else {
-        _selectedCategoryIds.add(c.id);
+        _selectedSearchCategoryIds.add(c.id);
+      }
+    });
+  }
+
+  void _toggleMostUsedCategory(CategoryItem c) {
+    setState(() {
+      if (_selectedMostUsedCategoryIds.contains(c.id)) {
+        _selectedMostUsedCategoryIds.remove(c.id);
+      } else {
+        _selectedMostUsedCategoryIds.add(c.id);
       }
     });
   }
 
   // -----------------------
-  //  FILE actions (demo)
+  //  FILE actions (images)
   // -----------------------
-  void _mockAddFile() {
-    // তুমি চাইলে এখানে FilePicker integrate করবে।
-    // এখন demo হিসেবে file add করছি।
-    final idx = Random().nextInt(999);
+  static const int _maxAttachmentBytes = 10 * 1024 * 1024; // 10 MB
+
+  Future<void> _showAttachImageSheet() async {
+    await showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(18.r)),
+      ),
+      builder: (sheetCtx) {
+        return SafeArea(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 16.h),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 44.w,
+                  height: 4.h,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE6E7EB),
+                    borderRadius: BorderRadius.circular(99.r),
+                  ),
+                ),
+                SizedBox(height: 14.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Attach image",
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w800,
+                      color: kText,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Container(
+                    width: 40.w,
+                    height: 40.w,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF3F3F3),
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(color: kBorder),
+                    ),
+                    child: Icon(
+                      Icons.camera_alt_rounded,
+                      color: kText,
+                      size: 20.sp,
+                    ),
+                  ),
+                  title: Text(
+                    "Camera",
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w700,
+                      color: kText,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.of(sheetCtx).pop();
+                    _pickSingleImage(ImageSource.camera);
+                  },
+                ),
+                Divider(color: kBorder, height: 1.h),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Container(
+                    width: 40.w,
+                    height: 40.w,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF3F3F3),
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(color: kBorder),
+                    ),
+                    child: Icon(
+                      Icons.photo_library_rounded,
+                      color: kText,
+                      size: 20.sp,
+                    ),
+                  ),
+                  title: Text(
+                    "Gallery",
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w700,
+                      color: kText,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.of(sheetCtx).pop();
+                    _pickImagesFromGallery();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _pickSingleImage(ImageSource source) async {
+    try {
+      // Let the sheet close first (avoids UI flicker on some devices)
+      await Future.delayed(const Duration(milliseconds: 150));
+
+      final picked = await _imagePicker.pickImage(
+        source: source,
+        imageQuality: 85,
+      );
+      if (picked == null) return;
+      await _addPickedImage(picked);
+    } catch (_) {
+      if (!mounted) return;
+      _toast("Couldn't pick image. Please try again.");
+    }
+  }
+
+  Future<void> _pickImagesFromGallery() async {
+    try {
+      await Future.delayed(const Duration(milliseconds: 150));
+
+      final picked = await _imagePicker.pickMultiImage(imageQuality: 85);
+      if (picked.isEmpty) return;
+
+      int added = 0;
+      int skipped = 0;
+
+      for (final x in picked) {
+        final ok = await _addPickedImage(x, showErrors: false);
+        if (ok) {
+          added += 1;
+        } else {
+          skipped += 1;
+        }
+      }
+
+      if (!mounted) return;
+      if (added > 0 && skipped > 0) {
+        _toast("Added $added image(s), skipped $skipped.");
+      } else if (added == 0 && skipped > 0) {
+        _toast("No image added (some were too large / duplicated).");
+      }
+    } catch (_) {
+      if (!mounted) return;
+      _toast("Couldn't pick images. Please try again.");
+    }
+  }
+
+  Future<bool> _addPickedImage(XFile picked, {bool showErrors = true}) async {
+    final exists = _files.any((f) => f.path == picked.path);
+    if (exists) {
+      if (showErrors) _toast("This image is already attached.");
+      return false;
+    }
+
+    final byteLength = await picked.length();
+    if (byteLength > _maxAttachmentBytes) {
+      if (showErrors) _toast("Max file size is 10 MB.");
+      return false;
+    }
+
+    final name = picked.name.isNotEmpty ? picked.name : _basename(picked.path);
+    final sizeLabel = _formatBytes(byteLength);
+    final previewBytes = await picked.readAsBytes();
+
+    if (!mounted) return false;
     setState(() {
-      _files.add(AttachedFile("Attachment file $idx.jpeg", "1.2 MB"));
+      _files.add(
+        AttachedFile(
+          name: name,
+          sizeLabel: sizeLabel,
+          path: picked.path,
+          bytes: previewBytes,
+        ),
+      );
     });
+
+    return true;
+  }
+
+  String _basename(String p) {
+    final parts = p.split(RegExp(r'[\\/]+'));
+    return parts.isEmpty ? p : parts.last;
+  }
+
+  String _formatBytes(int bytes) {
+    if (bytes <= 0) return "0 B";
+    const units = ["B", "KB", "MB", "GB"];
+    double size = bytes.toDouble();
+    int unit = 0;
+    while (size >= 1024 && unit < units.length - 1) {
+      size /= 1024;
+      unit += 1;
+    }
+    final label = unit == 0 ? size.toStringAsFixed(0) : size.toStringAsFixed(1);
+    return "$label ${units[unit]}";
   }
 
   void _removeFile(int i) {
@@ -230,7 +448,7 @@ class _PostJobWizardScreenState extends State<PostJobWizardScreen> {
   void _pickQuickBudget(String v) {
     setState(() {
       _budgetError = false;
-      _budgetQuick = v;
+      _budgetQuick = v.replaceAll("+", "").trim();
       _budgetDropdown = null;
     });
   }
@@ -238,103 +456,104 @@ class _PostJobWizardScreenState extends State<PostJobWizardScreen> {
   // -----------------------
   //  APP BAR (1/4 progress)
   // -----------------------
-PreferredSizeWidget _buildAppBar() {
-  final progress = (_step + 1) / 4.0;
+  PreferredSizeWidget _buildAppBar() {
+    final progress = (_step + 1) / 4.0;
 
-  return AppBar(
-    backgroundColor: Colors.white,
-    elevation: 0,
-    toolbarHeight: 84.h, // ✅ match your big header height
-    centerTitle: true,
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      toolbarHeight: 84.h, // ✅ match your big header height
+      centerTitle: true,
 
-    leadingWidth: 24.w + 40.w + 12.w, // left padding + button + small space
-    leading: Padding(
-      padding: EdgeInsets.only(left: 24.w),
-      child: Align(
-        alignment: Alignment.centerLeft, // ✅ vertically centered
-        child: InkWell(
-          onTap: _back,
-          borderRadius: BorderRadius.circular(8.r),
-          child: Container(
-            width: 40.w,
-            height: 40.w,
-            padding: EdgeInsets.all(8.w),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.r),
-              border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
-            ),
-            child: Center(
-              child: Icon(
-                Icons.arrow_back_ios_new_rounded, // ✅ thin like figma
-                size: 18.sp,
-                color: Colors.black,
+      leadingWidth: 24.w + 40.w + 12.w, // left padding + button + small space
+      leading: Padding(
+        padding: EdgeInsets.only(left: 24.w),
+        child: Align(
+          alignment: Alignment.centerLeft, // ✅ vertically centered
+          child: InkWell(
+            onTap: _back,
+            borderRadius: BorderRadius.circular(8.r),
+            child: Container(
+              width: 40.w,
+              height: 40.w,
+              padding: EdgeInsets.all(8.w),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.r),
+                border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.arrow_back_ios_new_rounded, // ✅ thin like figma
+                  size: 18.sp,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
         ),
       ),
-    ),
 
-    title: Padding(
-      padding: EdgeInsets.only(top: 2.h),
-      child: Text(
-        "Post a job",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontFamily: "SF Pro Display", // ✅ if added in pubspec
-          fontSize: 18.sp,
-          fontWeight: FontWeight.w500,
-          height: 1.0,
-          letterSpacing: 0,
-          color: const Color(0xFF000000),
+      title: Padding(
+        padding: EdgeInsets.only(top: 2.h),
+        child: Text(
+          "Post a job",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: "SF Pro Display", // ✅ if added in pubspec
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w500,
+            height: 1.0,
+            letterSpacing: 0,
+            color: const Color(0xFF000000),
+          ),
         ),
       ),
-    ),
 
-    actions: [
-      Padding(
-        padding: EdgeInsets.only(right: 16.w),
-        child: Center( // ✅ actions vertically centered
-          child: Row(
-            children: [
-              Container(
-                width: 54.w,
-                height: 6.h,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEDEDED),
-                  borderRadius: BorderRadius.circular(99.r),
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    width: 54.w * progress,
-                    height: 6.h,
-                    decoration: BoxDecoration(
-                      color: kLime,
-                      borderRadius: BorderRadius.circular(99.r),
+      actions: [
+        Padding(
+          padding: EdgeInsets.only(right: 16.w),
+          child: Center(
+            // ✅ actions vertically centered
+            child: Row(
+              children: [
+                Container(
+                  width: 54.w,
+                  height: 6.h,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEDEDED),
+                    borderRadius: BorderRadius.circular(99.r),
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      width: 54.w * progress,
+                      height: 6.h,
+                      decoration: BoxDecoration(
+                        color: kLime,
+                        borderRadius: BorderRadius.circular(99.r),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(width: 8.w),
-              Text(
-                "${_step + 1}/4",
-                style: TextStyle(
-                  fontFamily: "SF Pro Display",
-                  fontSize: 18.sp,           // ✅ figma side number looks big
-                  fontWeight: FontWeight.w500,
-                  height: 1.0,
-                  color: const Color(0xFF9B9B9B),
+                SizedBox(width: 8.w),
+                Text(
+                  "${_step + 1}/4",
+                  style: TextStyle(
+                    fontFamily: "SF Pro Display",
+                    fontSize: 18.sp, // ✅ figma side number looks big
+                    fontWeight: FontWeight.w500,
+                    height: 1.0,
+                    color: const Color(0xFF9B9B9B),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    ],
-  );
-}
+      ],
+    );
+  }
 
   // -----------------------
   //  BOTTOM BUTTON (black bar)
@@ -414,9 +633,9 @@ PreferredSizeWidget _buildAppBar() {
               ),
               child: Column(
                 children: results.map((c) {
-                  final added = _selectedCategoryIds.contains(c.id);
+                  final added = _selectedSearchCategoryIds.contains(c.id);
                   return InkWell(
-                    onTap: () => _toggleCategory(c),
+                    onTap: () => _toggleSearchCategory(c),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 12.w,
@@ -468,12 +687,12 @@ PreferredSizeWidget _buildAppBar() {
             spacing: 10.w,
             runSpacing: 10.h,
             children: mostUsed.map((c) {
-              final selected = _selectedCategoryIds.contains(c.id);
+              final selected = _selectedMostUsedCategoryIds.contains(c.id);
               return _pillChip(
                 text: c.name,
                 selected: selected,
                 trailing: selected ? null : const Icon(Icons.add, size: 16),
-                onTap: () => _toggleCategory(c),
+                onTap: () => _toggleMostUsedCategory(c),
               );
             }).toList(),
           ),
@@ -481,14 +700,14 @@ PreferredSizeWidget _buildAppBar() {
           SizedBox(height: 14.h),
 
           // Selected category chips (green bordered like screenshot)
-          if (_selectedCategoryIds.isNotEmpty) ...[
+          if (_selectedSearchCategoryIds.isNotEmpty) ...[
             Wrap(
               spacing: 10.w,
               runSpacing: 10.h,
-              children: _selectedCategories().map((c) {
+              children: _selectedSearchCategories().map((c) {
                 return _selectedChip(
                   text: c.name,
-                  onRemove: () => _toggleCategory(c),
+                  onRemove: () => _toggleSearchCategory(c),
                 );
               }).toList(),
             ),
@@ -511,22 +730,34 @@ PreferredSizeWidget _buildAppBar() {
           SizedBox(height: 10.h),
           _fieldLabel("Project Size"),
           SizedBox(height: 10.h),
-          _radioCard(
-            title: "Large",
-            subtitle: "Extended or multifaceted  [estimate : 1+ day ]",
-            value: ProjectSize.large,
-          ),
-          SizedBox(height: 10.h),
-          _radioCard(
-            title: "Medium",
-            subtitle: "Precisely defined projects [estimate : 6 - 10 hours]",
-            value: ProjectSize.medium,
-          ),
-          SizedBox(height: 10.h),
-          _radioCard(
-            title: "Small",
-            subtitle: "Simple and efficient tasks [estimate : 4 - 6 hours]",
-            value: ProjectSize.small,
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(14.r),
+              border: Border.all(color: kBorder),
+            ),
+            child: Column(
+              children: [
+                _projectSizeOption(
+                  title: "Large",
+                  subtitlePrefix: "Extended or multifaceted  ",
+                  estimateText: "[estimate : 1+ day ]",
+                  value: ProjectSize.large,
+                ),
+                _projectSizeOption(
+                  title: "Medium",
+                  subtitlePrefix: "Precisely defined projects ",
+                  estimateText: "[estimate : 6 - 10 hours]",
+                  value: ProjectSize.medium,
+                ),
+                _projectSizeOption(
+                  title: "Small",
+                  subtitlePrefix: "Simple and efficient tasks ",
+                  estimateText: "[estimate : 4 - 6 hours]",
+                  value: ProjectSize.small,
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 80.h),
         ],
@@ -602,7 +833,7 @@ PreferredSizeWidget _buildAppBar() {
           DashedBorder(
             radius: 12.r,
             child: InkWell(
-              onTap: _mockAddFile,
+              onTap: _showAttachImageSheet,
               child: Container(
                 padding: EdgeInsets.all(14.w),
                 child: Row(
@@ -614,11 +845,7 @@ PreferredSizeWidget _buildAppBar() {
                         color: const Color(0xFFEFF7D7),
                         borderRadius: BorderRadius.circular(10.r),
                       ),
-                      child: Icon(
-                        Icons.attach_file,
-                        size: 20.sp,
-                        color: Colors.green,
-                      ),
+                      child: Icon(Icons.attach_file, size: 20.sp, color: kLime),
                     ),
                     SizedBox(width: 12.w),
                     Expanded(
@@ -635,7 +862,7 @@ PreferredSizeWidget _buildAppBar() {
                           ),
                           SizedBox(height: 4.h),
                           Text(
-                            "pdf, png, jpeg and max 10mb",
+                            "png, jpeg • max 10mb",
                             style: GoogleFonts.plusJakartaSans(
                               fontSize: 11.sp,
                               fontWeight: FontWeight.w600,
@@ -677,7 +904,9 @@ PreferredSizeWidget _buildAppBar() {
                         border: Border.all(color: kBorder),
                       ),
                       child: Icon(
-                        Icons.insert_drive_file_rounded,
+                        f.isImage
+                            ? Icons.image_rounded
+                            : Icons.insert_drive_file_rounded,
                         size: 18.sp,
                         color: kMuted,
                       ),
@@ -750,16 +979,16 @@ PreferredSizeWidget _buildAppBar() {
     final dropdownBorder = _budgetError ? Colors.red : kBorder;
 
     final quickCosts = [
-      "SAR 400 +",
-      "SAR 600 +",
-      "SAR 800 +",
-      "SAR 1000 +",
-      "SAR 1200 +",
-      "SAR 1400 +",
-      "SAR 1600 +",
-      "SAR 1800 +",
-      "SAR 2000 +",
-      "SAR 2200 +",
+      "SAR 400",
+      "SAR 600",
+      "SAR 800",
+      "SAR 1000",
+      "SAR 1200",
+      "SAR 1400",
+      "SAR 1600",
+      "SAR 1800",
+      "SAR 2000",
+      "SAR 2200",
     ];
 
     final dropdownItems = [
@@ -862,28 +1091,58 @@ PreferredSizeWidget _buildAppBar() {
             spacing: 10.w,
             runSpacing: 10.h,
             children: quickCosts.map((c) {
-              final selected = _budgetQuick == c;
+              final selected = _budgetQuick?.replaceAll("+", "").trim() == c;
+              final label = c;
               return InkWell(
                 onTap: () => _pickQuickBudget(c),
+                borderRadius: BorderRadius.circular(999.r),
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 12.w,
                     vertical: 8.h,
                   ),
                   decoration: BoxDecoration(
-                    color: selected ? kLime.withOpacity(0.30) : kChipBg,
+                    color: selected ? Colors.white : const Color(0xFFEDEDED),
                     borderRadius: BorderRadius.circular(999.r),
                     border: Border.all(
                       color: selected ? kLime : Colors.transparent,
+                      width: selected ? 2 : 1,
                     ),
+                    boxShadow: selected
+                        ? [
+                            BoxShadow(
+                              color: kLime.withOpacity(0.20),
+                              blurRadius: 18,
+                              spreadRadius: 2,
+                              offset: const Offset(0, 10),
+                            ),
+                          ]
+                        : null,
                   ),
-                  child: Text(
-                    c,
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                      color: selected ? Colors.black : const Color(0xFF505050),
-                    ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        label,
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color: selected ? kLime : const Color(0xFF4E4E4E),
+                        ),
+                      ),
+                      SizedBox(width: 6.w),
+                      if (selected)
+                        Icon(Icons.check_rounded, size: 18.sp, color: kLime)
+                      else
+                        Text(
+                          "+",
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w900,
+                            color: kText,
+                          ),
+                        ),
+                    ],
                   ),
                 ),
               );
@@ -903,7 +1162,7 @@ PreferredSizeWidget _buildAppBar() {
     return Text(
       t,
       style: GoogleFonts.plusJakartaSans(
-        fontSize: 13.sp,
+        fontSize: 16.sp,
         fontWeight: FontWeight.w700,
         color: kText,
       ),
@@ -917,7 +1176,7 @@ PreferredSizeWidget _buildAppBar() {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color(0xFFFfffff),
         border: Border.all(color: kBorder),
         borderRadius: BorderRadius.circular(12.r),
       ),
@@ -992,92 +1251,107 @@ PreferredSizeWidget _buildAppBar() {
   }
 
   Widget _selectedChip({required String text, required VoidCallback onRemove}) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-      decoration: BoxDecoration(
-        color: kLime.withOpacity(0.20),
-        borderRadius: BorderRadius.circular(999.r),
-        border: Border.all(color: kLime),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            text,
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
+    return InkWell(
+      onTap: onRemove,
+      borderRadius: BorderRadius.circular(999.r),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(999.r),
+          border: Border.all(color: kLime, width: 2),
+          boxShadow: [
+            BoxShadow(
+              color: kLime.withOpacity(0.22),
+              blurRadius: 22,
+              spreadRadius: 4,
+              offset: const Offset(0, 10),
             ),
-          ),
-          SizedBox(width: 8.w),
-          InkWell(
-            onTap: onRemove,
-            child: Icon(Icons.close_rounded, size: 16.sp, color: Colors.black),
-          ),
-        ],
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              text,
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
+                color: kLime,
+              ),
+            ),
+            SizedBox(width: 10.w),
+            Icon(Icons.check_rounded, size: 18.sp, color: kLime),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _radioCard({
+  Widget _projectSizeOption({
     required String title,
-    required String subtitle,
+    required String subtitlePrefix,
+    required String estimateText,
     required ProjectSize value,
   }) {
-    final selected = _projectSize == value;
-    return Container(
-      padding: EdgeInsets.all(14.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: kBorder),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Radio<ProjectSize>(
-            value: value,
-            groupValue: _projectSize,
-            activeColor: Colors.green,
-            onChanged: (v) => setState(() => _projectSize = v),
-          ),
-          SizedBox(width: 6.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w800,
-                    color: kText,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  subtitle,
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: kMuted,
-                    height: 1.25,
-                  ),
-                ),
-              ],
+    return InkWell(
+      onTap: () => setState(() => _projectSize = value),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 18.h),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Radio<ProjectSize>(
+              value: value,
+              groupValue: _projectSize,
+              activeColor: kLime,
+              fillColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.selected)) return kLime;
+                return const Color(0xFFBDBDBD);
+              }),
+              onChanged: (v) => setState(() => _projectSize = v),
             ),
-          ),
-          if (selected)
-            Padding(
-              padding: EdgeInsets.only(top: 6.h),
-              child: Icon(
-                Icons.check_circle_rounded,
-                color: Colors.green,
-                size: 18.sp,
+            SizedBox(width: 6.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w800,
+                      color: kText,
+                    ),
+                  ),
+                  SizedBox(height: 6.h),
+                  RichText(
+                    text: TextSpan(
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
+                        color: kMuted,
+                        height: 1.3,
+                      ),
+                      children: [
+                        TextSpan(text: subtitlePrefix),
+                        TextSpan(
+                          text: estimateText,
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xFF3A3A3A),
+                            height: 1.3,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -1115,21 +1389,48 @@ class JobPreviewScreen extends StatelessWidget {
   static const Color kBorder = Color(0xFFE6E7EB);
   static const Color kMuted = Color(0xFF7A7A7A);
   static const Color kText = Color(0xFF111111);
-  static const Color kLime = Color(0xFFCAFF45);
+  static const Color kLime = Color(0xFF82b500);
 
-  String _sizeLabel(ProjectSize s) {
+  ({String title, String subtitlePrefix, String estimateText}) _sizeMeta(
+    ProjectSize s,
+  ) {
     switch (s) {
       case ProjectSize.large:
-        return "Large\nExtended or multifaceted tasks [estimate : 1+ day ]";
+        return (
+          title: "Large",
+          subtitlePrefix: "Extended or multifaceted tasks ",
+          estimateText: "[estimate : 1+ day ]",
+        );
       case ProjectSize.medium:
-        return "Medium\nPrecisely defined projects [estimate : 6 - 10 hours]";
+        return (
+          title: "Medium",
+          subtitlePrefix: "Precisely defined projects ",
+          estimateText: "[estimate : 6 - 10 hours]",
+        );
       case ProjectSize.small:
-        return "Small\nSimple and efficient tasks [estimate : 4 - 6 hours]";
+        return (
+          title: "Small",
+          subtitlePrefix: "Simple and efficient tasks ",
+          estimateText: "[estimate : 4 - 6 hours]",
+        );
     }
+  }
+
+  Widget _sectionLabel(String t) {
+    return Text(
+      t,
+      style: GoogleFonts.plusJakartaSans(
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w700,
+        color: kMuted,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = _sizeMeta(draft.size);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -1153,9 +1454,36 @@ class JobPreviewScreen extends StatelessWidget {
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () => _openMenu(context),
-            icon: Icon(Icons.more_vert_rounded, size: 22.sp, color: kText),
+          Padding(
+            padding: EdgeInsets.only(right: 16.w),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                InkWell(
+                  onTap: () => _openMenu(context),
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: Container(
+                    width: 40.w,
+                    height: 40.w,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.r),
+                      border: Border.all(
+                        color: const Color(0xFFE0E0E0),
+                        width: 1,
+                      ),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.more_vert_rounded,
+                        size: 22.sp,
+                        color: kText,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -1164,15 +1492,8 @@ class JobPreviewScreen extends StatelessWidget {
         child: ListView(
           children: [
             SizedBox(height: 12.h),
-            Text(
-              "Job title",
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w700,
-                color: kMuted,
-              ),
-            ),
-            SizedBox(height: 8.h),
+            _sectionLabel("Job title"),
+            SizedBox(height: 6.h),
             Text(
               draft.title,
               style: GoogleFonts.plusJakartaSans(
@@ -1182,16 +1503,10 @@ class JobPreviewScreen extends StatelessWidget {
                 height: 1.25,
               ),
             ),
-
-            SizedBox(height: 18.h),
-            Text(
-              "Added categories",
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w700,
-                color: kMuted,
-              ),
-            ),
+            SizedBox(height: 14.h),
+            Divider(color: kBorder, height: 1.h),
+            SizedBox(height: 14.h),
+            _sectionLabel("Added categories"),
             SizedBox(height: 10.h),
             Wrap(
               spacing: 10.w,
@@ -1203,89 +1518,86 @@ class JobPreviewScreen extends StatelessWidget {
                     vertical: 8.h,
                   ),
                   decoration: BoxDecoration(
-                    color: kLime.withOpacity(0.20),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(999.r),
-                    border: Border.all(color: kLime),
+                    border: Border.all(color: kLime, width: 2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: kLime.withOpacity(0.10),
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
                   ),
                   child: Text(
                     c.name,
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black,
+                      color: kLime,
                     ),
                   ),
                 );
               }).toList(),
             ),
 
-            SizedBox(height: 18.h),
+            SizedBox(height: 14.h),
+            Divider(color: kBorder, height: 1.h),
+            SizedBox(height: 14.h),
+            _sectionLabel("Project size"),
+            SizedBox(height: 8.h),
             Text(
-              "Project size",
+              size.title,
               style: GoogleFonts.plusJakartaSans(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w700,
-                color: kMuted,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w800,
+                color: kText,
               ),
             ),
-            SizedBox(height: 10.h),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(14.w),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(color: kBorder),
-              ),
-              child: Text(
-                _sizeLabel(draft.size),
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w700,
-                  color: kText,
-                  height: 1.35,
-                ),
-              ),
-            ),
-
-            SizedBox(height: 18.h),
-            Text(
-              "Description",
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w700,
-                color: kMuted,
-              ),
-            ),
-            SizedBox(height: 10.h),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(14.w),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(color: kBorder),
-              ),
-              child: Text(
-                draft.description.isEmpty ? "-" : draft.description,
+            SizedBox(height: 4.h),
+            RichText(
+              text: TextSpan(
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
-                  color: kText,
+                  color: kMuted,
                   height: 1.35,
                 ),
+                children: [
+                  TextSpan(text: size.subtitlePrefix),
+                  TextSpan(
+                    text: size.estimateText,
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF3A3A3A),
+                      height: 1.35,
+                    ),
+                  ),
+                ],
               ),
             ),
 
-            SizedBox(height: 18.h),
+            SizedBox(height: 14.h),
+            Divider(color: kBorder, height: 1.h),
+            SizedBox(height: 14.h),
+            _sectionLabel("Description"),
+            SizedBox(height: 8.h),
             Text(
-              "Attached files",
+              draft.description.isEmpty ? "-" : draft.description,
               style: GoogleFonts.plusJakartaSans(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w700,
-                color: kMuted,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w600,
+                color: kText,
+                height: 1.35,
               ),
             ),
+
+            SizedBox(height: 14.h),
+            Divider(color: kBorder, height: 1.h),
+            SizedBox(height: 14.h),
+            _sectionLabel("Attached files"),
             SizedBox(height: 10.h),
             if (draft.files.isEmpty)
               Text(
@@ -1298,24 +1610,43 @@ class JobPreviewScreen extends StatelessWidget {
               )
             else
               ...draft.files.map((f) {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: 10.h),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 36.w,
-                        height: 36.w,
+                final lower = f.name.toLowerCase();
+                final isPdf = lower.endsWith(".pdf");
+
+                final thumb = (f.isImage && f.bytes != null)
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(10.r),
+                        child: Image.memory(
+                          f.bytes!,
+                          width: 44.w,
+                          height: 44.w,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : Container(
+                        width: 44.w,
+                        height: 44.w,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF3F3F3),
+                          color: isPdf
+                              ? const Color(0xFFF8EDE4)
+                              : const Color(0xFFF3F3F3),
                           borderRadius: BorderRadius.circular(10.r),
-                          border: Border.all(color: kBorder),
                         ),
                         child: Icon(
-                          Icons.insert_drive_file_rounded,
-                          size: 18.sp,
-                          color: kMuted,
+                          isPdf
+                              ? Icons.picture_as_pdf_rounded
+                              : Icons.insert_drive_file_rounded,
+                          size: 20.sp,
+                          color: isPdf ? const Color(0xFFB35A1D) : kMuted,
                         ),
-                      ),
+                      );
+
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 12.h),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      thumb,
                       SizedBox(width: 10.w),
                       Expanded(
                         child: Column(
@@ -1348,23 +1679,17 @@ class JobPreviewScreen extends StatelessWidget {
                 );
               }),
 
-            SizedBox(height: 18.h),
-            Text(
-              "Project cost",
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w700,
-                color: kMuted,
-              ),
-            ),
+            SizedBox(height: 2.h),
+            Divider(color: kBorder, height: 1.h),
+            SizedBox(height: 14.h),
+            _sectionLabel("Project cost"),
             SizedBox(height: 10.h),
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(14.w),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: const Color(0xFFF3F3F3),
                 borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(color: kBorder),
               ),
               child: Text(
                 draft.budget,
@@ -1409,88 +1734,78 @@ class JobPreviewScreen extends StatelessWidget {
   }
 
   void _openMenu(BuildContext context) {
-    showModalBottomSheet(
+    showCupertinoModalPopup<void>(
       context: context,
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(18.r)),
-      ),
-      builder: (_) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 10.h),
-              Container(
-                width: 40.w,
-                height: 4.h,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE5E5E5),
-                  borderRadius: BorderRadius.circular(99.r),
+      builder: (sheetCtx) {
+        return CupertinoActionSheet(
+          title: Text(
+            "A Short Title is Best",
+            style: GoogleFonts.plusJakartaSans(
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF8E8E93),
+            ),
+          ),
+          message: Text(
+            "A message should be a short, complete sentence.",
+            style: GoogleFonts.plusJakartaSans(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xFF8E8E93),
+            ),
+          ),
+          actions: [
+            CupertinoActionSheetAction(
+              onPressed: () {
+                Navigator.of(sheetCtx).pop();
+                onEdit();
+              },
+              child: Text(
+                "Edit Job Post",
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF007AFF),
                 ),
               ),
-              SizedBox(height: 14.h),
-              _sheetItem(
-                context,
-                "Edit Job Post",
-                onTap: () {
-                  Navigator.pop(context);
-                  onEdit();
-                },
-              ),
-              _sheetItem(
-                context,
+            ),
+            CupertinoActionSheetAction(
+              onPressed: () => Navigator.of(sheetCtx).pop(),
+              child: Text(
                 "Save as a draft",
-                onTap: () {
-                  Navigator.pop(context);
-                },
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF007AFF),
+                ),
               ),
-              _sheetItem(
-                context,
+            ),
+            CupertinoActionSheetAction(
+              isDestructiveAction: true,
+              onPressed: () => Navigator.of(sheetCtx).pop(),
+              child: Text(
                 "Delete the Job Post",
-                destructive: true,
-                onTap: () {
-                  Navigator.pop(context);
-                },
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-              SizedBox(height: 6.h),
-              _sheetItem(
-                context,
-                "Cancel",
-                onTap: () => Navigator.pop(context),
-                isCancel: true,
+            ),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            isDefaultAction: true,
+            onPressed: () => Navigator.of(sheetCtx).pop(),
+            child: Text(
+              "Cancel",
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF007AFF),
               ),
-              SizedBox(height: 10.h),
-            ],
+            ),
           ),
         );
       },
-    );
-  }
-
-  Widget _sheetItem(
-    BuildContext context,
-    String text, {
-    VoidCallback? onTap,
-    bool destructive = false,
-    bool isCancel = false,
-  }) {
-    final color = destructive ? Colors.red : kText;
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 14.h),
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style: GoogleFonts.plusJakartaSans(
-            fontSize: 14.sp,
-            fontWeight: isCancel ? FontWeight.w800 : FontWeight.w600,
-            color: color,
-          ),
-        ),
-      ),
     );
   }
 }
@@ -1511,27 +1826,21 @@ class JobPostedSuccessScreen extends StatelessWidget {
           child: Column(
             children: [
               const Spacer(),
-              Container(
-                width: 88.w,
-                height: 88.w,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF2ECC71),
-                  borderRadius: BorderRadius.circular(22.r),
-                ),
-                child: Icon(
-                  Icons.check_rounded,
-                  size: 48.sp,
-                  color: Colors.white,
-                ),
+              Image.asset(
+                "assets/images/sucessfull.png",
+                width: 220.w,
+                height: 220.w,
+                fit: BoxFit.contain,
               ),
-              SizedBox(height: 18.h),
+              SizedBox(height: 14.h),
               Text(
                 "Job posted successfully.",
                 style: GoogleFonts.plusJakartaSans(
-                  fontSize: 18.sp,
+                  fontSize: 28.sp,
                   fontWeight: FontWeight.w900,
                   color: Colors.black,
                 ),
+                textAlign: TextAlign.center,
               ),
               const Spacer(),
               Container(
@@ -1645,7 +1954,24 @@ enum ProjectSize { large, medium, small }
 class AttachedFile {
   final String name;
   final String sizeLabel; // "1.2 MB"
-  AttachedFile(this.name, this.sizeLabel);
+  final String path;
+  final Uint8List? bytes;
+
+  AttachedFile({
+    required this.name,
+    required this.sizeLabel,
+    required this.path,
+    this.bytes,
+  });
+
+  bool get isImage {
+    final n = name.toLowerCase();
+    return n.endsWith(".png") ||
+        n.endsWith(".jpg") ||
+        n.endsWith(".jpeg") ||
+        n.endsWith(".webp") ||
+        n.endsWith(".gif");
+  }
 }
 
 class JobDraft {
