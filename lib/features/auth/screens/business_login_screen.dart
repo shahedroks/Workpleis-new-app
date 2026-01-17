@@ -8,20 +8,20 @@ import '../logic/email_valitedor.dart';
 import '../logic/password_valitedor.dart';
 import 'login_screen.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({
+class BusinessLoginScreen extends StatefulWidget {
+  const BusinessLoginScreen({
     super.key,
-    this.isBusinessFlow = false,
+    this.isBusinessFlow = true,
   });
 
-  static const routeName = '/registerScreen';
+  static const routeName = '/businessLoginScreen';
   final bool isBusinessFlow;
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<BusinessLoginScreen> createState() => _BusinessLoginScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _BusinessLoginScreenState extends State<BusinessLoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _firstNameController = TextEditingController();
@@ -93,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     GestureDetector(
                       onTap: () => context.push(
                         LoginScreen.routeName,
-                        extra: {'isBusiness': false},
+                        extra: {'isBusiness': true},
                       ),
                       child: Text(
                         "Log In",
@@ -113,9 +113,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 SizedBox(height: 28.h),
 
-                // First name
+                // Business name
                 Text(
-                  "First name",
+                  "Business name",
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: const Color(0xff171717),
@@ -128,33 +128,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: _firstNameController,
                   style: _fieldTextStyle,
                   validator: (v) =>
-                  v == null || v.isEmpty ? "Enter your first name" : null,
-                  decoration: _inputDecoration(hint: 'Enter your first name'),
+                  v == null || v.isEmpty ? "Enter your business name" : null,
+                  decoration: _inputDecoration(hint: 'Enter your business name'),
                 ),
 
                 SizedBox(height: 16.h),
-
-                // Last name
-                Text(
-                  "Last name",
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: const Color(0xff171717),
-                    fontFamily: "sf_pro",
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                TextFormField(
-                  controller: _lastNameController,
-                  style: _fieldTextStyle,
-                  validator: (v) =>
-                  v == null || v.isEmpty ? "Enter your last name" : null,
-                  decoration: _inputDecoration(hint: 'Enter your last name'),
-                ),
-
-                SizedBox(height: 16.h),
-
                 // Email
                 Text(
                   "Email*",
@@ -252,27 +230,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             TextSpan(
                               text: "Terms of Service",
                               style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                decoration: TextDecoration.underline,
-                                fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 16.sp,
                                   color: AllColor.black
                               ),
                             ),
-                             TextSpan(text: " and ",
-                               style:TextStyle(
-                                   fontSize: 16.sp,
-                                   height: 1.4,
-                                   color: const Color(0xff888888),
-                                   fontFamily: 'sf_pro',
-                                   fontWeight: FontWeight.w400,
-                             ),)  ,
+                            TextSpan(text: " and ",
+                              style:TextStyle(
+                                fontSize: 16.sp,
+                                height: 1.4,
+                                color: const Color(0xff888888),
+                                fontFamily: 'sf_pro',
+                                fontWeight: FontWeight.w400,
+                              ),)  ,
                             TextSpan(
                               text: "Privacy Policy",
                               style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                decoration: TextDecoration.underline,
-                                fontSize: 16.sp,
-                                color: AllColor.black
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 16.sp,
+                                  color: AllColor.black
                               ),
                             ),
                           ],
@@ -346,7 +324,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _onSubmit() {
-   // if (!(_formKey.currentState?.validate() ?? false)) return;
+    // if (!(_formKey.currentState?.validate() ?? false)) return;
 
     // if (!_agreeTerms) {
     //   ScaffoldMessenger.of(context).showSnackBar(

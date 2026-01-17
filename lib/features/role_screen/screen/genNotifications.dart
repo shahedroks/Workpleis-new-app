@@ -1,16 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../auth/screens/login_screen.dart';
+
+import '../../auth/screens/business_login_screen.dart';
+import '../screen/seclect_type_screen.dart';
+
 import '../widget/custom_next_button.dart';
 
-class Gennotifications extends StatelessWidget {
+class Gennotifications extends ConsumerWidget {
   const Gennotifications({super.key});
 
   static const String routeName = '/notification';
 
+  void _navigateToLogin(BuildContext context, WidgetRef ref) {
+    final selectedType = ref.read(selectedTypeProvider);
+
+    // If user selected "For Business" (either Client or Service Provider), go to BusinessLoginScreen
+    // Service Provider + "For Business" should work the same as Client + "For Business" (create account flow)
+    if (selectedType == UserType.business) {
+      context.push(
+        BusinessLoginScreen.routeName,
+        extra: {'isBusiness': true},
+      );
+    } else {
+      // Otherwise go to regular LoginScreen
+      context.push(LoginScreen.routeName);
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // main colors (approx same as UI)
+    const Color kTitleGreen = Color(0xFF064E3B);
+    const Color kHighlight = Color(0xFFE4FF5A);
+    const Color kBodyText = Color(0xFF4B5563);
+    const Color kPrimaryDark = Color(0xFF03051A);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -67,15 +94,15 @@ class Gennotifications extends StatelessWidget {
                           Image.asset(
                             'assets/images/Unerline.png',
                             fit: BoxFit.contain,
-                            width: double.infinity,
+                            width: 240.w,
                           ),
                           // Text on top of image - centered
                           Positioned.fill(
                             child: Center(
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: 20.w,
-                                  vertical: 12.h,
+                                  horizontal: 2.w,
+                                  vertical: 2.h,
                                 ),
                                 child: Text(
                                   "it's payday.",
@@ -125,7 +152,7 @@ class Gennotifications extends StatelessWidget {
                 CustomNextButton(
                   enabled: true,
                   onPressed: () {
-                    context.push(LoginScreen.routeName);
+                    _navigateToLogin(context, ref);
                   },
                   text: 'Enable notifications',
                   showArrow: false,
@@ -137,7 +164,7 @@ class Gennotifications extends StatelessWidget {
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      context.push(LoginScreen.routeName);
+                      _navigateToLogin(context, ref);
                     },
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.black,

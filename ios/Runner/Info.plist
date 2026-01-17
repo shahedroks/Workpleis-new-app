@@ -45,6 +45,12 @@
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
+		<key>NSCameraUsageDescription</key>
+		<string>We need camera access to attach photos to your job post.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>We need photo library access to attach photos to your job post.</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>We need photo library access to save photos related to your job post.</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
 	</dict>

@@ -1,21 +1,35 @@
 import 'package:go_router/go_router.dart';
 import 'package:workpleis/core/widget/global_snack_bar.dart';
+import 'package:workpleis/features/auth/screens/account_successful.dart';
+import 'package:workpleis/features/auth/screens/business_login_screen.dart';
 import 'package:workpleis/features/auth/screens/checking_liveness.dart';
 import 'package:workpleis/features/auth/screens/confirm_document_type_scanner.dart';
 import 'package:workpleis/features/auth/screens/confirm_face_photo_screen.dart';
+import 'package:workpleis/features/auth/screens/confrim_document_type_screen.dart';
 import 'package:workpleis/features/auth/screens/forget_password_screen.dart';
 import 'package:workpleis/features/auth/screens/forget_verification_code_screen.dart';
+import 'package:workpleis/features/auth/screens/frontIdentityCaptureScreen.dart';
 import 'package:workpleis/features/auth/screens/get_ready_video_selfie_screen.dart';
 // Auth
 import 'package:workpleis/features/auth/screens/login_screen.dart';
-import 'package:workpleis/features/auth/screens/register_screen.dart';
-import 'package:workpleis/features/auth/screens/account_successful.dart';
 import 'package:workpleis/features/auth/screens/new_password_screen.dart';
 import 'package:workpleis/features/auth/screens/phone_number_verification.dart';
+import 'package:workpleis/features/auth/screens/register_screen.dart';
+import 'package:workpleis/features/auth/screens/select_document_screen.dart';
+import 'package:workpleis/features/auth/screens/service_provider_verify_business.dart';
 import 'package:workpleis/features/auth/screens/take_your_face_photo.dart';
 import 'package:workpleis/features/auth/screens/veryfiy_your_business.dart';
 import 'package:workpleis/features/auth/screens/video_selfie_ready_screen.dart';
 import 'package:workpleis/features/auth/screens/video_selfie_ready_screen1.dart';
+// Client
+import 'package:workpleis/features/client/screen/client_home_screen.dart';
+import 'package:workpleis/features/client/Jobs/screen/jobs.dart';
+import 'package:workpleis/features/client/Jobs/screen/postJob_wizard_screen.dart';
+import 'package:workpleis/features/client/Jobs/screen/send_report_screen.dart';
+import 'package:workpleis/features/client/Jobs/screen/request_refund_screen.dart';
+import 'package:workpleis/features/client/Jobs/screen/job_completed_success_screen.dart';
+import 'package:workpleis/features/nav_bar/screen/bottom_nav_bar.dart';
+import 'package:workpleis/features/notifications/screen/notifications_screen.dart';
 // Onboarding
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_01.dart';
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_05.dart';
@@ -25,18 +39,16 @@ import 'package:workpleis/features/role_screen/screen/seclect_role_screen.dart';
 import 'package:workpleis/features/role_screen/screen/seclect_type_screen.dart';
 // Splash
 import 'package:workpleis/features/spalashScreen/screen/splashScreen.dart';
-// Client
-import 'package:workpleis/features/client/screen/client_home_screen.dart';
-import '../features/auth/screens/confrim_document_type_screen.dart';
-import '../features/auth/screens/frontIdentityCaptureScreen.dart';
-import '../features/auth/screens/select_document_screen.dart';
-import '../features/nav_bar/screen/bottom_nav_bar.dart';
+
+import '../features/client/message/screen/messages_screen.dart';
+import '../features/client/profile/screen/profile_screen.dart';
+import '../features/client/project/screen/project_screen.dart';
 import 'error_screen.dart';
 
 class AppRouter {
   // initial route
-  static const String initial = SplashScreen.routeName;
-
+  //static const String initial = ClientHomeScreen.routeName;
+  static final String initial = BottomNavBar.routeName;
   static final GoRouter appRouter = GoRouter(
     initialLocation: initial,
 
@@ -73,24 +85,37 @@ class AppRouter {
       GoRoute(
         path: OnboardingScreen05.routeName,
         name: OnboardingScreen05.routeName,
-        builder: (context, state) => OnboardingScreen05(),
+        builder: (context, state) => const OnboardingScreen05(),
+      ),
+      GoRoute(
+        path: PostJobWizardScreen.routeName,
+        name: PostJobWizardScreen.routeName,
+        builder: (context, state) => const PostJobWizardScreen(),
       ),
 
       // 🔹 Auth
       GoRoute(
         path: LoginScreen.routeName,
         name: LoginScreen.routeName,
-        builder: (context, state) => const LoginScreen(),
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>?;
+          final isBusiness = (extras?['isBusiness'] as bool?) ?? false;
+          return LoginScreen(isBusinessFlow: isBusiness);
+        },
       ),
       GoRoute(
         path: RegisterScreen.routeName,
         name: RegisterScreen.routeName,
-        builder: (context, state) => const RegisterScreen(),
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>?;
+          final isBusiness = (extras?['isBusiness'] as bool?) ?? false;
+          return RegisterScreen(isBusinessFlow: isBusiness);
+        },
       ),
       GoRoute(
         path: AccountSuccessful.routeName,
         name: AccountSuccessful.routeName,
-        builder: (context, state) => AccountSuccessful(),
+        builder: (context, state) => const AccountSuccessful(),
       ),
 
       GoRoute(
@@ -102,8 +127,13 @@ class AppRouter {
         path: PhoneNumberVerification.routeName,
         name: PhoneNumberVerification.routeName,
         builder: (context, state) {
-          final isFromForgot = (state.extra as bool?) ?? false;
-          return PhoneNumberVerification(isFromForgotPassword: isFromForgot);
+          final extras = state.extra as Map<String, dynamic>?;
+          final isFromForgot = (extras?['isFromForgot'] as bool?) ?? false;
+          final isBusiness = (extras?['isBusiness'] as bool?) ?? false;
+          return PhoneNumberVerification(
+            isFromForgotPassword: isFromForgot,
+            isBusinessFlow: isBusiness,
+          );
         },
       ),
       GoRoute(
@@ -131,87 +161,150 @@ class AppRouter {
       GoRoute(
         path: ConfirmDocumentTypeScreen.routeName,
         name: ConfirmDocumentTypeScreen.routeName,
-        builder: (context, state) => ConfirmDocumentTypeScreen(),
+        builder: (context, state) => const ConfirmDocumentTypeScreen(),
+      ),
+
+      GoRoute(
+        path: BusinessLoginScreen.routeName,
+        name: BusinessLoginScreen.routeName,
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>?;
+          final isBusiness = (extras?['isBusiness'] as bool?) ?? true;
+          return BusinessLoginScreen(isBusinessFlow: isBusiness);
+        },
       ),
 
       GoRoute(
         path: GetReadyVideoSelfieScreen.routeName,
         name: GetReadyVideoSelfieScreen.routeName,
-        builder: (context, state) => GetReadyVideoSelfieScreen(),
+        builder: (context, state) => const GetReadyVideoSelfieScreen(),
       ),
 
       GoRoute(
         path: ConfirmDocumentTypeScanner.routeName,
         name: ConfirmDocumentTypeScanner.routeName,
-        builder: (context, state) => ConfirmDocumentTypeScanner(),
+        builder: (context, state) => const ConfirmDocumentTypeScanner(),
       ),
       GoRoute(
         path: TakeYourFacePhoto.routeName,
         name: TakeYourFacePhoto.routeName,
-        builder: (context, state) => TakeYourFacePhoto(),
+        builder: (context, state) => const TakeYourFacePhoto(),
       ),
 
       GoRoute(
         path: ConfirmFacePhotoScreen.routeName,
         name: ConfirmFacePhotoScreen.routeName,
-        builder: (context, state) => ConfirmFacePhotoScreen(),
+        builder: (context, state) => const ConfirmFacePhotoScreen(),
       ),
-
-
 
       GoRoute(
         path: VideoSelfieReadyScreen.routeName,
         name: VideoSelfieReadyScreen.routeName,
-        builder: (context, state) => VideoSelfieReadyScreen(),
+        builder: (context, state) => const VideoSelfieReadyScreen(),
       ),
 
       GoRoute(
         path: VideoSelfieReadyScreen1.routeName,
         name: VideoSelfieReadyScreen1.routeName,
-        builder: (context, state) => VideoSelfieReadyScreen1(),
+        builder: (context, state) => const VideoSelfieReadyScreen1(),
       ),
       // 🔹 Role / Type / Notification
       GoRoute(
         path: SeclectRoleScreen.routeName,
         name: SeclectRoleScreen.routeName,
-        builder: (context, state) => SeclectRoleScreen(),
+        builder: (context, state) => const SeclectRoleScreen(),
       ),
 
       GoRoute(
         path: CheckingLiveness.routeName,
         name: CheckingLiveness.routeName,
-        builder: (context, state) =>  CheckingLiveness(),
+        builder: (context, state) => const CheckingLiveness(),
       ),
 
       GoRoute(
         path: VeryfiyYourBusiness.routeName,
         name: VeryfiyYourBusiness.routeName,
-        builder: (context, state) => VeryfiyYourBusiness(),
+        builder: (context, state) => const VeryfiyYourBusiness(),
       ),
 
       GoRoute(
+        path: ServiceProviderVerifyBusiness.routeName,
+        name: ServiceProviderVerifyBusiness.routeName,
+        builder: (context, state) => const ServiceProviderVerifyBusiness(),
+      ),
+      GoRoute(
         path: SeclectTypeScreen.routeName,
         name: SeclectTypeScreen.routeName,
-        builder: (context, state) => SeclectTypeScreen(),
+        builder: (context, state) => const SeclectTypeScreen(),
       ),
 
       GoRoute(
         path: Gennotifications.routeName,
         name: Gennotifications.routeName,
-        builder: (context, state) => Gennotifications(),
+        builder: (context, state) => const Gennotifications(),
+      ),
+      GoRoute(
+        path: NotificationsScreen.routeName,
+        name: NotificationsScreen.routeName,
+        builder: (context, state) => const NotificationsScreen(),
       ),
 
       GoRoute(
         path: BottomNavBar.routeName,
         name: BottomNavBar.routeName,
-        builder: (context, state) => BottomNavBar(),
+        builder: (context, state) => const BottomNavBar(),
       ),
 
       // 🔹 Client Home
       GoRoute(
         path: ClientHomeScreen.routeName,
         name: ClientHomeScreen.routeName,
-        builder: (context, state) => ClientHomeScreen(),
+        builder: (context, state) => const ClientHomeScreen(),
+      ),
+
+      // 🔹 Client Jobs
+      GoRoute(
+        path: ClientJobsScreen.routeName,
+        name: ClientJobsScreen.routeName,
+        builder: (context, state) => const ClientJobsScreen(),
+      ),
+      GoRoute(
+        path: SendReportScreen.routeName,
+        name: SendReportScreen.routeName,
+        builder: (context, state) => const SendReportScreen(),
+      ),
+      GoRoute(
+        path: RequestRefundScreen.routeName,
+        name: RequestRefundScreen.routeName,
+        builder: (context, state) => const RequestRefundScreen(),
+      ),
+
+      // 🔹 Job Completed Success
+      GoRoute(
+        path: JobCompletedSuccessScreen.routeName,
+        name: JobCompletedSuccessScreen.routeName,
+        builder: (context, state) => const JobCompletedSuccessScreen(),
+      ),
+
+      // 🔹 Project
+      GoRoute(
+        path: ProjectScreen.routeName,
+        name: ProjectScreen.routeName,
+        builder: (context, state) => const ProjectScreen(),
+      ),
+
+      // 🔹 Message
+      GoRoute(
+        path: MessageScreen.routeName,
+        name: MessageScreen.routeName,
+        builder: (context, state) => const MessageScreen(),
+      ),
+
+      // 🔹 Profile
+      GoRoute(
+        path: ProfileScreen.routeName,
+        name: ProfileScreen.routeName,
+        builder: (context, state) => const ProfileScreen(),
       ),
     ],
   );

@@ -113,6 +113,7 @@ class _OnboardingScreen05State extends State<OnboardingScreen05> {
                 debugPrint('Login tapped');
               },
               onSignUp: () {
+                context.push(SeclectRoleScreen.routeName);
                 debugPrint('Sign Up tapped');
               },
             ),

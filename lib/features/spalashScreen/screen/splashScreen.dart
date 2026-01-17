@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/color_control/all_color.dart';
 import '../../onboarding/screen/onboarding_screen_01.dart';
+import '../../auth/logic/splash_login_check.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,8 +19,8 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
       if (!mounted) return;
-      // ✅ push না, go use করলাম
-      context.go(OnboardingScreen01.routeName);
+      // Check login status first
+      loginCheck(context);
     });
   }
 

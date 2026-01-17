@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:workpleis/core/constants/color_control/all_color.dart';
-import 'package:workpleis/core/widget/global_snack_bar.dart';
-import 'package:workpleis/features/auth/screens/forget_password_screen.dart';
-import 'package:workpleis/features/auth/screens/register_screen.dart';
 import 'package:workpleis/core/widget/global_get_started_button.dart';
+import 'package:workpleis/core/widget/global_snack_bar.dart';
 import 'package:workpleis/features/auth/logic/email_valitedor.dart';
 import 'package:workpleis/features/auth/logic/password_valitedor.dart';
-import 'package:workpleis/features/auth/screens/veryfiy_your_business.dart';
-import '../../nav_bar/screen/bottom_nav_bar.dart';
+import 'package:workpleis/features/auth/screens/business_login_screen.dart';
+import 'package:workpleis/features/auth/screens/forget_password_screen.dart';
+import 'package:workpleis/features/auth/screens/register_screen.dart';
+import 'package:workpleis/features/nav_bar/screen/bottom_nav_bar.dart';
+
+import '../../client/screen/client_home_screen.dart';
 import '../logic/login_reverpod.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({super.key, this.isBusinessFlow = false});
+
   static const routeName = '/loginScreen';
+  final bool isBusinessFlow;
 
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
@@ -89,7 +92,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => context.push(RegisterScreen.routeName),
+                      onTap: () {
+                        if (widget.isBusinessFlow) {
+                          context.push(
+                            BusinessLoginScreen.routeName,
+                            extra: {'isBusiness': true},
+                          );
+                        } else {
+                          context.push(
+                            RegisterScreen.routeName,
+                            extra: {'isBusiness': false},
+                          );
+                        }
+                      },
                       child: Text(
                         "Sign Up",
                         style: TextStyle(
@@ -271,8 +286,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     const Spacer(),
                     GestureDetector(
-                      onTap: () =>
-                          context.push(ForgetPasswordScreen.routeName),
+                      onTap: () => context.push(ForgetPasswordScreen.routeName),
                       child: Text(
                         "Forgot Password",
                         style: TextStyle(
@@ -294,9 +308,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 CustomButton(
                   text: isLoading ? "Please wait..." : "Login",
                   onTap: () {
-                    if (!isLoading) {
-                      _submit();
-                    }
+                    context.push(BottomNavBar.routeName); // if (!isLoading) {
+                    //   _submit();
+                    // }
                   },
                   icon: Icons.arrow_forward,
                 ),
@@ -325,7 +339,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   title: "Continue with Google",
                   iconPath: "assets/images/google.png",
                   onPressed: () {
-                    context.push(VeryfiyYourBusiness.routeName);
+                    // context.push(VeryfiyYourBusiness.routeName);
                   },
                 ),
 
@@ -364,7 +378,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         message: result["message"] ?? "Login successful",
         type: CustomSnackType.success,
       );
-      context.go(BottomNavBar.routeName);
+      print("login done");
+      context.go(ClientHomeScreen.routeName);
     } else {
       GlobalSnackBar.show(
         context,
@@ -375,6 +390,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 }
+
 // Social login button
 class SocialLoginButton extends StatelessWidget {
   final String title;
@@ -395,10 +411,7 @@ class SocialLoginButton extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(
-          color: const Color(0xffD6DFD5),
-          width: 1,
-        ),
+        border: Border.all(color: const Color(0xffD6DFD5), width: 1),
         color: Colors.white,
       ),
       child: Material(
@@ -409,11 +422,7 @@ class SocialLoginButton extends StatelessWidget {
           child: Row(
             children: [
               SizedBox(width: 14.w),
-              SizedBox(
-                height: 24.r,
-                width: 24.r,
-                child: Image.asset(iconPath),
-              ),
+              SizedBox(height: 24.r, width: 24.r, child: Image.asset(iconPath)),
               const Spacer(),
               Text(
                 title,

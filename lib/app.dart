@@ -25,7 +25,6 @@
 //   }
 // }
 
-
 // main_app.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,42 +52,63 @@ class App extends StatelessWidget {
           surface: AllColor.white,
           onSurface: AllColor.black,
         ),
-        inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          fillColor: AllColor.white70,
-          contentPadding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 20.w),
-          hintStyle: TextStyle(
-            color: AllColor.white70,
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w400,
-          ),
-          suffixIconColor: Colors.grey,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(color: AllColor.black, width: 0.5.sp),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(color: AllColor.grey, width: 0.5.sp),
-          ),
+        //   inputDecorationTheme: InputDecorationTheme(
+        //     filled: true,
+        //     fillColor: AllColor.white70,
+        //     contentPadding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 20.w),
+        //     hintStyle: TextStyle(
+        //       color: AllColor.white70,
+        //       fontSize: 14.sp,
+        //       fontWeight: FontWeight.w400,
+        //     ),
+        //     suffixIconColor: Colors.grey,
+        //     focusedBorder: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(50),
+        //       borderSide: BorderSide(color: AllColor.black, width: 0.5.sp),
+        //     ),
+        //     enabledBorder: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(50),
+        //       borderSide: BorderSide(color: AllColor.grey, width: 0.5.sp),
+        //     ),
 
-          errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(50),
-        borderSide: BorderSide(color: AllColor.red200, width: 0.5.sp),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(50),
-        borderSide: BorderSide(color: AllColor.red200, width: 0.5.sp),
-      ),
-      errorStyle: TextStyle(fontSize: 12.sp, color: Colors.red),
-        ),
+        //     errorBorder: OutlineInputBorder(
+        //   borderRadius: BorderRadius.circular(50),
+        //   borderSide: BorderSide(color: AllColor.red200, width: 0.5.sp),
+        // ),
+        // focusedErrorBorder: OutlineInputBorder(
+        //   borderRadius: BorderRadius.circular(50),
+        //   borderSide: BorderSide(color: AllColor.red200, width: 0.5.sp),
+        // ),
+        // errorStyle: TextStyle(fontSize: 12.sp, color: Colors.red),
+        //   ),
+        //
         useMaterial3: true,
         textTheme: TextTheme(
-          titleLarge: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w500, color: AllColor.black),
-          titleMedium: TextStyle(fontSize: 12.sp, color: AllColor.grey, fontWeight: FontWeight.w400),
-          titleSmall: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600, color: AllColor.grey200),
-          headlineLarge: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w800, color: AllColor.black),
-          headlineMedium: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400, color: AllColor.black),
+          titleLarge: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.w500,
+            color: AllColor.black,
+          ),
+          titleMedium: TextStyle(
+            fontSize: 12.sp,
+            color: AllColor.grey,
+            fontWeight: FontWeight.w400,
+          ),
+          titleSmall: TextStyle(
+            fontSize: 17.sp,
+            fontWeight: FontWeight.w600,
+            color: AllColor.grey200,
+          ),
+          headlineLarge: TextStyle(
+            fontSize: 24.sp,
+            fontWeight: FontWeight.w800,
+            color: AllColor.black,
+          ),
+          headlineMedium: TextStyle(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w400,
+            color: AllColor.black,
+          ),
         ),
       ), // fixed theme
     );
