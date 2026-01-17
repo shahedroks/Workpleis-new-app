@@ -11,6 +11,7 @@ class _NotificationItem {
     required this.date,
     required this.leadingType,
     this.avatarAsset,
+    this.leadingImageAsset,
     this.icon,
   });
 
@@ -18,6 +19,7 @@ class _NotificationItem {
   final String date;
   final _NotificationLeadingType leadingType;
   final String? avatarAsset;
+  final String? leadingImageAsset;
   final IconData? icon;
 }
 
@@ -77,8 +79,7 @@ class NotificationsScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12.r),
-                          border:
-                              Border.all(color: AllColor.grey200, width: 1),
+                          border: Border.all(color: AllColor.grey200, width: 1),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.04),
@@ -214,38 +215,41 @@ class _Leading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (item.leadingType) {
-      case _NotificationLeadingType.avatarAsset:
-        return Container(
-          height: 46.w,
-          width: 46.w,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: AllColor.grey200, width: 1),
-          ),
-          padding: EdgeInsets.all(2.w),
-          child: CircleAvatar(
-            backgroundImage: AssetImage(item.avatarAsset!),
-          ),
-        );
-      case _NotificationLeadingType.icon:
-        return Container(
-          height: 46.w,
-          width: 46.w,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white,
-            border: Border.all(color: AllColor.grey200, width: 1),
-          ),
-          child: Center(
-            child: Icon(
-              item.icon ?? Icons.notifications_outlined,
-              size: 22.sp,
-              color: AllColor.black,
-            ),
-          ),
-        );
-    }
+    final isLogo = item.leadingType == _NotificationLeadingType.icon;
+
+    return Container(
+      height: 46.w,
+      width: 46.w,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.white,
+        border: Border.all(color: AllColor.grey200, width: 1),
+      ),
+      child: isLogo ? _buildLogo() : _buildAvatar(),
+    );
+  }
+
+  Widget _buildAvatar() {
+    return ClipOval(
+      child: Image.asset(
+        item.avatarAsset!,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      ),
+    );
+  }
+
+  Widget _buildLogo() {
+    return Center(
+      child: SizedBox(
+        width: 22.w, // 🔹 container-এর চেয়ে ছোট
+        height: 22.w, // 🔹 container-এর চেয়ে ছোট
+        child: Image.asset(
+          item.leadingImageAsset ?? 'assets/images/splashlogo.png',
+          fit: BoxFit.contain,
+        ),
+      ),
+    );
   }
 }
-
