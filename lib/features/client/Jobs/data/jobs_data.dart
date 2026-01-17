@@ -139,8 +139,8 @@ final List<JobModel> cancelledJobs = [
     title: "I'm looking for a service provider for furniture assembly in my shop",
     estimate: '4-6 hours',
     cost: '\$600',
-    provider: 'Ali Hasan',
-    description: 'I need professional help to assemble office furniture in my new shop. The furniture includes desks, chairs, and storage units. I\'m looking for someone experienced with furniture assembly who can complete the work efficiently and carefully.',
+    description:
+        'I am seeking a skilled and reliable service provider to handle the assembly of furniture in my shop. The ideal candidate will have experience with assembling various types of furniture, including shelving units, display cases, and seating. Attention to detail and the ability to work efficiently are essential qualities. The project requires someone who can work independently and complete the task within the specified timeframe.',
     services: [
       'Office Furniture Assembly',
       'Custom Desk Assembly',
@@ -148,14 +148,14 @@ final List<JobModel> cancelledJobs = [
     ],
     status: JobStatus.cancelled,
   ),
-  // Add 8 more cancelled jobs to match the count
-  ...List.generate(8, (index) => JobModel(
+  // Add 89 more cancelled jobs to match the count (90 total)
+  ...List.generate(89, (index) => JobModel(
         id: '${9 + index}',
         title: "I'm looking for a service provider for furniture assembly in my shop",
         estimate: '4-6 hours',
         cost: '\$600',
-        provider: 'Ali Hasan',
-        description: 'I need professional help to assemble office furniture in my new shop. The furniture includes desks, chairs, and storage units. I\'m looking for someone experienced with furniture assembly who can complete the work efficiently and carefully.',
+        description:
+            'I am seeking a skilled and reliable service provider to handle the assembly of furniture in my shop. The ideal candidate will have experience with assembling various types of furniture, including shelving units, display cases, and seating. Attention to detail and the ability to work efficiently are essential qualities. The project requires someone who can work independently and complete the task within the specified timeframe.',
         services: [
           'Office Furniture Assembly',
           'Custom Desk Assembly',

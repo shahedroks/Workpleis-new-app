@@ -242,6 +242,7 @@ class _JobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isActive = job.status == JobStatus.active;
     final isCompleted = job.status == JobStatus.completed;
+    final isCancelled = job.status == JobStatus.cancelled;
     
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -324,8 +325,21 @@ class _JobCard extends StatelessWidget {
                 ),
               ],
             )
+          else if (isCancelled)
+            // Cancelled: Estimate, Cost only
+            Row(
+              children: [
+                Expanded(
+                  child: _InfoBox(label: 'Estimate', value: job.estimate ?? ''),
+                ),
+                SizedBox(width: 8.w),
+                Expanded(
+                  child: _InfoBox(label: 'Cost', value: job.cost ?? ''),
+                ),
+              ],
+            )
           else
-            // Pending/Cancelled: Estimate, Cost, Provider
+            // Pending: Estimate, Cost, Provider
             Row(
               children: [
                 Expanded(
@@ -363,7 +377,7 @@ class _JobCard extends StatelessWidget {
             ),
             SizedBox(height: 4.h),
             Text(
-              
+
               'more...',
               style: TextStyle(
                 fontSize: 14.sp,
@@ -403,7 +417,8 @@ class _JobCard extends StatelessWidget {
             _ReviewButton(
               onTap: onReviewTap ?? () {},
             ),
-          ] else if (!isActive) ...[
+          ] else if (!isActive && !isCancelled) ...[
+            // Pending only: Report and Completed buttons
             SizedBox(height: 16.h),
             Row(
               children: [
@@ -430,6 +445,7 @@ class _JobCard extends StatelessWidget {
               ],
             ),
           ],
+          // Cancelled jobs have no action buttons
         ],
       ),
     );
@@ -830,6 +846,123 @@ class _GiveReviewBottomSheetState extends State<_GiveReviewBottomSheet> {
     super.dispose();
   }
 
+  void _showCompletionConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(24.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Title
+                Text(
+                  'Are you sure your work is complete?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'plus_Jakarta_Sans',
+                    color: AllColor.black,
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                
+                // Message
+                Text(
+                  'Are you confident everything is correct? If so, please leave a review for the provider.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'plus_Jakarta_Sans',
+                    color: AllColor.grey600,
+                    height: 1.5,
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                
+                // Separator
+                Divider(
+                  color: AllColor.grey200,
+                  height: 1,
+                ),
+                SizedBox(height: 16.h),
+                
+                // Buttons
+                // Yes button (Blue)
+                SizedBox(
+                  width: double.infinity,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(dialogContext); // Close dialog
+                        Navigator.pop(context); // Close bottom sheet
+                        // Navigate to success screen
+                        context.push('/job_completed_success');
+                      },
+                      borderRadius: BorderRadius.circular(12.r),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 14.h),
+                        child: Center(
+                          child: Text(
+                            'Yes',
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'plus_Jakarta_Sans',
+                              color: const Color(0xFF007AFF), // Blue
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                
+                // No button (Red)
+                SizedBox(
+                  width: double.infinity,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(dialogContext); // Close dialog and go back
+                      },
+                      borderRadius: BorderRadius.circular(12.r),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 14.h),
+                        child: Center(
+                          child: Text(
+                            'No',
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'plus_Jakarta_Sans',
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final remainingChars = (_maxCharacters - _experienceController.text.length).clamp(0, _maxCharacters);
@@ -938,59 +1071,55 @@ class _GiveReviewBottomSheetState extends State<_GiveReviewBottomSheet> {
                 width: 1,
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: 150.h,
-                  ),
-                  child: TextField(
-                    controller: _experienceController,
-                    maxLines: null,
-                    minLines: 6,
-                    maxLength: _maxCharacters,
-                    expands: false,
-                    textInputAction: TextInputAction.newline,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'plus_Jakarta_Sans',
-                      color: AllColor.black,
-                      height: 1.5,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'Write your experience',
-                      hintStyle: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: 'plus_Jakarta_Sans',
-                        color: AllColor.grey600,
-                        height: 1.5,
-                      ),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.all(16.w),
-                      counterText: '',
-                    ),
-                    onChanged: (value) {
-                      setState(() {});
-                    },
-                  ),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: 150.h,
+              ),
+              child: TextField(
+                controller: _experienceController,
+                maxLines: null,
+                minLines: 6,
+                maxLength: _maxCharacters,
+                expands: false,
+                textInputAction: TextInputAction.newline,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'plus_Jakarta_Sans',
+                  color: AllColor.black,
+                  height: 1.5,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(right: 16.w, bottom: 12.h),
-                  child: Text(
-                    '$remainingChars characters left',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'plus_Jakarta_Sans',
-                      color: AllColor.grey600,
-                    ),
+                decoration: InputDecoration(
+                  hintText: 'Write your experience',
+                  hintStyle: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'plus_Jakarta_Sans',
+                    color: AllColor.grey600,
+                    height: 1.5,
                   ),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(16.w),
+                  counterText: '',
                 ),
-              ],
+                onChanged: (value) {
+                  setState(() {});
+                },
+              ),
+            ),
+          ),
+          SizedBox(height: 8.h),
+          // Character count below the box, aligned left
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              '$remainingChars characters left',
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
+                fontFamily: 'plus_Jakarta_Sans',
+                color: AllColor.grey600,
+              ),
             ),
           ),
           SizedBox(height: 24.h),
@@ -1001,8 +1130,8 @@ class _GiveReviewBottomSheetState extends State<_GiveReviewBottomSheet> {
             child: ElevatedButton(
               onPressed: _experienceController.text.trim().isNotEmpty
                   ? () {
-                      // TODO: Handle publish review
-                      Navigator.pop(context);
+                      // Show confirmation dialog
+                      _showCompletionConfirmationDialog(context);
                     }
                   : null,
               style: ElevatedButton.styleFrom(
