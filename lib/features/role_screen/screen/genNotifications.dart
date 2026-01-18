@@ -20,10 +20,7 @@ class Gennotifications extends ConsumerWidget {
     // If user selected "For Business" (either Client or Service Provider), go to BusinessLoginScreen
     // Service Provider + "For Business" should work the same as Client + "For Business" (create account flow)
     if (selectedType == UserType.business) {
-      context.push(
-        BusinessLoginScreen.routeName,
-        extra: {'isBusiness': true},
-      );
+      context.push(BusinessLoginScreen.routeName, extra: {'isBusiness': true});
     } else {
       // Otherwise go to regular LoginScreen
       context.push(LoginScreen.routeName);

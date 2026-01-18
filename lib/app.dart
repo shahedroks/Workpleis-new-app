@@ -43,7 +43,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColor: AllColor.black,
-        scaffoldBackgroundColor: Colors.white.withOpacity(0.9),
+        scaffoldBackgroundColor: const Color(0xFFF9F9F9),
         colorScheme: ColorScheme.light(
           primary: AllColor.white,
           onPrimary: AllColor.white,

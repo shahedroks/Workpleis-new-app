@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:workpleis/core/constants/color_control/all_color.dart';
 import 'package:workpleis/core/constants/color_control/home_color.dart';
 import 'package:workpleis/features/client/Jobs/screen/postJob_wizard_screen.dart';
+import 'package:workpleis/features/notifications/create_new_project_flow.dart';
 import 'package:workpleis/features/notifications/screen/notifications_screen.dart';
 
 class ClientHomeScreen extends StatefulWidget {
@@ -372,7 +373,7 @@ class _HeaderState extends State<_Header> {
                       label: 'Create Project',
                     ),
                     onTap: () {
-                      // Handle Create Project
+                     context.push(CreateNewProjectFlow.routeName);
                     },
                   ),
                 ],

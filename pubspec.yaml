@@ -56,6 +56,7 @@ dependencies:
   #google_mlkit_face_detection: ^0.13.1
   face_camera: ^0.1.4
   file_picker: ^8.0.0
+  share_plus: ^10.1.2
 
 dev_dependencies:
   flutter_test:

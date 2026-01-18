@@ -29,6 +29,7 @@ import 'package:workpleis/features/client/Jobs/screen/send_report_screen.dart';
 import 'package:workpleis/features/client/Jobs/screen/request_refund_screen.dart';
 import 'package:workpleis/features/client/Jobs/screen/job_completed_success_screen.dart';
 import 'package:workpleis/features/nav_bar/screen/bottom_nav_bar.dart';
+import 'package:workpleis/features/notifications/create_new_project_flow.dart';
 import 'package:workpleis/features/notifications/screen/notifications_screen.dart';
 // Onboarding
 import 'package:workpleis/features/onboarding/screen/onboarding_screen_01.dart';
@@ -37,6 +38,7 @@ import 'package:workpleis/features/onboarding/screen/onboarding_screen_05.dart';
 import 'package:workpleis/features/role_screen/screen/genNotifications.dart';
 import 'package:workpleis/features/role_screen/screen/seclect_role_screen.dart';
 import 'package:workpleis/features/role_screen/screen/seclect_type_screen.dart';
+import 'package:workpleis/features/service/screen/service_home_screen.dart';
 // Splash
 import 'package:workpleis/features/spalashScreen/screen/splashScreen.dart';
 
@@ -49,7 +51,7 @@ import 'error_screen.dart';
 class AppRouter {
   // initial route
   //static const String initial = ClientHomeScreen.routeName;
-  static final String initial = BottomNavBar.routeName;
+  static final String initial = SplashScreen.routeName;
   static final GoRouter appRouter = GoRouter(
     initialLocation: initial,
 
@@ -81,6 +83,17 @@ class AppRouter {
         name: ReferralScreen.routeName,
         builder: (context, state) =>  ReferralScreen(),
       ),
+       GoRoute(
+        path: CreateNewProjectFlow.routeName,
+        name: CreateNewProjectFlow.routeName,
+        builder: (context, state) =>  CreateNewProjectFlow(),
+      ),
+        GoRoute(
+        path: ServiceHomeScreen.routeName,
+        name: ServiceHomeScreen.routeName,
+        builder: (context, state) =>  ServiceHomeScreen(),
+      ),
+
 
 
       // 🔹 Onboarding
