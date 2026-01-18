@@ -11,9 +11,10 @@ import 'package:workpleis/features/auth/screens/business_login_screen.dart';
 import 'package:workpleis/features/auth/screens/forget_password_screen.dart';
 import 'package:workpleis/features/auth/screens/register_screen.dart';
 import 'package:workpleis/features/nav_bar/screen/bottom_nav_bar.dart';
+import 'package:workpleis/features/service/screen/service_home_screen.dart';
 
-import '../../client/screen/client_home_screen.dart';
-import '../logic/login_reverpod.dart';
+import 'package:workpleis/features/role_screen/screen/seclect_role_screen.dart'
+    as role;
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key, this.isBusinessFlow = false});
@@ -42,8 +43,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(loginLoadingProvider);
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -306,11 +305,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 SizedBox(height: 32.h),
                 // ── Login button  ✅ FIXED
                 CustomButton(
-                  text: isLoading ? "Please wait..." : "Login",
+                  text: "Login",
                   onTap: () {
-                    context.push(BottomNavBar.routeName); // if (!isLoading) {
-                    //   _submit();
-                    // }
+                    _goAfterLogin();
                   },
                   icon: Icons.arrow_forward,
                 ),
@@ -360,33 +357,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  Future<void> _submit() async {
-    if (!(_formKey.currentState?.validate() ?? false)) return;
+  void _goAfterLogin() {
+    // Simple login flow: no API call, only role-based navigation.
+    final selectedRole = ref.read(role.selectedRoleProvider);
 
-    ref.read(loginLoadingProvider.notifier).state = true;
-
-    final loginService = ref.read(loginProvider);
-    final result = await loginService.login(
-      _emailController.text.trim(),
-      _passController.text.trim(),
-    );
-    ref.read(loginLoadingProvider.notifier).state = false;
-    if (result["success"] == true) {
+    if (selectedRole == null) {
       GlobalSnackBar.show(
         context,
-        title: "Success",
-        message: result["message"] ?? "Login successful",
-        type: CustomSnackType.success,
-      );
-      print("login done");
-      context.go(ClientHomeScreen.routeName);
-    } else {
-      GlobalSnackBar.show(
-        context,
-        title: "Error",
-        message: result["message"] ?? "Login failed",
+        title: "Select role",
+        message: "Please select a role first.",
         type: CustomSnackType.error,
       );
+      return;
+    }
+
+    if (selectedRole == role.UserRole.provider) {
+      context.go(ServiceHomeScreen.routeName);
+    } else {
+      context.go(BottomNavBar.routeName);
     }
   }
 }

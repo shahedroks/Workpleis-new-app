@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workpleis/core/constants/color_control/all_color.dart';
+import 'package:workpleis/features/notifications/screen/referral_screen.dart';
 
 enum _NotificationLeadingType { avatarAsset, icon }
 
@@ -11,6 +12,7 @@ class _NotificationItem {
     required this.date,
     required this.leadingType,
     this.avatarAsset,
+    this.leadingImageAsset,
     this.icon,
   });
 
@@ -18,6 +20,7 @@ class _NotificationItem {
   final String date;
   final _NotificationLeadingType leadingType;
   final String? avatarAsset;
+  final String? leadingImageAsset;
   final IconData? icon;
 }
 
@@ -77,8 +80,7 @@ class NotificationsScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12.r),
-                          border:
-                              Border.all(color: AllColor.grey200, width: 1),
+                          border: Border.all(color: AllColor.grey200, width: 1),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.04),
@@ -166,41 +168,44 @@ class _NotificationTile extends StatelessWidget {
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _Leading(item: item),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.title,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AllColor.black,
-                      fontFamily: 'sf_pro',
-                      height: 1.25,
+        child: GestureDetector(
+          onTap: (){context.push(ReferralScreen.routeName);},
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _Leading(item: item),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AllColor.black,
+                        fontFamily: 'sf_pro',
+                        height: 1.25,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 6.h),
-                  Text(
-                    item.date,
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      color: AllColor.grey,
-                      fontFamily: 'sf_pro',
+                    SizedBox(height: 6.h),
+                    Text(
+                      item.date,
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: AllColor.grey,
+                        fontFamily: 'sf_pro',
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -214,38 +219,41 @@ class _Leading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (item.leadingType) {
-      case _NotificationLeadingType.avatarAsset:
-        return Container(
-          height: 46.w,
-          width: 46.w,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: AllColor.grey200, width: 1),
-          ),
-          padding: EdgeInsets.all(2.w),
-          child: CircleAvatar(
-            backgroundImage: AssetImage(item.avatarAsset!),
-          ),
-        );
-      case _NotificationLeadingType.icon:
-        return Container(
-          height: 46.w,
-          width: 46.w,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white,
-            border: Border.all(color: AllColor.grey200, width: 1),
-          ),
-          child: Center(
-            child: Icon(
-              item.icon ?? Icons.notifications_outlined,
-              size: 22.sp,
-              color: AllColor.black,
-            ),
-          ),
-        );
-    }
+    final isLogo = item.leadingType == _NotificationLeadingType.icon;
+
+    return Container(
+      height: 46.w,
+      width: 46.w,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.white,
+        border: Border.all(color: AllColor.grey200, width: 1),
+      ),
+      child: isLogo ? _buildLogo() : _buildAvatar(),
+    );
+  }
+
+  Widget _buildAvatar() {
+    return ClipOval(
+      child: Image.asset(
+        item.avatarAsset!,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      ),
+    );
+  }
+
+  Widget _buildLogo() {
+    return Center(
+      child: SizedBox(
+        width: 22.w, // 🔹 container-এর চেয়ে ছোট
+        height: 22.w, // 🔹 container-এর চেয়ে ছোট
+        child: Image.asset(
+          item.leadingImageAsset ?? 'assets/images/splashlogo.png',
+          fit: BoxFit.contain,
+        ),
+      ),
+    );
   }
 }
-
