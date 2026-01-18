@@ -1,118 +1,37 @@
-import svgPaths from "./svg-tetc87cjzf";
-import imgImage from "figma:asset/531076ea7a8d8b83843b04f03115fb2efec14090.png";
+import svgPaths from "./svg-3oylp3r862";
 
-function Clipboard() {
+function BackArrowIcon() {
   return (
-    <div className="absolute left-[42px] size-[24px] top-[168px]" data-name="clipboard">
+    <div className="relative size-[24px]" data-name="Back Arrow Icon">
       <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-        <g id="clipboard">
-          <path d={svgPaths.p14b05d00} id="Vector" stroke="var(--stroke-0, black)" strokeWidth="1.5" />
-          <path d={svgPaths.p28412800} id="Vector_2" stroke="var(--stroke-0, black)" strokeWidth="1.5" />
-          <path d={svgPaths.p15a34f00} id="Vector_3" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeWidth="1.5" />
+        <g id="Back Arrow Icon">
+          <path d={svgPaths.p11a25300} id="Vector" stroke="var(--stroke-0, #111111)" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="1.92001" />
+          <path d="M19.0016 12H5.13837" id="Vector_2" stroke="var(--stroke-0, #111111)" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="1.92001" />
+          <g id="Vector_3" opacity="0" />
         </g>
       </svg>
     </div>
   );
 }
 
-function Group() {
+function Arrow() {
   return (
-    <div className="absolute contents left-[34px] top-[160px]">
-      <div className="absolute bg-[#d2ff56] border border-[rgba(85,85,85,0.1)] border-solid left-[34px] rounded-[8px] size-[40px] top-[160px]" />
-      <Clipboard />
+    <div className="absolute content-stretch flex items-start left-[24px] p-[8px] rounded-[8px] top-[72px]" data-name="Arrow">
+      <div aria-hidden="true" className="absolute border border-[#e0e0e0] border-solid inset-0 pointer-events-none rounded-[8px]" />
+      <div className="flex items-center justify-center relative shrink-0">
+        <div className="flex-none scale-y-[-100%]">
+          <BackArrowIcon />
+        </div>
+      </div>
     </div>
   );
 }
 
-function Frame6() {
+function HeaderContainer() {
   return (
-    <div className="absolute content-stretch flex flex-col gap-[2px] items-start leading-[normal] left-[calc(50%+68px)] not-italic text-white top-[160px] w-[115px]">
-      <p className="css-4hzbpn font-['SF_Pro_Display:Bold',sans-serif] relative shrink-0 text-[20px] w-full">20</p>
-      <p className="css-4hzbpn font-['SF_Pro_Display:Regular',sans-serif] relative shrink-0 text-[12px] w-full">Accepted Proposal</p>
-    </div>
-  );
-}
-
-function DocumentValidation() {
-  return (
-    <div className="absolute left-[calc(50%+26px)] size-[24px] top-[168px]" data-name="document-validation">
-      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-        <g id="document-validation">
-          <path d={svgPaths.p1658e080} fill="var(--fill-0, black)" id="Vector" />
-          <path d={svgPaths.p2d3d9e10} id="Vector_2" stroke="var(--stroke-0, white)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-          <path d={svgPaths.p207308a0} id="Vector_3" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-          <path d="M6.98053 13.0156H10.9805" id="Vector_4" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeWidth="1.5" />
-          <path d="M6.98053 17.0156H14.9805" id="Vector_5" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeWidth="1.5" />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function Group1() {
-  return (
-    <div className="absolute contents left-[calc(50%+18px)] top-[160px]">
-      <div className="absolute bg-[#d2ff56] border border-[rgba(85,85,85,0.1)] border-solid left-[calc(50%+18px)] rounded-[8px] size-[40px] top-[160px]" />
-      <DocumentValidation />
-    </div>
-  );
-}
-
-function Frame5() {
-  return (
-    <div className="absolute content-stretch flex flex-col gap-[4px] items-start leading-[normal] left-[34px] not-italic text-white top-[224px] w-[151px]">
-      <p className="css-4hzbpn font-['SF_Pro_Display:Bold',sans-serif] relative shrink-0 text-[22px] w-full">282</p>
-      <p className="css-4hzbpn font-['SF_Pro_Display:Regular',sans-serif] relative shrink-0 text-[12px] w-full">Total Application</p>
-    </div>
-  );
-}
-
-function Frame7() {
-  return (
-    <div className="absolute content-stretch flex flex-col gap-[2px] items-start leading-[normal] left-[calc(50%+68px)] not-italic text-white top-[230px] w-[115px]">
-      <p className="css-4hzbpn font-['SF_Pro_Display:Bold',sans-serif] relative shrink-0 text-[20px] w-full">20</p>
-      <p className="css-4hzbpn font-['SF_Pro_Display:Regular',sans-serif] relative shrink-0 text-[12px] w-full">Rejected Proposal</p>
-    </div>
-  );
-}
-
-function DocumentValidation1() {
-  return (
-    <div className="absolute left-[calc(50%+26px)] size-[24px] top-[238px]" data-name="document-validation">
-      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-        <g id="document-validation">
-          <path d={svgPaths.p207308a0} id="Vector" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-          <path d={svgPaths.p1658e080} fill="var(--fill-0, #FF0000)" id="Vector_2" />
-          <path d={svgPaths.p4b4a200} id="Vector_3" stroke="var(--stroke-0, white)" strokeLinecap="round" />
-          <path d="M6.98053 13.0156H10.9805" id="Vector_4" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeWidth="1.5" />
-          <path d="M6.98053 17.0156H14.9805" id="Vector_5" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeWidth="1.5" />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function Group2() {
-  return (
-    <div className="absolute contents left-[calc(50%+18px)] top-[230px]">
-      <div className="absolute bg-[#d2ff56] border border-[rgba(85,85,85,0.1)] border-solid left-[calc(50%+18px)] rounded-[8px] size-[40px] top-[230px]" />
-      <DocumentValidation1 />
-    </div>
-  );
-}
-
-function Group3() {
-  return (
-    <div className="absolute contents left-[24px] top-[150px]">
-      <div className="absolute bg-[#698455] h-[130px] left-[24px] rounded-[12px] top-[150px] w-[183px]" />
-      <div className="absolute bg-[#698455] h-[60px] left-[calc(50%+8px)] rounded-[12px] top-[150px] w-[183px]" />
-      <div className="absolute bg-[#698455] h-[60px] left-[calc(50%+8px)] rounded-[12px] top-[220px] w-[183px]" />
-      <Group />
-      <Frame6 />
-      <Group1 />
-      <Frame5 />
-      <Frame7 />
-      <Group2 />
+    <div className="absolute contents left-[24px] top-[72px]" data-name="Header Container">
+      <Arrow />
+      <p className="absolute css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] left-[calc(50%+0.5px)] not-italic text-[18px] text-black text-center top-[81px] translate-x-[-50%] w-[211px]">Set up withdrawals</p>
     </div>
   );
 }
@@ -120,7 +39,7 @@ function Group3() {
 function Time() {
   return (
     <div className="absolute h-[54px] left-0 right-[64.25%] top-1/2 translate-y-[-50%]" data-name="Time">
-      <p className="absolute css-ew64yg font-['SF_Pro:Semibold',sans-serif] font-[590] inset-[33.96%_37.67%_25.3%_38.26%] leading-[22px] text-[17px] text-black text-center" style={{ fontVariationSettings: "'wdth' 100" }}>
+      <p className="absolute css-ew64yg font-['SF_Pro:Semibold',sans-serif] font-[590] inset-[33.96%_35.41%_25.3%_38.26%] leading-[22px] text-[17px] text-black text-center" style={{ fontVariationSettings: "'wdth' 100" }}>
         9:41
       </p>
     </div>
@@ -147,7 +66,7 @@ function Levels() {
   return (
     <div className="absolute h-[54px] left-[64.25%] right-0 top-1/2 translate-y-[-50%]" data-name="Levels">
       <Battery />
-      <div className="absolute bottom-[33.39%] left-[calc(50%-4.59px)] top-[43.78%] translate-x-[-50%] w-[17.142px]" data-name="Wifi">
+      <div className="absolute bottom-[33.4%] left-[calc(50%-4.59px)] top-[43.77%] translate-x-[-50%] w-[17.142px]" data-name="Wifi">
         <div className="absolute inset-0" style={{ "--fill-0": "rgba(0, 0, 0, 1)" } as React.CSSProperties}>
           <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 17.1417 12.3283">
             <path clipRule="evenodd" d={svgPaths.p18b35300} fill="var(--fill-0, black)" fillRule="evenodd" id="Wifi" />
@@ -174,278 +93,64 @@ function StatusBarIPhone() {
   );
 }
 
-function GreetingText() {
+function ChevronDown() {
   return (
-    <div className="content-stretch flex flex-col gap-[4px] items-start leading-[normal] relative shrink-0 tracking-[-0.32px] w-[215px]" data-name="Greeting Text">
-      <p className="css-4hzbpn font-['Plus_Jakarta_Sans:Regular',sans-serif] font-normal relative shrink-0 text-[#525252] text-[14px] w-full">Hello, Welcome back</p>
-      <p className="css-4hzbpn font-['Plus_Jakarta_Sans:Bold',sans-serif] font-bold relative shrink-0 text-[24px] text-black w-full">Muhammad Israf</p>
+    <div className="relative size-[24px]" data-name="chevron-down">
+      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
+        <g id="chevron-down">
+          <path d="M15 6L9 12L15 18" id="Vector" stroke="var(--stroke-0, #002807)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+        </g>
+      </svg>
     </div>
   );
 }
 
-function Frame15() {
+function Group() {
   return (
-    <div className="absolute content-stretch flex gap-[12px] items-center left-[24px] top-[74px] w-[279px]">
-      <div className="relative shrink-0 size-[52px]" data-name="image">
-        <img alt="" className="block max-w-none size-full" height="52" src={imgImage} width="52" />
+    <div className="absolute contents left-[24px] top-[170px]">
+      <div className="absolute bg-white border-[#eaeaea] border-[1.5px] border-solid h-[56px] left-1/2 rounded-[8px] top-[170px] translate-x-[-50%] w-[382px]" />
+      <div className="absolute flex items-center justify-center left-[calc(75%+47.5px)] size-[24px] top-[calc(50%-864.5px)] translate-y-[-50%]" style={{ "--transform-inner-width": "0", "--transform-inner-height": "0" } as React.CSSProperties}>
+        <div className="flex-none rotate-[270deg]">
+          <ChevronDown />
+        </div>
       </div>
-      <GreetingText />
+      <p className="absolute css-4hzbpn font-['Inter:Regular',sans-serif] font-normal leading-[normal] left-[calc(37.5%-117.25px)] not-italic text-[18px] text-black top-[calc(50%-875.5px)] w-[314px]">Please Select...</p>
     </div>
   );
 }
 
-function ActionButton() {
+function Group1() {
   return (
-    <div className="absolute left-[calc(75%-12.5px)] size-[44px] top-[78px]" data-name="Action Button">
-      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 44 44">
-        <g id="Action Button">
-          <circle cx="22" cy="22" fill="var(--fill-0, white)" id="Ellipse 28" r="22" />
-          <g id="notification-01">
-            <rect fill="white" height="24" transform="translate(10 10)" width="24" />
-            <path d={svgPaths.pef9e40} id="Vector" stroke="var(--stroke-0, #141B34)" strokeLinejoin="round" strokeWidth="1.5" />
-            <path d={svgPaths.p1b06600} id="Vector_2" stroke="var(--stroke-0, #141B34)" strokeLinejoin="round" strokeWidth="1.5" />
-            <path d={svgPaths.p22b35e00} id="Vector_3" stroke="var(--stroke-0, #141B34)" strokeWidth="1.5" />
-          </g>
-        </g>
-      </svg>
+    <div className="absolute contents left-[24px] top-[144px]">
+      <p className="absolute css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] left-[calc(50%-191px)] not-italic text-[16px] text-black top-[144px] w-[382px]">Select bank *</p>
+      <Group />
     </div>
   );
 }
 
-function ActionButton1() {
+function Group3() {
   return (
-    <div className="absolute left-[calc(75%+39.5px)] size-[44px] top-[78px]" data-name="Action Button">
-      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 44 44">
-        <g id="Action Button">
-          <circle cx="22" cy="22" fill="var(--fill-0, white)" id="Ellipse 29" r="22" />
-          <g id="favourite">
-            <rect fill="white" height="24" transform="translate(10 10)" width="24" />
-            <path d={svgPaths.p14261900} id="Vector" stroke="var(--stroke-0, #141B34)" strokeLinecap="round" strokeWidth="1.5" />
-          </g>
-        </g>
-      </svg>
+    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-[calc(50%-191px)] mt-[26px] relative row-1">
+      <div className="bg-white border-[#eaeaea] border-[1.5px] border-solid col-1 h-[56px] ml-0 mt-0 rounded-[8px] row-1 w-[382px]" />
+      <p className="col-1 css-4hzbpn font-['Inter:Regular',sans-serif] font-normal leading-[normal] ml-[20px] mt-[17px] not-italic relative row-1 text-[#b5b5b5] text-[18px] w-[314px]">23456788765</p>
     </div>
   );
 }
 
-function HeaderActions() {
+function Group2() {
   return (
-    <div className="absolute contents left-[calc(75%-12.5px)] top-[78px]" data-name="Header Actions">
-      <ActionButton />
-      <ActionButton1 />
+    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] leading-[0] relative shrink-0">
+      <p className="col-1 css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-black w-[382px]">Account number *</p>
+      <Group3 />
     </div>
   );
 }
 
-function Header() {
+function Group5() {
   return (
-    <div className="absolute contents left-[24px] top-[74px]" data-name="Header">
-      <Frame15 />
-      <HeaderActions />
-    </div>
-  );
-}
-
-function Home() {
-  return (
-    <div className="relative shrink-0 size-[24px]" data-name="home-05">
-      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-        <g id="home-05">
-          <path d={svgPaths.pec44500} fill="var(--fill-0, black)" id="Icon" />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function Frame() {
-  return (
-    <div className="absolute content-stretch flex flex-col gap-[4px] items-center justify-center left-[17px] top-[16px] w-[78px]">
-      <Home />
-      <p className="css-4hzbpn font-['SF_Pro_Display:Medium',sans-serif] leading-[normal] min-w-full not-italic relative shrink-0 text-[16px] text-black text-center tracking-[-0.32px] w-[min-content]">Home</p>
-    </div>
-  );
-}
-
-function Work() {
-  return (
-    <div className="relative shrink-0 size-[24px]" data-name="work">
-      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-        <g id="work">
-          <path d={svgPaths.p11b24b00} id="Vector" stroke="var(--stroke-0, #797979)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-          <path d={svgPaths.p119a2900} id="Vector_2" stroke="var(--stroke-0, #797979)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-          <path d={svgPaths.p119fe00} id="Vector_3" stroke="var(--stroke-0, #797979)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function Frame2() {
-  return (
-    <div className="absolute content-stretch flex flex-col gap-[4px] items-center justify-center left-[98px] top-[16px] w-[78px]">
-      <Work />
-      <p className="css-ew64yg font-['SF_Pro_Display:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#797979] text-[16px] text-center tracking-[-0.32px]">Jobs</p>
-    </div>
-  );
-}
-
-function PropertyNew() {
-  return (
-    <div className="relative shrink-0 size-[24px]" data-name="property-new">
-      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-        <g id="property-new">
-          <path d={svgPaths.p158393f1} id="Vector" stroke="var(--stroke-0, #797979)" strokeWidth="1.5" />
-          <path d="M2.5 8H21.5" id="Vector_2" stroke="var(--stroke-0, #797979)" strokeLinejoin="round" strokeWidth="1.5" />
-          <path d="M11 17H17M7 17H8" id="Vector_3" stroke="var(--stroke-0, #797979)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-          <path d="M11 13H17M7 13H8" id="Vector_4" stroke="var(--stroke-0, #797979)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function Frame4() {
-  return (
-    <div className="absolute content-stretch flex flex-col gap-[4px] items-center justify-center left-[calc(50%+3px)] top-[16px] translate-x-[-50%] w-[78px]">
-      <PropertyNew />
-      <p className="css-ew64yg font-['SF_Pro_Display:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#797979] text-[16px] text-center tracking-[-0.32px]">Project</p>
-    </div>
-  );
-}
-
-function Mail() {
-  return (
-    <div className="relative shrink-0 size-[24px]" data-name="mail-01">
-      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-        <g id="mail-01">
-          <path d={svgPaths.p2be1a500} id="Icon" stroke="var(--stroke-0, #797979)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function Frame1() {
-  return (
-    <div className="absolute content-stretch flex flex-col gap-[4px] items-center justify-center left-[260px] top-[16px] w-[78px]">
-      <Mail />
-      <p className="css-4hzbpn font-['SF_Pro_Display:Regular',sans-serif] leading-[normal] min-w-full not-italic relative shrink-0 text-[#797979] text-[16px] text-center tracking-[-0.32px] w-[min-content]">{`Message `}</p>
-    </div>
-  );
-}
-
-function UserCircle() {
-  return (
-    <div className="relative shrink-0 size-[24px]" data-name="user-circle">
-      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-        <g id="user-circle">
-          <path d={svgPaths.pace200} id="Vector" stroke="var(--stroke-0, #797979)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-          <path d={svgPaths.p3e6e020} id="Vector_2" stroke="var(--stroke-0, #797979)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function Frame3() {
-  return (
-    <div className="absolute content-stretch flex flex-col gap-[4px] items-center justify-center left-[341px] top-[16px] w-[78px]">
-      <UserCircle />
-      <p className="css-4hzbpn font-['SF_Pro_Display:Regular',sans-serif] leading-[normal] min-w-full not-italic relative shrink-0 text-[#797979] text-[16px] text-center tracking-[-0.32px] w-[min-content]">Profile</p>
-    </div>
-  );
-}
-
-function Component() {
-  return (
-    <div className="absolute bg-white border-[#d6d6d6] border-solid border-t bottom-0 h-[95px] left-0 overflow-clip w-[430px]" data-name="Component 3">
-      <Frame />
-      <Frame2 />
-      <Frame4 />
-      <Frame1 />
-      <Frame3 />
-      <div className="absolute bg-[#8b8b8b] bottom-[6px] h-[5px] left-1/2 opacity-50 rounded-[100px] translate-x-[-50%] w-[134px]" data-name="Home Indicator" />
-    </div>
-  );
-}
-
-function Frame16() {
-  return (
-    <div className="content-stretch flex flex-col gap-[9px] items-center leading-[normal] not-italic relative shrink-0 text-center w-full">
-      <p className="css-4hzbpn font-['SF_Pro_Display:Regular',sans-serif] relative shrink-0 text-[14px] text-[rgba(0,0,0,0.7)] w-full">Available balance</p>
-      <p className="css-4hzbpn font-['Inter:Bold',sans-serif] font-bold relative shrink-0 text-[24px] text-black w-full">SAR 2,543.00</p>
-    </div>
-  );
-}
-
-function Frame14() {
-  return (
-    <div className="bg-[#02021d] content-stretch flex items-center justify-center px-[24px] py-[8px] relative rounded-[99px] shrink-0">
-      <p className="css-ew64yg font-['SF_Pro_Display:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[14px] text-center text-white">Withdraw earning</p>
-    </div>
-  );
-}
-
-function Frame17() {
-  return (
-    <div className="col-1 content-stretch flex flex-col gap-[30px] items-center ml-[109px] mt-[46px] relative row-1 w-[164px]">
-      <Frame16 />
-      <Frame14 />
-    </div>
-  );
-}
-
-function Frame8() {
-  return (
-    <div className="content-stretch flex flex-col gap-[6px] items-start relative shrink-0 w-[100px]">
-      <p className="css-4hzbpn font-['SF_Pro_Display:Regular',sans-serif] min-w-full relative shrink-0 text-[14px] text-[rgba(0,0,0,0.7)] w-[min-content]">Total earnings</p>
-      <p className="css-ew64yg font-['Inter:Bold',sans-serif] font-bold relative shrink-0 text-[16px] text-black">SAR 2,543.00</p>
-    </div>
-  );
-}
-
-function Frame9() {
-  return (
-    <div className="content-stretch flex flex-col gap-[6px] items-start relative shrink-0 w-[110px]">
-      <p className="css-4hzbpn font-['SF_Pro_Display:Regular',sans-serif] min-w-full relative shrink-0 text-[14px] text-[rgba(0,0,0,0.7)] w-[min-content]">{`Earning in April `}</p>
-      <p className="css-ew64yg font-['Inter:Bold',sans-serif] font-bold relative shrink-0 text-[16px] text-black">SAR 1,342.00</p>
-    </div>
-  );
-}
-
-function Frame13() {
-  return (
-    <div className="col-1 content-stretch flex gap-[123px] items-center leading-[normal] ml-[20px] mt-[229px] not-italic relative row-1 w-[342px]">
-      <Frame8 />
-      <Frame9 />
-    </div>
-  );
-}
-
-function Frame11() {
-  return (
-    <div className="content-stretch flex flex-col gap-[6px] items-start relative shrink-0 w-[105px]">
-      <p className="css-4hzbpn font-['SF_Pro_Display:Regular',sans-serif] relative shrink-0 text-[14px] text-[rgba(0,0,0,0.7)] w-[125px]">Upcoming earning</p>
-      <p className="css-ew64yg font-['Inter:Bold',sans-serif] font-bold relative shrink-0 text-[#f60] text-[16px]">SAR 700.00</p>
-    </div>
-  );
-}
-
-function Frame10() {
-  return (
-    <div className="content-stretch flex flex-col gap-[6px] items-start relative shrink-0 w-[77px]">
-      <p className="css-4hzbpn font-['SF_Pro_Display:Regular',sans-serif] relative shrink-0 text-[14px] text-[rgba(0,0,0,0.7)] w-full">Active orders</p>
-      <p className="css-4hzbpn font-['Inter:Bold',sans-serif] font-bold relative shrink-0 text-[16px] text-black w-full">3</p>
-    </div>
-  );
-}
-
-function Frame12() {
-  return (
-    <div className="col-1 content-stretch flex gap-[123px] items-center leading-[normal] ml-[20px] mt-[303px] not-italic relative row-1 w-[342px]">
-      <Frame11 />
-      <Frame10 />
+    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-[calc(50%-191px)] mt-[26px] relative row-1">
+      <div className="bg-white border-[#eaeaea] border-[1.5px] border-solid col-1 h-[56px] ml-0 mt-0 rounded-[8px] row-1 w-[382px]" />
+      <p className="col-1 css-4hzbpn font-['Inter:Regular',sans-serif] font-normal leading-[normal] ml-[20px] mt-[17px] not-italic relative row-1 text-[#b5b5b5] text-[18px] w-[314px]">234</p>
     </div>
   );
 }
@@ -453,53 +158,18 @@ function Frame12() {
 function Group4() {
   return (
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] leading-[0] relative shrink-0">
-      <div className="bg-white border border-[#ebebeb] border-solid col-1 h-[360px] ml-0 mt-0 rounded-[12px] row-1 w-[382px]" />
-      <div className="bg-[#f6f6f6] border border-[#f2f2f2] border-solid col-1 h-[183px] ml-[15px] mt-[13px] rounded-[8px] row-1 w-[352px]" />
-      <div className="col-1 h-0 ml-0 mt-[204px] relative row-1 w-[382px]">
-        <div className="absolute inset-[-1px_0_0_0]">
-          <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 382 1">
-            <line id="Line 680" stroke="var(--stroke-0, #F3F3F3)" x2="382" y1="0.5" y2="0.5" />
-          </svg>
-        </div>
-      </div>
-      <Frame17 />
-      <Frame13 />
-      <Frame12 />
-    </div>
-  );
-}
-
-function Frame18() {
-  return (
-    <div className="content-stretch flex flex-col gap-[18px] items-start relative shrink-0 w-full">
-      <p className="css-g0mm18 font-['SF_Pro_Display:Medium',sans-serif] leading-[normal] min-w-full not-italic overflow-hidden relative shrink-0 text-[22px] text-black text-ellipsis w-[min-content]">Earnings</p>
-      <Group4 />
-    </div>
-  );
-}
-
-function Group5() {
-  return (
-    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-0 mt-0 relative row-1">
-      <div className="bg-white border border-[#ebebeb] border-solid col-1 h-[58px] ml-0 mt-0 rounded-[12px] row-1 w-[382px]" />
-    </div>
-  );
-}
-
-function Group6() {
-  return (
-    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-0 mt-0 relative row-1">
+      <p className="col-1 css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-black w-[382px]">Zip code *</p>
       <Group5 />
     </div>
   );
 }
 
-function ArrowUpRight() {
+function ChevronDown1() {
   return (
-    <div className="col-1 ml-[338px] mt-[17px] relative row-1 size-[24px]" data-name="arrow-up-right">
+    <div className="relative size-[24px]" data-name="chevron-down">
       <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-        <g id="arrow-up-right">
-          <path d="M7 17L17 7M17 7H7M17 7V17" id="Icon" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+        <g id="chevron-down">
+          <path d="M15 6L9 12L15 18" id="Vector" stroke="var(--stroke-0, #002807)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
         </g>
       </svg>
     </div>
@@ -508,32 +178,360 @@ function ArrowUpRight() {
 
 function Group7() {
   return (
-    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] leading-[0] relative shrink-0">
-      <Group6 />
-      <p className="col-1 css-ew64yg font-['SF_Pro_Display:Bold',sans-serif] leading-[normal] ml-[15px] mt-[19px] not-italic overflow-hidden relative row-1 text-[#101010] text-[14px] text-ellipsis">Proposal</p>
-      <ArrowUpRight />
+    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-0 mt-[26px] relative row-1">
+      <div className="bg-white border-[#eaeaea] border-[1.5px] border-solid col-1 h-[56px] ml-0 mt-0 rounded-[8px] row-1 w-[382px]" />
+      <div className="col-1 flex items-center justify-center ml-[346px] mt-[16px] relative row-1 size-[24px]" style={{ "--transform-inner-width": "0", "--transform-inner-height": "3.5" } as React.CSSProperties}>
+        <div className="flex-none rotate-[270deg]">
+          <ChevronDown1 />
+        </div>
+      </div>
+      <p className="col-1 css-4hzbpn font-['Inter:Regular',sans-serif] font-normal leading-[normal] ml-[20px] mt-[17px] not-italic relative row-1 text-[18px] text-black w-[314px]">Please Select...</p>
     </div>
   );
 }
 
-function Frame19() {
+function Group6() {
   return (
-    <div className="absolute content-stretch flex flex-col gap-[10px] items-start left-[24px] top-[335px] w-[382px]">
-      <Frame18 />
+    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] leading-[0] relative shrink-0">
+      <p className="col-1 css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-black w-[382px]">Bank account type *</p>
       <Group7 />
     </div>
   );
 }
 
-export default function ServiceProviderHomeV() {
+function Group9() {
   return (
-    <div className="bg-white relative size-full" data-name="Service provider Home V.1">
-      <div className="absolute h-[304px] left-0 top-0 w-[430px]" style={{ backgroundImage: "linear-gradient(rgb(216, 235, 202) 0%, rgb(243, 245, 247) 100%), linear-gradient(90deg, rgb(217, 217, 217) 0%, rgb(217, 217, 217) 100%)" }} />
-      <Group3 />
+    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-[calc(50%-191px)] mt-[26px] relative row-1">
+      <div className="bg-white border-[#eaeaea] border-[1.5px] border-solid col-1 h-[56px] ml-0 mt-0 rounded-[8px] row-1 w-[382px]" />
+      <p className="col-1 css-4hzbpn font-['Inter:Regular',sans-serif] font-normal leading-[normal] ml-[20px] mt-[17px] not-italic relative row-1 text-[#b5b5b5] text-[18px] w-[314px]">Branch name</p>
+    </div>
+  );
+}
+
+function Group8() {
+  return (
+    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] leading-[0] relative shrink-0">
+      <p className="col-1 css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-black w-[382px]">Bank Name*</p>
+      <Group9 />
+    </div>
+  );
+}
+
+function Group11() {
+  return (
+    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-[calc(50%-191px)] mt-[26px] relative row-1">
+      <div className="bg-white border-[#eaeaea] border-[1.5px] border-solid col-1 h-[56px] ml-0 mt-0 rounded-[8px] row-1 w-[382px]" />
+      <p className="col-1 css-4hzbpn font-['Inter:Regular',sans-serif] font-normal leading-[normal] ml-[20px] mt-[17px] not-italic relative row-1 text-[#b5b5b5] text-[18px] w-[314px]">Branch address</p>
+    </div>
+  );
+}
+
+function Group10() {
+  return (
+    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] leading-[0] relative shrink-0">
+      <p className="col-1 css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-black w-[382px]">Bank Address *</p>
+      <Group11 />
+    </div>
+  );
+}
+
+function Group13() {
+  return (
+    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-[calc(50%-191px)] mt-[26px] relative row-1">
+      <div className="bg-white border-[#eaeaea] border-[1.5px] border-solid col-1 h-[56px] ml-0 mt-0 rounded-[8px] row-1 w-[382px]" />
+      <p className="col-1 css-4hzbpn font-['Inter:Regular',sans-serif] font-normal leading-[normal] ml-[20px] mt-[17px] not-italic relative row-1 text-[#b5b5b5] text-[18px] w-[314px]">First name</p>
+    </div>
+  );
+}
+
+function Group12() {
+  return (
+    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] leading-[0] relative shrink-0">
+      <p className="col-1 css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-black w-[382px]">First name *</p>
+      <Group13 />
+    </div>
+  );
+}
+
+function Group15() {
+  return (
+    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-[calc(50%-191px)] mt-[26px] relative row-1">
+      <div className="bg-white border-[#eaeaea] border-[1.5px] border-solid col-1 h-[56px] ml-0 mt-0 rounded-[8px] row-1 w-[382px]" />
+      <p className="col-1 css-4hzbpn font-['Inter:Regular',sans-serif] font-normal leading-[normal] ml-[20px] mt-[17px] not-italic relative row-1 text-[#b5b5b5] text-[18px] w-[314px]">Last name</p>
+    </div>
+  );
+}
+
+function Group14() {
+  return (
+    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] leading-[0] relative shrink-0">
+      <p className="col-1 css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-black w-[382px]">Last name *</p>
+      <Group15 />
+    </div>
+  );
+}
+
+function Calendar() {
+  return (
+    <div className="col-1 ml-[16px] mt-[16px] relative row-1 size-[24px]" data-name="calendar-04">
+      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
+        <g id="calendar-04">
+          <path d="M16 2V6M8 2V6" id="Vector" stroke="var(--stroke-0, #B5B5B5)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+          <path d={svgPaths.p14193bf0} id="Vector_2" stroke="var(--stroke-0, #B5B5B5)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+          <path d="M3 10H21" id="Vector_3" stroke="var(--stroke-0, #B5B5B5)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+function Group17() {
+  return (
+    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-0 mt-[26px] relative row-1">
+      <div className="bg-white border-[#eaeaea] border-[1.5px] border-solid col-1 h-[56px] ml-0 mt-0 rounded-[8px] row-1 w-[382px]" />
+      <Calendar />
+      <p className="col-1 css-4hzbpn font-['Inter:Regular',sans-serif] font-normal leading-[normal] ml-[48px] mt-[17px] not-italic relative row-1 text-[#b5b5b5] text-[18px] w-[314px]">Enter date of birth</p>
+    </div>
+  );
+}
+
+function Group16() {
+  return (
+    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] leading-[0] relative shrink-0">
+      <p className="col-1 css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-black w-[382px]">Enter date of birth *</p>
+      <Group17 />
+    </div>
+  );
+}
+
+function Frame1() {
+  return (
+    <div className="content-stretch flex flex-col h-[23px] items-start relative shrink-0 w-[362px]">
+      <p className="css-4hzbpn font-['SF_Pro_Display:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[14px] text-black w-full">Customer ID type</p>
+    </div>
+  );
+}
+
+function RadioButton() {
+  return (
+    <div className="relative shrink-0 size-[24px]" data-name="Radio button">
+      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
+        <g id="Radio button">
+          <circle cx="12" cy="12" id="Ellipse 44" r="11.5" stroke="var(--stroke-0, #82B600)" />
+          <circle cx="12" cy="12" fill="var(--fill-0, #82B600)" id="Ellipse 45" r="7" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+function Frame3() {
+  return (
+    <div className="content-stretch flex gap-[8px] items-center relative shrink-0">
+      <RadioButton />
+      <div className="css-g0mm18 flex flex-col font-['SF_Pro_Display:Medium',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[16px] text-black">
+        <p className="css-ew64yg leading-[normal]">{`Driver's license only`}</p>
+      </div>
+    </div>
+  );
+}
+
+function Frame4() {
+  return (
+    <div className="content-stretch flex items-center relative shrink-0 w-[204px]">
+      <Frame3 />
+    </div>
+  );
+}
+
+function Frame2() {
+  return (
+    <div className="content-stretch flex flex-col gap-[9px] items-start relative shrink-0 w-full">
+      <Frame1 />
+      <Frame4 />
+    </div>
+  );
+}
+
+function Group19() {
+  return (
+    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-[calc(50%-191px)] mt-[26px] relative row-1">
+      <div className="bg-white border-[#eaeaea] border-[1.5px] border-solid col-1 h-[56px] ml-0 mt-0 rounded-[8px] row-1 w-[382px]" />
+      <p className="col-1 css-4hzbpn font-['Inter:Regular',sans-serif] font-normal leading-[normal] ml-[20px] mt-[17px] not-italic relative row-1 text-[#b5b5b5] text-[18px] w-[314px]">Enter account name</p>
+    </div>
+  );
+}
+
+function Group18() {
+  return (
+    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] leading-[0] relative shrink-0">
+      <p className="col-1 css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-black w-[382px]">Name on account *</p>
+      <Group19 />
+    </div>
+  );
+}
+
+function Group21() {
+  return (
+    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-[calc(50%-191px)] mt-[26px] relative row-1">
+      <div className="bg-white border-[#eaeaea] border-[1.5px] border-solid col-1 h-[56px] ml-0 mt-0 rounded-[8px] row-1 w-[382px]" />
+      <p className="col-1 css-4hzbpn font-['Inter:Regular',sans-serif] font-normal leading-[normal] ml-[20px] mt-[17px] not-italic relative row-1 text-[#b5b5b5] text-[18px] w-[314px]">Enter account name</p>
+    </div>
+  );
+}
+
+function Group20() {
+  return (
+    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] leading-[0] relative shrink-0">
+      <p className="col-1 css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-black w-[382px]">{`City & Sate/province *`}</p>
+      <Group21 />
+    </div>
+  );
+}
+
+function ChevronDown2() {
+  return (
+    <div className="relative size-[24px]" data-name="chevron-down">
+      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
+        <g id="chevron-down">
+          <path d="M15 6L9 12L15 18" id="Vector" stroke="var(--stroke-0, #002807)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+function Group23() {
+  return (
+    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-0 mt-[26px] relative row-1">
+      <div className="bg-white border-[#eaeaea] border-[1.5px] border-solid col-1 h-[56px] ml-0 mt-0 rounded-[8px] row-1 w-[382px]" />
+      <div className="col-1 flex items-center justify-center ml-[346px] mt-[16px] relative row-1 size-[24px]" style={{ "--transform-inner-width": "0", "--transform-inner-height": "3.5" } as React.CSSProperties}>
+        <div className="flex-none rotate-[270deg]">
+          <ChevronDown2 />
+        </div>
+      </div>
+      <p className="col-1 css-4hzbpn font-['Inter:Regular',sans-serif] font-normal leading-[normal] ml-[20px] mt-[17px] not-italic relative row-1 text-[18px] text-black w-[314px]">Please Select...</p>
+    </div>
+  );
+}
+
+function Group22() {
+  return (
+    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] leading-[0] relative shrink-0">
+      <p className="col-1 css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-black w-[382px]">Country *</p>
+      <Group23 />
+    </div>
+  );
+}
+
+function Group25() {
+  return (
+    <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] ml-[calc(50%-191px)] mt-[26px] relative row-1">
+      <div className="bg-white border-[#eaeaea] border-[1.5px] border-solid col-1 h-[56px] ml-0 mt-0 rounded-[8px] row-1 w-[382px]" />
+      <p className="col-1 css-4hzbpn font-['Inter:Regular',sans-serif] font-normal leading-[normal] ml-[20px] mt-[17px] not-italic relative row-1 text-[#b5b5b5] text-[18px] w-[314px]">Enter number</p>
+    </div>
+  );
+}
+
+function Group24() {
+  return (
+    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid items-[start] justify-items-[start] leading-[0] relative shrink-0">
+      <p className="col-1 css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-black w-[382px]">Phone Number *</p>
+      <Group25 />
+    </div>
+  );
+}
+
+function Frame5() {
+  return (
+    <div className="absolute content-stretch flex flex-col gap-[24px] items-start left-[24px] top-[493px] w-[382px]">
+      <Group2 />
+      <Group4 />
+      <Group6 />
+      <Group8 />
+      <Group10 />
+      <Group12 />
+      <Group14 />
+      <Group16 />
+      <Frame2 />
+      <Group18 />
+      <Group20 />
+      <Group22 />
+      <Group24 />
+    </div>
+  );
+}
+
+function Check() {
+  return (
+    <div className="relative shrink-0 size-[24px]" data-name="Check">
+      <div className="absolute bg-white border border-[#9b9b9b] border-solid inset-0 rounded-[6px]" />
+    </div>
+  );
+}
+
+function Frame() {
+  return (
+    <div className="absolute bottom-[130px] content-stretch flex gap-[12px] items-start left-[24px]">
+      <Check />
+      <p className="css-4hzbpn font-['Inter:Medium',sans-serif] font-medium leading-[1.5] not-italic relative shrink-0 text-[16px] text-[rgba(0,0,0,0.87)] w-[346px]">I attest that I’m the owner and have full authorization to this bank account.</p>
+    </div>
+  );
+}
+
+function ColorLight() {
+  return (
+    <div className="h-[34px] relative shrink-0 w-[430px]" data-name="Color=Light">
+      <div className="absolute bg-[#02021d] bottom-[8px] h-[5px] left-1/2 rounded-[100px] translate-x-[-50%] w-[134px]" data-name="Home Indicator" />
+    </div>
+  );
+}
+
+function IOsStatusBarHomeIndicator() {
+  return (
+    <div className="absolute bottom-[7.93px] content-stretch flex flex-col items-start left-0 w-[430px]" data-name="iOS Status Bar & Home Indicator">
+      <ColorLight />
+    </div>
+  );
+}
+
+function Button() {
+  return (
+    <div className="absolute bg-[#02021d] content-stretch flex gap-[10px] items-center justify-center left-[24px] overflow-clip px-[140px] py-[20px] rounded-[56px] top-[2032px] w-[382px]" data-name="Button">
+      <p className="css-ew64yg font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#f5f5f5] text-[18px]">Submit Proposal</p>
+    </div>
+  );
+}
+
+function Group26() {
+  return (
+    <div className="absolute bottom-0 contents left-0">
+      <div className="absolute bg-white bottom-0 h-[110px] left-0 shadow-[4px_0px_12.4px_0px_rgba(0,0,0,0.08)] w-[430px]" />
+      <IOsStatusBarHomeIndicator />
+      <Button />
+    </div>
+  );
+}
+
+export default function SetUpWithdrawals() {
+  return (
+    <div className="bg-[#f6f6f6] relative size-full" data-name="Set up withdrawals">
+      <HeaderContainer />
       <StatusBarIPhone />
-      <Header />
-      <Component />
-      <Frame19 />
+      <Group1 />
+      <Frame5 />
+      <Frame />
+      <Group26 />
+      <p className="absolute css-g0mm18 font-['Inter:Medium',sans-serif] font-medium leading-[normal] left-[24px] not-italic overflow-hidden text-[#b5b5b5] text-[22px] text-ellipsis top-[434px] w-[382px]">Account Holder Bank Information</p>
+      <div className="absolute bg-white border-2 border-[#eaeaea] border-solid h-[173px] left-[24px] rounded-[8px] top-[238px] w-[382px]" />
+      <div className="absolute css-g0mm18 flex flex-col font-['SF_Pro_Display:Bold',sans-serif] justify-center leading-[0] left-[calc(12.5%-9.75px)] not-italic text-[16px] text-black top-[308.5px] translate-y-[-50%]">
+        <p className="css-ew64yg leading-[normal]">AL RAJHI BANK</p>
+      </div>
+      <div className="absolute css-g0mm18 flex flex-col font-['SF_Pro_Display:Medium',sans-serif] justify-center leading-[0] left-[calc(37.5%-117.25px)] not-italic text-[14px] text-black top-[335.5px] translate-y-[-50%]">
+        <p className="css-ew64yg leading-[normal]">8467 KING FAHD ROAD, AL MURUJ DISTRICT</p>
+      </div>
+      <p className="absolute css-ew64yg font-['SF_Pro_Display:Bold',sans-serif] leading-[normal] left-[calc(25%-64.5px)] not-italic text-[#82b600] text-[14px] top-[367px]">Not your bank or branch?</p>
+      <p className="absolute css-ew64yg font-['SF_Pro_Display:Regular',sans-serif] leading-[normal] left-[calc(12.5%-9.75px)] not-italic text-[14px] text-[rgba(0,0,0,0.7)] top-[265px]">Your selected bank</p>
     </div>
   );
 }

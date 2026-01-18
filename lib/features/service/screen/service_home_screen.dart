@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/color_control/all_color.dart';
+import 'get_paid_now_screen.dart';
 
 class ServiceHomeScreen extends StatelessWidget {
   const ServiceHomeScreen({super.key});
@@ -388,22 +390,26 @@ class _EarningsSection extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 30.h),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24.w,
-                        vertical: 10.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF02021D),
+                    Material(
+                      color: const Color(0xFF02021D),
+                      borderRadius: BorderRadius.circular(99.r),
+                      child: InkWell(
+                        onTap: () => context.push(GetPaidNowScreen.routeName),
                         borderRadius: BorderRadius.circular(99.r),
-                      ),
-                      child: Text(
-                        'Withdraw earning',
-                        style: TextStyle(
-                          fontFamily: 'sf_pro',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14.sp,
-                          color: AllColor.white,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 24.w,
+                            vertical: 10.h,
+                          ),
+                          child: Text(
+                            'Withdraw earning',
+                            style: TextStyle(
+                              fontFamily: 'sf_pro',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14.sp,
+                              color: AllColor.white,
+                            ),
+                          ),
                         ),
                       ),
                     ),

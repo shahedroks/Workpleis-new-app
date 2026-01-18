@@ -38,7 +38,9 @@ import 'package:workpleis/features/onboarding/screen/onboarding_screen_05.dart';
 import 'package:workpleis/features/role_screen/screen/genNotifications.dart';
 import 'package:workpleis/features/role_screen/screen/seclect_role_screen.dart';
 import 'package:workpleis/features/role_screen/screen/seclect_type_screen.dart';
+import 'package:workpleis/features/service/screen/get_paid_now_screen.dart';
 import 'package:workpleis/features/service/screen/service_home_screen.dart';
+import 'package:workpleis/features/service/screen/set_up_withdrawals_screen.dart';
 // Splash
 import 'package:workpleis/features/spalashScreen/screen/splashScreen.dart';
 
@@ -92,6 +94,16 @@ class AppRouter {
         path: ServiceHomeScreen.routeName,
         name: ServiceHomeScreen.routeName,
         builder: (context, state) =>  ServiceHomeScreen(),
+      ),
+      GoRoute(
+        path: GetPaidNowScreen.routeName,
+        name: GetPaidNowScreen.routeName,
+        builder: (context, state) => const GetPaidNowScreen(),
+      ),
+      GoRoute(
+        path: SetUpWithdrawalsScreen.routeName,
+        name: SetUpWithdrawalsScreen.routeName,
+        builder: (context, state) => const SetUpWithdrawalsScreen(),
       ),
 
 
