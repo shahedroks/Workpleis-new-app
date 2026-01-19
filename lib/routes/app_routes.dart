@@ -33,6 +33,7 @@ import 'package:workpleis/features/client/Jobs/model/flow_type.dart';
 import 'package:workpleis/features/client/Jobs/screen/proposal_details_screen.dart';
 import 'package:workpleis/features/client/Jobs/screen/account_add_screen.dart';
 import 'package:workpleis/features/nav_bar/screen/bottom_nav_bar.dart';
+import 'package:workpleis/features/nav_bar/screen/service_bottom_nav_bar.dart';
 import 'package:workpleis/features/notifications/create_new_project_flow.dart';
 import 'package:workpleis/features/notifications/screen/notifications_screen.dart';
 // Onboarding
@@ -290,6 +291,11 @@ class AppRouter {
         path: BottomNavBar.routeName,
         name: BottomNavBar.routeName,
         builder: (context, state) => const BottomNavBar(),
+      ),
+      GoRoute(
+        path: ServiceBottomNavBar.routeName,
+        name: ServiceBottomNavBar.routeName,
+        builder: (context, state) => const ServiceBottomNavBar(),
       ),
 
       // 🔹 Client Home

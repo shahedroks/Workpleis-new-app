@@ -11,7 +11,7 @@ import 'package:workpleis/features/auth/screens/business_login_screen.dart';
 import 'package:workpleis/features/auth/screens/forget_password_screen.dart';
 import 'package:workpleis/features/auth/screens/register_screen.dart';
 import 'package:workpleis/features/nav_bar/screen/bottom_nav_bar.dart';
-import 'package:workpleis/features/service/screen/service_home_screen.dart';
+import 'package:workpleis/features/nav_bar/screen/service_bottom_nav_bar.dart';
 
 import 'package:workpleis/features/role_screen/screen/seclect_role_screen.dart'
     as role;
@@ -372,7 +372,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
 
     if (selectedRole == role.UserRole.provider) {
-      context.go(ServiceHomeScreen.routeName);
+      context.go(ServiceBottomNavBar.routeName);
     } else {
       context.go(BottomNavBar.routeName);
     }
