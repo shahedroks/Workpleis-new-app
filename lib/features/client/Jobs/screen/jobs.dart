@@ -2,19 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workpleis/core/constants/color_control/all_color.dart';
-import '../model/job_model.dart';
-import '../data/jobs_data.dart';
+import 'job_details_screen.dart';
+import '../model/project_model.dart';
+import '../model/flow_type.dart';
+import '../data/projects_data.dart';
 
-class ClientJobsScreen extends StatefulWidget {
-  const ClientJobsScreen({super.key});
+class ClientProjectsScreen extends StatefulWidget {
+  const ClientProjectsScreen({
+    super.key,
+    this.flowType = FlowType.project,
+  });
 
-  static const String routeName = '/client_jobs';
+  static const String routeName = '/client_projects';
+
+  final FlowType flowType;
 
   @override
-  State<ClientJobsScreen> createState() => _ClientJobsScreenState();
+  State<ClientProjectsScreen> createState() => _ClientProjectsScreenState();
 }
 
-class _ClientJobsScreenState extends State<ClientJobsScreen>
+class _ClientProjectsScreenState extends State<ClientProjectsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -33,44 +40,44 @@ class _ClientJobsScreenState extends State<ClientJobsScreen>
     super.dispose();
   }
 
-  JobStatus get _selectedTab {
+  ProjectStatus get _selectedTab {
     switch (_tabController.index) {
       case 0:
-        return JobStatus.active;
+        return ProjectStatus.active;
       case 1:
-        return JobStatus.pending;
+        return ProjectStatus.pending;
       case 2:
-        return JobStatus.completed;
+        return ProjectStatus.completed;
       case 3:
-        return JobStatus.cancelled;
+        return ProjectStatus.cancelled;
       default:
-        return JobStatus.active;
+        return ProjectStatus.active;
     }
   }
 
-  List<JobModel> get _currentJobs {
+  List<ProjectModel> get _currentProjects {
     switch (_selectedTab) {
-      case JobStatus.active:
-        return activeJobs;
-      case JobStatus.pending:
-        return pendingJobs;
-      case JobStatus.completed:
-        return completedJobs;
-      case JobStatus.cancelled:
-        return cancelledJobs;
+      case ProjectStatus.active:
+        return activeProjects;
+      case ProjectStatus.pending:
+        return pendingProjects;
+      case ProjectStatus.completed:
+        return completedProjects;
+      case ProjectStatus.cancelled:
+        return cancelledProjects;
     }
   }
 
-  int _getJobCount(JobStatus status) {
+  int _getProjectCount(ProjectStatus status) {
     switch (status) {
-      case JobStatus.active:
-        return activeJobs.length;
-      case JobStatus.pending:
-        return pendingJobs.length;
-      case JobStatus.completed:
-        return completedJobs.length;
-      case JobStatus.cancelled:
-        return cancelledJobs.length;
+      case ProjectStatus.active:
+        return activeProjects.length;
+      case ProjectStatus.pending:
+        return pendingProjects.length;
+      case ProjectStatus.completed:
+        return completedProjects.length;
+      case ProjectStatus.cancelled:
+        return cancelledProjects.length;
     }
   }
 
@@ -89,7 +96,7 @@ class _ClientJobsScreenState extends State<ClientJobsScreen>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Jobs',
+                    widget.flowType.plural,
                     style: TextStyle(
                       fontSize: 32.sp,
                       fontWeight: FontWeight.w700,
@@ -99,7 +106,7 @@ class _ClientJobsScreenState extends State<ClientJobsScreen>
                   ),
                   GestureDetector(
                     onTap: () {
-                      // TODO: Navigate to create job screen
+                      // TODO: Navigate to create ${widget.flowType.singular.toLowerCase()} screen
                     },
                     child: Container(
                       width: 40.w,
@@ -122,20 +129,22 @@ class _ClientJobsScreenState extends State<ClientJobsScreen>
             // Tabs
             _TabsSection(
               tabController: _tabController,
-              getJobCount: _getJobCount,
+              getProjectCount: _getProjectCount,
+              flowType: widget.flowType,
             ),
 
-            // Job List
+            // Project List
             Expanded(
               child: ListView.separated(
                 padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
-                itemCount: _currentJobs.length,
+                itemCount: _currentProjects.length,
                 separatorBuilder: (context, index) => SizedBox(height: 16.h),
                 itemBuilder: (context, index) {
-                  return _JobCard(
-                    job: _currentJobs[index],
-                    onMenuTap: () => _showJobOptionsBottomSheet(context, _currentJobs[index]),
-                    onReviewTap: () => _showGiveReviewBottomSheet(context, _currentJobs[index]),
+                  return _ProjectCard(
+                    project: _currentProjects[index],
+                    flowType: widget.flowType,
+                    onMenuTap: () => _showProjectOptionsBottomSheet(context, _currentProjects[index]),
+                    onReviewTap: () => _showGiveReviewBottomSheet(context, _currentProjects[index]),
                   );
                 },
               ),
@@ -146,24 +155,34 @@ class _ClientJobsScreenState extends State<ClientJobsScreen>
     );
   }
 
-  void _showJobOptionsBottomSheet(BuildContext context, JobModel job) {
-    showModalBottomSheet(
+  Future<void> _showProjectOptionsBottomSheet(BuildContext context, ProjectModel project) async {
+    final action = await showModalBottomSheet<_ProjectOptionsAction>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (BuildContext context) {
-        return _JobOptionsBottomSheet(job: job);
-      },
+      builder: (BuildContext context) => _ProjectOptionsBottomSheet(project: project),
     );
+
+    if (!mounted) return;
+
+    if (action == _ProjectOptionsAction.viewDetails) {
+      context.push(ProjectDetailsScreen.routeName, extra: {
+        'project': project,
+        'flowType': widget.flowType,
+      });
+    }
   }
 
-  void _showGiveReviewBottomSheet(BuildContext context, JobModel job) {
+  void _showGiveReviewBottomSheet(BuildContext context, ProjectModel project) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return _GiveReviewBottomSheet(job: job);
+        return _GiveReviewBottomSheet(
+          project: project,
+          flowType: widget.flowType,
+        );
       },
     );
   }
@@ -171,11 +190,13 @@ class _ClientJobsScreenState extends State<ClientJobsScreen>
 
 class _TabsSection extends StatelessWidget {
   final TabController tabController;
-  final int Function(JobStatus) getJobCount;
+  final int Function(ProjectStatus) getProjectCount;
+  final FlowType flowType;
 
   const _TabsSection({
     required this.tabController,
-    required this.getJobCount,
+    required this.getProjectCount,
+    required this.flowType,
   });
 
   @override
@@ -210,16 +231,16 @@ class _TabsSection extends StatelessWidget {
         labelPadding: EdgeInsets.only(right: 24.w),
         tabs: [
           Tab(
-            text: 'Active (${getJobCount(JobStatus.active)})',
+            text: 'Active (${getProjectCount(ProjectStatus.active)})',
           ),
           Tab(
-            text: 'Pending (${getJobCount(JobStatus.pending)})',
+            text: 'Pending (${getProjectCount(ProjectStatus.pending)})',
           ),
           Tab(
             text: 'Completed',
           ),
           Tab(
-            text: 'Cancelled (${getJobCount(JobStatus.cancelled)})',
+            text: 'Cancelled (${getProjectCount(ProjectStatus.cancelled)})',
           ),
         ],
       ),
@@ -227,22 +248,24 @@ class _TabsSection extends StatelessWidget {
   }
 }
 
-class _JobCard extends StatelessWidget {
-  final JobModel job;
+class _ProjectCard extends StatelessWidget {
+  final ProjectModel project;
+  final FlowType flowType;
   final VoidCallback onMenuTap;
   final VoidCallback? onReviewTap;
 
-  const _JobCard({
-    required this.job,
+  const _ProjectCard({
+    required this.project,
+    required this.flowType,
     required this.onMenuTap,
     this.onReviewTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isActive = job.status == JobStatus.active;
-    final isCompleted = job.status == JobStatus.completed;
-    final isCancelled = job.status == JobStatus.cancelled;
+    final isActive = project.status == ProjectStatus.active;
+    final isCompleted = project.status == ProjectStatus.completed;
+    final isCancelled = project.status == ProjectStatus.cancelled;
     
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -264,7 +287,7 @@ class _JobCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  job.title,
+                  project.title,
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -293,15 +316,15 @@ class _JobCard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: _InfoBox(label: 'Quote', value: job.quote ?? ''),
+                  child: _InfoBox(label: 'Quote', value: project.quote ?? ''),
                 ),
                 SizedBox(width: 8.w),
                 Expanded(
-                  child: _InfoBox(label: 'Price', value: job.price ?? ''),
+                  child: _InfoBox(label: 'Price', value: project.price ?? ''),
                 ),
                 SizedBox(width: 8.w),
                 Expanded(
-                  child: _InfoBox(label: 'Bid', value: job.bid ?? ''),
+                  child: _InfoBox(label: 'Bid', value: project.bid ?? ''),
                 ),
               ],
             )
@@ -310,17 +333,17 @@ class _JobCard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: _InfoBox(label: 'Estimate', value: job.estimate ?? ''),
+                  child: _InfoBox(label: 'Estimate', value: project.estimate ?? ''),
                 ),
                 SizedBox(width: 8.w),
                 Expanded(
-                  child: _InfoBox(label: 'Cost', value: job.cost ?? ''),
+                  child: _InfoBox(label: 'Cost', value: project.cost ?? ''),
                 ),
                 SizedBox(width: 8.w),
                 Expanded(
                   child: _ReviewBox(
-                    reviewStatus: job.reviewStatus,
-                    rating: job.rating,
+                    reviewStatus: project.reviewStatus,
+                    rating: project.rating,
                   ),
                 ),
               ],
@@ -330,11 +353,11 @@ class _JobCard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: _InfoBox(label: 'Estimate', value: job.estimate ?? ''),
+                  child: _InfoBox(label: 'Estimate', value: project.estimate ?? ''),
                 ),
                 SizedBox(width: 8.w),
                 Expanded(
-                  child: _InfoBox(label: 'Cost', value: job.cost ?? ''),
+                  child: _InfoBox(label: 'Cost', value: project.cost ?? ''),
                 ),
               ],
             )
@@ -343,17 +366,17 @@ class _JobCard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: _InfoBox(label: 'Estimate', value: job.estimate ?? ''),
+                  child: _InfoBox(label: 'Estimate', value: project.estimate ?? ''),
                 ),
                 SizedBox(width: 8.w),
                 Expanded(
-                  child: _InfoBox(label: 'Cost', value: job.cost ?? ''),
+                  child: _InfoBox(label: 'Cost', value: project.cost ?? ''),
                 ),
                 SizedBox(width: 8.w),
                 Expanded(
                   child: _InfoBox(
                     label: 'Provider',
-                    value: job.provider ?? '',
+                    value: project.provider ?? '',
                     showAvatar: true,
                   ),
                 ),
@@ -361,10 +384,10 @@ class _JobCard extends StatelessWidget {
             ),
           SizedBox(height: 16.h),
 
-          // Job Description - Only for Pending/Others, not Active
-          if (!isActive && job.description != null) ...[
+          // Project Description - Only for Pending/Others, not Active
+          if (!isActive && project.description != null) ...[
             Text(
-              job.description!,
+              project.description!,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -406,7 +429,7 @@ class _JobCard extends StatelessWidget {
           Wrap(
             spacing: 8.w,
             runSpacing: 8.h,
-            children: job.services.map((service) {
+            children: project.services.map((service) {
               return _ServiceTag(label: service);
             }).toList(),
           ),
@@ -434,7 +457,7 @@ class _JobCard extends StatelessWidget {
                 SizedBox(width: 8.w),
                 Expanded(
                   child: _ActionButton(
-                    text: 'Completed the job',
+                    text: 'Completed the ${flowType.singular.toLowerCase()}',
                     isRed: false,
                     showArrow: true,
                     onTap: () {
@@ -445,7 +468,7 @@ class _JobCard extends StatelessWidget {
               ],
             ),
           ],
-          // Cancelled jobs have no action buttons
+          // Cancelled projects have no action buttons
         ],
       ),
     );
@@ -751,10 +774,12 @@ class _ActionButton extends StatelessWidget {
   }
 }
 
-class _JobOptionsBottomSheet extends StatelessWidget {
-  final JobModel job;
+enum _ProjectOptionsAction { viewDetails }
 
-  const _JobOptionsBottomSheet({required this.job});
+class _ProjectOptionsBottomSheet extends StatelessWidget {
+  final ProjectModel project;
+
+  const _ProjectOptionsBottomSheet({required this.project});
 
   @override
   Widget build(BuildContext context) {
@@ -772,8 +797,7 @@ class _JobOptionsBottomSheet extends StatelessWidget {
           _BottomSheetButton(
             text: 'View details',
             onTap: () {
-              Navigator.pop(context);
-              // TODO: Navigate to job details screen
+              Navigator.pop(context, _ProjectOptionsAction.viewDetails);
             },
           ),
           SizedBox(height: 16.h),
@@ -827,9 +851,13 @@ class _BottomSheetButton extends StatelessWidget {
 }
 
 class _GiveReviewBottomSheet extends StatefulWidget {
-  final JobModel job;
+  final ProjectModel project;
+  final FlowType flowType;
 
-  const _GiveReviewBottomSheet({required this.job});
+  const _GiveReviewBottomSheet({
+    required this.project,
+    required this.flowType,
+  });
 
   @override
   State<_GiveReviewBottomSheet> createState() => _GiveReviewBottomSheetState();
@@ -906,7 +934,8 @@ class _GiveReviewBottomSheetState extends State<_GiveReviewBottomSheet> {
                         Navigator.pop(dialogContext); // Close dialog
                         Navigator.pop(context); // Close bottom sheet
                         // Navigate to success screen
-                        context.push('/job_completed_success');
+                        final flowType = widget.flowType;
+                        context.push('/${flowType.singular.toLowerCase()}_completed_success');
                       },
                       borderRadius: BorderRadius.circular(12.r),
                       child: Container(

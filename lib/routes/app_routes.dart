@@ -28,6 +28,10 @@ import 'package:workpleis/features/client/Jobs/screen/postJob_wizard_screen.dart
 import 'package:workpleis/features/client/Jobs/screen/send_report_screen.dart';
 import 'package:workpleis/features/client/Jobs/screen/request_refund_screen.dart';
 import 'package:workpleis/features/client/Jobs/screen/job_completed_success_screen.dart';
+import 'package:workpleis/features/client/Jobs/screen/job_details_screen.dart';
+import 'package:workpleis/features/client/Jobs/model/flow_type.dart';
+import 'package:workpleis/features/client/Jobs/screen/proposal_details_screen.dart';
+import 'package:workpleis/features/client/Jobs/screen/account_add_screen.dart';
 import 'package:workpleis/features/nav_bar/screen/bottom_nav_bar.dart';
 import 'package:workpleis/features/notifications/create_new_project_flow.dart';
 import 'package:workpleis/features/notifications/screen/notifications_screen.dart';
@@ -44,6 +48,7 @@ import 'package:workpleis/features/service/screen/set_up_withdrawals_screen.dart
 // Splash
 import 'package:workpleis/features/spalashScreen/screen/splashScreen.dart';
 
+import '../features/client/Jobs/model/project_model.dart';
 import '../features/client/message/screen/messages_screen.dart';
 import '../features/client/profile/screen/profile_screen.dart';
 import '../features/client/project/screen/project_screen.dart';
@@ -294,11 +299,35 @@ class AppRouter {
         builder: (context, state) => const ClientHomeScreen(),
       ),
 
-      // 🔹 Client Jobs
+      // 🔹 Client Projects/Jobs (Unified flow)
       GoRoute(
-        path: ClientJobsScreen.routeName,
-        name: ClientJobsScreen.routeName,
-        builder: (context, state) => const ClientJobsScreen(),
+        path: ClientProjectsScreen.routeName,
+        name: ClientProjectsScreen.routeName,
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>?;
+          final flowType = extras?['flowType'] as FlowType? ?? FlowType.project;
+          return ClientProjectsScreen(flowType: flowType);
+        },
+      ),
+      GoRoute(
+        path: ProjectDetailsScreen.routeName,
+        name: ProjectDetailsScreen.routeName,
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>?;
+          final project = extras?['project'] as ProjectModel?;
+          final flowType = extras?['flowType'] as FlowType? ?? FlowType.project;
+          return ProjectDetailsScreen(project: project, flowType: flowType);
+        },
+      ),
+      GoRoute(
+        path: ProposalDetailsScreen.routeName,
+        name: ProposalDetailsScreen.routeName,
+        builder: (context, state) => ProposalDetailsScreen(proposal: state.extra as dynamic),
+      ),
+      GoRoute(
+        path: AccountAddScreen.routeName,
+        name: AccountAddScreen.routeName,
+        builder: (context, state) => const AccountAddScreen(),
       ),
       GoRoute(
         path: SendReportScreen.routeName,
@@ -311,11 +340,11 @@ class AppRouter {
         builder: (context, state) => const RequestRefundScreen(),
       ),
 
-      // 🔹 Job Completed Success
+      // 🔹 Project Completed Success
       GoRoute(
-        path: JobCompletedSuccessScreen.routeName,
-        name: JobCompletedSuccessScreen.routeName,
-        builder: (context, state) => const JobCompletedSuccessScreen(),
+        path: ProjectCompletedSuccessScreen.routeName,
+        name: ProjectCompletedSuccessScreen.routeName,
+        builder: (context, state) => const ProjectCompletedSuccessScreen(),
       ),
 
       // 🔹 Project

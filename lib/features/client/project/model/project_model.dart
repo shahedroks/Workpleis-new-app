@@ -1,26 +1,26 @@
-class JobModel {
+class ProjectModel {
   final String id;
   final String title;
-  // For Active jobs
+  // For Active projects
   final String? quote; // e.g., "4-6 hours"
   final String? price; // e.g., "$600"
   final String? bid; // e.g., "1+"
-  // For Pending/Completed/Cancelled jobs
+  // For Pending/Completed/Cancelled projects
   final String? estimate; // e.g., "4-6 hours"
   final String? cost; // e.g., "$600"
   final String? provider; // e.g., "Ali Hasan"
-  final String? description; // Job description text
-  final List<String>? responsibilities; // Job responsibilities list
-  final List<String>? requirements; // Job requirements list
-  final String? location; // Job location
+  final String? description; // Project description text
+  final List<String>? responsibilities; // Project responsibilities list
+  final List<String>? requirements; // Project requirements list
+  final String? location; // Project location
   final String? application; // Application instructions
-  // For Completed jobs
+  // For Completed projects
   final String? reviewStatus; // e.g., "Due Review" or null if reviewed
   final double? rating; // e.g., 3.5 (out of 5)
   final List<String> services; // e.g., ["Office Furniture Assembly", "Custom Desk Assembly"]
-  final JobStatus status;
+  final ProjectStatus status;
 
-  JobModel({
+  ProjectModel({
     required this.id,
     required this.title,
     this.quote,
@@ -41,10 +41,9 @@ class JobModel {
   });
 }
 
-enum JobStatus {
+enum ProjectStatus {
   active,
   pending,
   completed,
   cancelled,
 }
-

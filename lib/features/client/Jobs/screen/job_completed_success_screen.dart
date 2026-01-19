@@ -5,10 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workpleis/core/constants/color_control/all_color.dart';
 
-class JobCompletedSuccessScreen extends StatelessWidget {
-  const JobCompletedSuccessScreen({super.key});
+class ProjectCompletedSuccessScreen extends StatelessWidget {
+  const ProjectCompletedSuccessScreen({super.key});
 
-  static const String routeName = '/job_completed_success';
+  static const String routeName = '/project_completed_success';
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,9 @@ class JobCompletedSuccessScreen extends StatelessWidget {
               
               SizedBox(height: 24.h),
               
-              // "Job Completed" text
+              // "Project Completed" text
               Text(
-                'Job Completed',
+                'Project Completed',
                 style: TextStyle(
                   fontSize: 28.sp,
                   fontWeight: FontWeight.w700,
@@ -57,7 +57,7 @@ class JobCompletedSuccessScreen extends StatelessWidget {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
-                      // Navigate back to jobs screen
+                      // Navigate back to projects screen
                       context.pop();
                     },
                     borderRadius: BorderRadius.circular(999.r),

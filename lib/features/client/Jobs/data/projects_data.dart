@@ -1,7 +1,7 @@
-import '../model/job_model.dart';
+import '../model/project_model.dart';
 
-final List<JobModel> activeJobs = [
-  JobModel(
+final List<ProjectModel> activeProjects = [
+  ProjectModel(
     id: '1',
     title: 'Need help with setting up my new office space',
     quote: '4-6 hours',
@@ -26,9 +26,9 @@ final List<JobModel> activeJobs = [
       'Custom Desk Assembly',
       'Chair Assembly',
     ],
-    status: JobStatus.active,
+    status: ProjectStatus.active,
   ),
-  JobModel(
+  ProjectModel(
     id: '2',
     title: 'Need help with setting up my new office space',
     quote: '4-6 hours',
@@ -53,9 +53,9 @@ final List<JobModel> activeJobs = [
       'Custom Desk Assembly',
       'Chair Assembly',
     ],
-    status: JobStatus.active,
+    status: ProjectStatus.active,
   ),
-  JobModel(
+  ProjectModel(
     id: '3',
     title: 'Need help with setting up my new office space',
     quote: '4-6 hours',
@@ -80,9 +80,9 @@ final List<JobModel> activeJobs = [
       'Custom Desk Assembly',
       'Chair Assembly',
     ],
-    status: JobStatus.active,
+    status: ProjectStatus.active,
   ),
-  JobModel(
+  ProjectModel(
     id: '4',
     title: 'Need help with setting up my new office space',
     quote: '4-6 hours',
@@ -107,12 +107,12 @@ final List<JobModel> activeJobs = [
       'Custom Desk Assembly',
       'Chair Assembly',
     ],
-    status: JobStatus.active,
+    status: ProjectStatus.active,
   ),
 ];
 
-final List<JobModel> pendingJobs = [
-  JobModel(
+final List<ProjectModel> pendingProjects = [
+  ProjectModel(
     id: '5',
     title: "I'm looking for a service provider for furniture assembly in my shop",
     estimate: '4-6 hours',
@@ -137,9 +137,9 @@ final List<JobModel> pendingJobs = [
       'Custom Desk Assembly',
       'Chair Assembly',
     ],
-    status: JobStatus.pending,
+    status: ProjectStatus.pending,
   ),
-  JobModel(
+  ProjectModel(
     id: '6',
     title: "I'm looking for a service provider for furniture assembly in my shop",
     estimate: '4-6 hours',
@@ -164,9 +164,9 @@ final List<JobModel> pendingJobs = [
       'Custom Desk Assembly',
       'Chair Assembly',
     ],
-    status: JobStatus.pending,
+    status: ProjectStatus.pending,
   ),
-  JobModel(
+  ProjectModel(
     id: '7',
     title: "I'm looking for a service provider for furniture assembly in my shop",
     estimate: '4-6 hours',
@@ -191,12 +191,12 @@ final List<JobModel> pendingJobs = [
       'Custom Desk Assembly',
       'Chair Assembly',
     ],
-    status: JobStatus.pending,
+    status: ProjectStatus.pending,
   ),
 ];
 
-final List<JobModel> completedJobs = [
-  JobModel(
+final List<ProjectModel> completedProjects = [
+  ProjectModel(
     id: '10',
     title: "I'm looking for a service provider for furniture assembly in my shop",
     estimate: '4-6 hours',
@@ -222,9 +222,9 @@ final List<JobModel> completedJobs = [
       'Custom Desk Assembly',
       'Chair Assembly',
     ],
-    status: JobStatus.completed,
+    status: ProjectStatus.completed,
   ),
-  JobModel(
+  ProjectModel(
     id: '11',
     title: "I'm looking for a service provider for furniture assembly in my shop",
     estimate: '4-6 hours',
@@ -250,12 +250,12 @@ final List<JobModel> completedJobs = [
       'Custom Desk Assembly',
       'Chair Assembly',
     ],
-    status: JobStatus.completed,
+    status: ProjectStatus.completed,
   ),
 ];
 
-final List<JobModel> cancelledJobs = [
-  JobModel(
+final List<ProjectModel> cancelledProjects = [
+  ProjectModel(
     id: '8',
     title: "I'm looking for a service provider for furniture assembly in my shop",
     estimate: '4-6 hours',
@@ -280,10 +280,10 @@ final List<JobModel> cancelledJobs = [
       'Custom Desk Assembly',
       'Chair Assembly',
     ],
-    status: JobStatus.cancelled,
+    status: ProjectStatus.cancelled,
   ),
-  // Add 89 more cancelled jobs to match the count (90 total)
-  ...List.generate(89, (index) => JobModel(
+  // Add 89 more cancelled projects to match the count (90 total)
+  ...List.generate(89, (index) => ProjectModel(
         id: '${9 + index}',
         title: "I'm looking for a service provider for furniture assembly in my shop",
         estimate: '4-6 hours',
@@ -308,7 +308,6 @@ final List<JobModel> cancelledJobs = [
           'Custom Desk Assembly',
           'Chair Assembly',
         ],
-        status: JobStatus.cancelled,
+        status: ProjectStatus.cancelled,
       )),
 ];
-

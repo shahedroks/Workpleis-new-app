@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:workpleis/core/constants/color_control/all_color.dart';
+import 'package:workpleis/features/client/project/screen/project_screen.dart';
 import 'package:workpleis/features/client/screen/client_home_screen.dart';
 import 'package:workpleis/features/client/Jobs/screen/jobs.dart';
+import 'package:workpleis/features/client/Jobs/model/flow_type.dart';
 import 'package:workpleis/features/client/message/screen/messages_screen.dart';
 import 'package:workpleis/features/client/profile/screen/profile_screen.dart';
 
@@ -28,12 +30,12 @@ class _BottomNavBarState extends ConsumerState<BottomNavBar> {
     return Scaffold(
       body: IndexedStack(
         index: selectedIndex,
-        children: const [
-          ClientHomeScreen(),
-          ClientJobsScreen(),
-          
-          MessageScreen(),
-          ProfileScreen(),
+        children: [
+          const ClientHomeScreen(),
+          ClientProjectsScreen(flowType: FlowType.job), // Jobs tab
+          ClientProjectsScreen(flowType: FlowType.project), // Project tab - same flow, different terminology
+          const MessageScreen(),
+          const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: Container(
@@ -68,21 +70,30 @@ class _BottomNavBarState extends ConsumerState<BottomNavBar> {
                   },
                 ),
                 _NavItem(
-                  icon: Icons.mail_outline,
-                  filledIcon: Icons.mail,
-                  label: 'Message',
+                  icon: Icons.list_alt,
+                  filledIcon: Icons.list_alt_outlined,
+                  label: 'Project',
                   isSelected: selectedIndex == 2,
                   onTap: () {
                     ref.read(selectedIndexProvider.notifier).state = 2;
                   },
                 ),
                 _NavItem(
-                  icon: Icons.person_outline,
-                  filledIcon: Icons.person,
-                  label: 'Profile',
+                  icon: Icons.mail_outline,
+                  filledIcon: Icons.mail,
+                  label: 'Message',
                   isSelected: selectedIndex == 3,
                   onTap: () {
                     ref.read(selectedIndexProvider.notifier).state = 3;
+                  },
+                ),
+                _NavItem(
+                  icon: Icons.person_outline,
+                  filledIcon: Icons.person,
+                  label: 'Profile',
+                  isSelected: selectedIndex == 4,
+                  onTap: () {
+                    ref.read(selectedIndexProvider.notifier).state = 4;
                   },
                 ),
               ],

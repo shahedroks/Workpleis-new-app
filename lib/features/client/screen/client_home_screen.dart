@@ -357,7 +357,7 @@ class _HeaderState extends State<_Header> {
                     ),
                     child: _DropdownMenuItem(
                       icon: Icons.work_outline,
-                      label: 'Create Job',
+                      label: 'Create Project',
                     ),
                     onTap: () {
                       context.push(PostJobWizardScreen.routeName);
@@ -2125,8 +2125,8 @@ final List<StepItem> steps = [
   StepItem(number: '2', title: 'Get Offers', icon: Icons.people_outline),
   StepItem(number: '3', title: 'Choose ', icon: Icons.people_outline),
   StepItem(number: '4', title: 'Make Payment', icon: Icons.account_balance),
-  StepItem(number: '5', title: 'Review Job', icon: Icons.star_border),
-  StepItem(number: '6', title: 'Accept Job', icon: Icons.check_circle_outline),
+  StepItem(number: '5', title: 'Review Project', icon: Icons.star_border),
+  StepItem(number: '6', title: 'Accept Project', icon: Icons.check_circle_outline),
 ];
 
 // Models

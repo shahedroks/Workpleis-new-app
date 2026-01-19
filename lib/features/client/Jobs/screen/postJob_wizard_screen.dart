@@ -610,7 +610,7 @@ class _PostJobWizardScreenState extends State<PostJobWizardScreen> {
       child: ListView(
         children: [
           SizedBox(height: 10.h),
-          _fieldLabel("Job title *"),
+          _fieldLabel("Project title *"),
           SizedBox(height: 8.h),
           _textField(controller: _titleCtrl, hint: "Write a title"),
           SizedBox(height: 16.h),
@@ -1446,7 +1446,7 @@ class JobPreviewScreen extends StatelessWidget {
         ),
         centerTitle: true,
         title: Text(
-          "Job Preview",
+          "Project Preview",
           style: GoogleFonts.plusJakartaSans(
             fontSize: 14.sp,
             fontWeight: FontWeight.w700,
@@ -1492,7 +1492,7 @@ class JobPreviewScreen extends StatelessWidget {
         child: ListView(
           children: [
             SizedBox(height: 12.h),
-            _sectionLabel("Job title"),
+            _sectionLabel("Project title"),
             SizedBox(height: 6.h),
             Text(
               draft.title,
@@ -1761,7 +1761,7 @@ class JobPreviewScreen extends StatelessWidget {
                 onEdit();
               },
               child: Text(
-                "Edit Job Post",
+                "Edit Project Post",
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
@@ -1784,7 +1784,7 @@ class JobPreviewScreen extends StatelessWidget {
               isDestructiveAction: true,
               onPressed: () => Navigator.of(sheetCtx).pop(),
               child: Text(
-                "Delete the Job Post",
+                "Delete the Project Post",
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
@@ -1834,7 +1834,7 @@ class JobPostedSuccessScreen extends StatelessWidget {
               ),
               SizedBox(height: 14.h),
               Text(
-                "Job posted successfully.",
+                "Project posted successfully.",
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 28.sp,
                   fontWeight: FontWeight.w900,
